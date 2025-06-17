@@ -6,6 +6,9 @@ interface SaleData {
   address: string;
   date: string;
   price: number;
+  beds?: number;
+  baths?: number;
+  sqft?: number;
 }
 
 interface ZipDetailModalProps {
@@ -102,10 +105,17 @@ const ZipDetailModal = ({
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Top 5 Closings</h3>
                 <div className="space-y-3">
                   {topSales.slice(0, 5).map((sale, index) => (
-                    <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
-                      <div>
+                    <div key={index} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                      <div className="flex-1">
                         <div className="font-medium text-gray-900">{sale.address}</div>
                         <div className="text-sm text-gray-500">{sale.date}</div>
+                        {(sale.beds || sale.baths || sale.sqft) && (
+                          <div className="text-xs text-gray-400 mt-1">
+                            {sale.beds && `${sale.beds} bed`}{sale.beds && sale.baths && ' • '}
+                            {sale.baths && `${sale.baths} bath`}{(sale.beds || sale.baths) && sale.sqft && ' • '}
+                            {sale.sqft && `${sale.sqft.toLocaleString()} sq ft`}
+                          </div>
+                        )}
                       </div>
                       <div className="text-right">
                         <div className="font-semibold text-blue-600">

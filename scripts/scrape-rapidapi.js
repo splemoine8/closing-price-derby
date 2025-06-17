@@ -1,41 +1,13 @@
 import fetch from 'node-fetch';
 import fs from 'fs/promises';
 import path from 'path';
+import { CITY_REGIONS, FRIEND_ASSIGNMENTS } from './city-regions.js';
 
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 const BASE_URL = 'https://redfin-com-data.p.rapidapi.com';
 
-// Test cities for the 12-person fantasy league
-const CITIES = [
-  'Beverly Hills, CA',
-  'Manhattan, NY', 
-  'Miami Beach, FL',
-  'San Francisco, CA',
-  'Boston, MA',
-  'Chicago, IL',
-  'Seattle, WA',
-  'Austin, TX',
-  'Denver, CO',
-  'Nashville, TN',
-  'Atlanta, GA',
-  'Las Vegas, NV'
-];
-
-// Friend assignments (you can customize these)
-const FRIEND_ASSIGNMENTS = {
-  'Beverly Hills, CA': 'Alice',
-  'Manhattan, NY': 'Bob', 
-  'Miami Beach, FL': 'Charlie',
-  'San Francisco, CA': 'David',
-  'Boston, MA': 'Emma',
-  'Chicago, IL': 'Frank',
-  'Seattle, WA': 'Grace',
-  'Austin, TX': 'Henry',
-  'Denver, CO': 'Ivy',
-  'Nashville, TN': 'Jack',
-  'Atlanta, GA': 'Kate',
-  'Las Vegas, NV': 'Leo'
-};
+// Get cities from the cached region mapping
+const CITIES = Object.keys(CITY_REGIONS);
 
 async function getCityRegionId(cityName) {
   console.log(`🔍 Looking up region ID for: ${cityName}`);
@@ -166,11 +138,19 @@ async function scrapeAllCities() {
   
   const leaderboard = [];
   const errors = [];
+  const allSalesData = {}; // Store all sales by city for modals
 
   for (const cityName of CITIES) {
     try {
-      // Step 1: Get region ID
-      const regionId = await getCityRegionId(cityName);
+      // Step 1: Get region ID (use cached first, fallback to API lookup)
+      let regionId = CITY_REGIONS[cityName];
+      
+      if (!regionId) {
+        console.log(`🔍 No cached region ID for ${cityName}, looking up via API...`);
+        regionId = await getCityRegionId(cityName);
+      } else {
+        console.log(`✅ Using cached region ID ${regionId} for ${cityName}`);
+      }
       
       if (!regionId) {
         errors.push(`No region ID found for ${cityName}`);
@@ -188,6 +168,30 @@ async function scrapeAllCities() {
       // Step 3: Find recent highest sale
       const highestSale = findHighestSaleRecent(properties, cityName);
       
+      // Step 4: Collect all recent sales for modal
+      const recentSales = filterRecentSales(properties);
+      const cityKey = cityName.split(',')[0].replace(/\s+/g, ''); // Match frontend zip format
+      
+      allSalesData[cityKey] = recentSales
+        .sort((a, b) => {
+          const priceA = parseInt(a.priceInfo?.amount || a.priceInfo?.homePrice?.int64Value || 0);
+          const priceB = parseInt(b.priceInfo?.amount || b.priceInfo?.homePrice?.int64Value || 0);
+          return priceB - priceA; // Sort by price descending
+        })
+        .slice(0, 10) // Top 10 sales
+        .map(property => ({
+          address: property.addressInfo?.formattedStreetLine || 'Unknown Address',
+          date: new Date(property.lastSaleData?.lastSoldDate).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+          }),
+          price: parseInt(property.priceInfo?.amount || property.priceInfo?.homePrice?.int64Value || 0),
+          beds: property.beds || 0,
+          baths: property.baths || 0,
+          sqft: parseInt(property.sqftInfo?.amount || 0)
+        }));
+      
       if (highestSale) {
         leaderboard.push({
           city: cityName,
@@ -200,8 +204,8 @@ async function scrapeAllCities() {
         });
       }
 
-      // Rate limiting - be nice to the API
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Rate limiting - 5 req/sec limit, so 0.25s delay to be safe
+      await new Promise(resolve => setTimeout(resolve, 250));
       
     } catch (error) {
       console.error(`❌ Error processing ${cityName}:`, error.message);
@@ -217,10 +221,10 @@ async function scrapeAllCities() {
     item.rank = index + 1;
   });
 
-  return { leaderboard, errors };
+  return { leaderboard, errors, allSalesData };
 }
 
-async function saveResults(leaderboard, errors) {
+async function saveResults(leaderboard, errors, allSalesData) {
   // Save to public directory for frontend
   const publicPath = path.join(process.cwd(), 'public', 'leaderboard.json');
   
@@ -237,6 +241,11 @@ async function saveResults(leaderboard, errors) {
   // Save in the format the frontend expects
   await fs.writeFile(publicPath, JSON.stringify(frontendData, null, 2));
   console.log(`💾 Leaderboard saved to: ${publicPath}`);
+  
+  // Save detailed sales data for modals
+  const salesPath = path.join(process.cwd(), 'public', 'sales-data.json');
+  await fs.writeFile(salesPath, JSON.stringify(allSalesData, null, 2));
+  console.log(`💾 Sales data saved to: ${salesPath}`);
   
   // Also save a timestamped backup with full details
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -262,7 +271,7 @@ async function main() {
       throw new Error('❌ Please set RAPIDAPI_KEY environment variable');
     }
     
-    const { leaderboard, errors } = await scrapeAllCities();
+    const { leaderboard, errors, allSalesData } = await scrapeAllCities();
     
     console.log('\n🏆 Recent Sales Leaderboard:');
     if (leaderboard.length === 0) {
@@ -281,7 +290,7 @@ async function main() {
       errors.forEach(error => console.log(`   ${error}`));
     }
     
-    await saveResults(leaderboard, errors);
+    await saveResults(leaderboard, errors, allSalesData);
     console.log('\n✅ Scraping completed successfully!');
     
   } catch (error) {

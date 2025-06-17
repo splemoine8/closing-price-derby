@@ -1,0 +1,962 @@
+{
+  "BeverlyHills": [
+    {
+      "address": "1263 Delresto Dr",
+      "date": "Jun 11, 2025",
+      "price": 6650000,
+      "beds": 5,
+      "baths": 5,
+      "sqft": 5603
+    },
+    {
+      "address": "9255 Doheny Rd #2402",
+      "date": "Jun 11, 2025",
+      "price": 5800000,
+      "beds": 2,
+      "baths": 2,
+      "sqft": 2287
+    },
+    {
+      "address": "2200 Coldwater Canyon Dr",
+      "date": "Jun 12, 2025",
+      "price": 5050000,
+      "beds": 4,
+      "baths": 5,
+      "sqft": 4397
+    },
+    {
+      "address": "2285 Betty Ln",
+      "date": "Jun 13, 2025",
+      "price": 3261000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 3311
+    },
+    {
+      "address": "1264 Benedict Canyon Dr",
+      "date": "Jun 13, 2025",
+      "price": 2765000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 2384
+    },
+    {
+      "address": "261 S Reeves Dr #201",
+      "date": "Jun 13, 2025",
+      "price": 1815000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2265
+    },
+    {
+      "address": "2170 Century Park #212",
+      "date": "Jun 11, 2025",
+      "price": 1195000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1372
+    }
+  ],
+  "Manhattan": [
+    {
+      "address": "380 Rector Pl Unit 15E",
+      "date": "Jun 11, 2025",
+      "price": 770000,
+      "beds": 1,
+      "baths": 1,
+      "sqft": 735
+    },
+    {
+      "address": "212 W 72nd St Unit 3H",
+      "date": "Jun 12, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 2082
+    },
+    {
+      "address": "5 Weehawken St Unit 2B",
+      "date": "Jun 11, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 453
+    },
+    {
+      "address": "200 Amsterdam Ave Unit 9A",
+      "date": "Jun 11, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 3455
+    },
+    {
+      "address": "137 E 28th St Unit 3C",
+      "date": "Jun 13, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 0
+    },
+    {
+      "address": "212 W 72nd St Unit 8H",
+      "date": "Jun 12, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 2082
+    },
+    {
+      "address": "303 Park Ave #2321",
+      "date": "Jun 16, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 0
+    },
+    {
+      "address": "444 Central Park W Unit 17F",
+      "date": "Jun 13, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 0
+    },
+    {
+      "address": "99 John St #1507",
+      "date": "Jun 13, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 754
+    },
+    {
+      "address": "416 Washington St Unit 4H",
+      "date": "Jun 11, 2025",
+      "price": 0,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 1676
+    }
+  ],
+  "MiamiBeach": [
+    {
+      "address": "4391 Collins Ave Unit 1809/1810",
+      "date": "Jun 13, 2025",
+      "price": 3150000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 1532
+    },
+    {
+      "address": "4701 N Meridian Ave Unit LPH15",
+      "date": "Jun 13, 2025",
+      "price": 3125000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 1934
+    },
+    {
+      "address": "6001 N Bay Rd",
+      "date": "Jun 12, 2025",
+      "price": 2735000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 2806
+    },
+    {
+      "address": "400 S Pointe Dr #604",
+      "date": "Jun 12, 2025",
+      "price": 2225000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 1802
+    },
+    {
+      "address": "450 Alton Rd #3106",
+      "date": "Jun 16, 2025",
+      "price": 1850000,
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1452
+    },
+    {
+      "address": "4401 Collins Ave #2501",
+      "date": "Jun 11, 2025",
+      "price": 936000,
+      "beds": 0,
+      "baths": 1,
+      "sqft": 516
+    },
+    {
+      "address": "2155 Washington Ct #503",
+      "date": "Jun 11, 2025",
+      "price": 898000,
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1132
+    },
+    {
+      "address": "5151 Collins Ave #535",
+      "date": "Jun 13, 2025",
+      "price": 770000,
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1030
+    },
+    {
+      "address": "1100 West Ave #1124",
+      "date": "Jun 16, 2025",
+      "price": 400000,
+      "beds": 1,
+      "baths": 1,
+      "sqft": 694
+    },
+    {
+      "address": "5005 Collins Ave #316",
+      "date": "Jun 16, 2025",
+      "price": 370000,
+      "beds": 2,
+      "baths": 1.5,
+      "sqft": 938
+    }
+  ],
+  "SanFrancisco": [
+    {
+      "address": "2735-2737 Baker St",
+      "date": "Jun 13, 2025",
+      "price": 8325000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 0
+    },
+    {
+      "address": "2 Mercedes Way",
+      "date": "Jun 16, 2025",
+      "price": 4650000,
+      "beds": 7,
+      "baths": 8,
+      "sqft": 6550
+    },
+    {
+      "address": "1338 Filbert St Unit D",
+      "date": "Jun 13, 2025",
+      "price": 3825000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 3005
+    },
+    {
+      "address": "56 Aztec St",
+      "date": "Jun 16, 2025",
+      "price": 3350000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2680
+    },
+    {
+      "address": "1525 Willard St",
+      "date": "Jun 13, 2025",
+      "price": 3340000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2300
+    },
+    {
+      "address": "867 33rd Ave",
+      "date": "Jun 11, 2025",
+      "price": 3055000,
+      "beds": 5,
+      "baths": 4,
+      "sqft": 2390
+    },
+    {
+      "address": "773 Duncan St",
+      "date": "Jun 11, 2025",
+      "price": 2950000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 1980
+    },
+    {
+      "address": "271 Missouri St",
+      "date": "Jun 12, 2025",
+      "price": 2870000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 2010
+    },
+    {
+      "address": "2579 28th Ave",
+      "date": "Jun 13, 2025",
+      "price": 2800000,
+      "beds": 4,
+      "baths": 4.5,
+      "sqft": 2367
+    },
+    {
+      "address": "1383 8th Ave",
+      "date": "Jun 13, 2025",
+      "price": 2601300,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 1885
+    }
+  ],
+  "Boston": [
+    {
+      "address": "81 Beacon #9",
+      "date": "Jun 16, 2025",
+      "price": 6120000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 3300
+    },
+    {
+      "address": "240 Devonshire St #4201",
+      "date": "Jun 16, 2025",
+      "price": 4635000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 2190
+    },
+    {
+      "address": "1 Dalton St #4503",
+      "date": "Jun 12, 2025",
+      "price": 3450000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 1407
+    },
+    {
+      "address": "16 Cumberland St",
+      "date": "Jun 16, 2025",
+      "price": 3000000,
+      "beds": 9,
+      "baths": 7,
+      "sqft": 4244
+    },
+    {
+      "address": "75 Chandler St",
+      "date": "Jun 16, 2025",
+      "price": 3000000,
+      "beds": 9,
+      "baths": 8,
+      "sqft": 4215
+    },
+    {
+      "address": "29-31 Highland Rd #29",
+      "date": "Jun 13, 2025",
+      "price": 2450000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 2537
+    },
+    {
+      "address": "1 Franklin St #3801",
+      "date": "Jun 12, 2025",
+      "price": 2100000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 1589
+    },
+    {
+      "address": "133 Seaport Blvd #620",
+      "date": "Jun 11, 2025",
+      "price": 2065000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 1255
+    },
+    {
+      "address": "19 Brimmer St #4",
+      "date": "Jun 11, 2025",
+      "price": 2050000,
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1302
+    },
+    {
+      "address": "48 Boylston St",
+      "date": "Jun 14, 2025",
+      "price": 2000000,
+      "beds": 6,
+      "baths": 6,
+      "sqft": 4992
+    }
+  ],
+  "Chicago": [
+    {
+      "address": "2120 N Lincoln Park West Unit 5-6",
+      "date": "Jun 12, 2025",
+      "price": 4822571,
+      "beds": 5,
+      "baths": 4.5,
+      "sqft": 6031
+    },
+    {
+      "address": "2620 N Lakewood Ave",
+      "date": "Jun 12, 2025",
+      "price": 3225000,
+      "beds": 5,
+      "baths": 4,
+      "sqft": 0
+    },
+    {
+      "address": "3315 N Lakewood Ave",
+      "date": "Jun 12, 2025",
+      "price": 2700000,
+      "beds": 5,
+      "baths": 4.5,
+      "sqft": 5350
+    },
+    {
+      "address": "1550 N Clark St #703",
+      "date": "Jun 11, 2025",
+      "price": 2500000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 3809
+    },
+    {
+      "address": "270 E Pearson St #1201",
+      "date": "Jun 16, 2025",
+      "price": 2400000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 0
+    },
+    {
+      "address": "2642 N Wayne Ave",
+      "date": "Jun 11, 2025",
+      "price": 2390000,
+      "beds": 6,
+      "baths": 4.5,
+      "sqft": 5400
+    },
+    {
+      "address": "3711 N Marshfield Ave",
+      "date": "Jun 12, 2025",
+      "price": 2220000,
+      "beds": 6,
+      "baths": 4.5,
+      "sqft": 5000
+    },
+    {
+      "address": "2020 N Howe St Unit 3S",
+      "date": "Jun 13, 2025",
+      "price": 2005000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2700
+    },
+    {
+      "address": "5335 N Lakewood Ave",
+      "date": "Jun 16, 2025",
+      "price": 2000000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 0
+    },
+    {
+      "address": "2510 N Marshfield Ave",
+      "date": "Jun 11, 2025",
+      "price": 1962500,
+      "beds": 6,
+      "baths": 3.5,
+      "sqft": 4517
+    }
+  ],
+  "Seattle": [
+    {
+      "address": "645 NW 137th St",
+      "date": "Jun 13, 2025",
+      "price": 4500000,
+      "beds": 5,
+      "baths": 4.75,
+      "sqft": 5820
+    },
+    {
+      "address": "2411 NW Blue Ridge Dr",
+      "date": "Jun 12, 2025",
+      "price": 3750000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 3280
+    },
+    {
+      "address": "2816 Boyer Ave E Unit C",
+      "date": "Jun 11, 2025",
+      "price": 3500000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2704
+    },
+    {
+      "address": "2312 N 59th St",
+      "date": "Jun 13, 2025",
+      "price": 2650000,
+      "beds": 5,
+      "baths": 3.5,
+      "sqft": 3262
+    },
+    {
+      "address": "2415 Boyer Ave E",
+      "date": "Jun 11, 2025",
+      "price": 2490000,
+      "beds": 4,
+      "baths": 3.75,
+      "sqft": 3480
+    },
+    {
+      "address": "1151 20th Ave E",
+      "date": "Jun 12, 2025",
+      "price": 2236050,
+      "beds": 5,
+      "baths": 2.25,
+      "sqft": 3350
+    },
+    {
+      "address": "4539 E Laurel Dr NE",
+      "date": "Jun 13, 2025",
+      "price": 2080000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 3180
+    },
+    {
+      "address": "11360 23rd Ave NE",
+      "date": "Jun 12, 2025",
+      "price": 1993760,
+      "beds": 5,
+      "baths": 3.25,
+      "sqft": 3370
+    },
+    {
+      "address": "1639 37th Ave",
+      "date": "Jun 13, 2025",
+      "price": 1980000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 2680
+    },
+    {
+      "address": "4227 NE 94th St",
+      "date": "Jun 12, 2025",
+      "price": 1925000,
+      "beds": 4,
+      "baths": 2.25,
+      "sqft": 2950
+    }
+  ],
+  "Austin": [
+    {
+      "address": "2405 Deer Pass",
+      "date": "Jun 13, 2025",
+      "price": 5499000,
+      "beds": 6,
+      "baths": 6,
+      "sqft": 4322
+    },
+    {
+      "address": "7 Rocky River Cv",
+      "date": "Jun 13, 2025",
+      "price": 4500000,
+      "beds": 5,
+      "baths": 5,
+      "sqft": 4988
+    },
+    {
+      "address": "16031 Fontaine Ave",
+      "date": "Jun 16, 2025",
+      "price": 3250000,
+      "beds": 5,
+      "baths": 4,
+      "sqft": 5756
+    },
+    {
+      "address": "6525 Comanche Trl",
+      "date": "Jun 13, 2025",
+      "price": 2760000,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 0
+    },
+    {
+      "address": "705 W Monroe St",
+      "date": "Jun 11, 2025",
+      "price": 2625000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 2628
+    },
+    {
+      "address": "2012 Oxford Ave",
+      "date": "Jun 12, 2025",
+      "price": 2099000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2524
+    },
+    {
+      "address": "9015 San Diego Rd",
+      "date": "Jun 13, 2025",
+      "price": 1987444,
+      "beds": 5,
+      "baths": 5.5,
+      "sqft": 4067
+    },
+    {
+      "address": "2819 Garwood St",
+      "date": "Jun 12, 2025",
+      "price": 1875000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 2700
+    },
+    {
+      "address": "2800 W 35th St Unit A",
+      "date": "Jun 13, 2025",
+      "price": 1775000,
+      "beds": 4,
+      "baths": 5,
+      "sqft": 3802
+    },
+    {
+      "address": "11705 Palisades Pkwy",
+      "date": "Jun 16, 2025",
+      "price": 1750000,
+      "beds": 5,
+      "baths": 3.5,
+      "sqft": 4245
+    }
+  ],
+  "Denver": [
+    {
+      "address": "562 Steele St",
+      "date": "Jun 11, 2025",
+      "price": 6800000,
+      "beds": 5,
+      "baths": 5.25,
+      "sqft": 7923
+    },
+    {
+      "address": "350 N Franklin St",
+      "date": "Jun 16, 2025",
+      "price": 4844500,
+      "beds": 4,
+      "baths": 6,
+      "sqft": 7640
+    },
+    {
+      "address": "223 Garfield St",
+      "date": "Jun 13, 2025",
+      "price": 4475000,
+      "beds": 4,
+      "baths": 5,
+      "sqft": 4934
+    },
+    {
+      "address": "350 Adams St",
+      "date": "Jun 13, 2025",
+      "price": 2575000,
+      "beds": 3,
+      "baths": 3.25,
+      "sqft": 3699
+    },
+    {
+      "address": "1376 S Clayton St",
+      "date": "Jun 16, 2025",
+      "price": 1790000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 4993
+    },
+    {
+      "address": "536 N Williams St",
+      "date": "Jun 13, 2025",
+      "price": 1750000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 3163
+    },
+    {
+      "address": "2774 S Milwaukee St",
+      "date": "Jun 13, 2025",
+      "price": 1695000,
+      "beds": 5,
+      "baths": 2.5,
+      "sqft": 2945
+    },
+    {
+      "address": "3002 S Oak Way",
+      "date": "Jun 16, 2025",
+      "price": 1600000,
+      "beds": 5,
+      "baths": 4.5,
+      "sqft": 5007
+    },
+    {
+      "address": "265 S Monroe St",
+      "date": "Jun 12, 2025",
+      "price": 1582500,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 3698
+    },
+    {
+      "address": "2155 N High St",
+      "date": "Jun 13, 2025",
+      "price": 1575000,
+      "beds": 4,
+      "baths": 2.25,
+      "sqft": 3659
+    }
+  ],
+  "Nashville": [
+    {
+      "address": "3906 Harding Pl",
+      "date": "Jun 13, 2025",
+      "price": 4990000,
+      "beds": 8,
+      "baths": 8,
+      "sqft": 7925
+    },
+    {
+      "address": "712 Sills Ct",
+      "date": "Jun 11, 2025",
+      "price": 4200000,
+      "beds": 5,
+      "baths": 5,
+      "sqft": 5900
+    },
+    {
+      "address": "4518 Carlton Dr",
+      "date": "Jun 13, 2025",
+      "price": 3200000,
+      "beds": 5,
+      "baths": 5,
+      "sqft": 6833
+    },
+    {
+      "address": "753 Newberry Rd",
+      "date": "Jun 13, 2025",
+      "price": 3100000,
+      "beds": 5,
+      "baths": 5.5,
+      "sqft": 5275
+    },
+    {
+      "address": "3556 Pleasant Valley Rd",
+      "date": "Jun 13, 2025",
+      "price": 2400000,
+      "beds": 5,
+      "baths": 6.5,
+      "sqft": 6466
+    },
+    {
+      "address": "6745 Currywood Dr",
+      "date": "Jun 16, 2025",
+      "price": 1695000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 3441
+    },
+    {
+      "address": "416 W Hillwood Dr",
+      "date": "Jun 11, 2025",
+      "price": 1695000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 3759
+    },
+    {
+      "address": "928 Kirkwood Ave",
+      "date": "Jun 16, 2025",
+      "price": 1675000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 3993
+    },
+    {
+      "address": "903 Hillmont Ct",
+      "date": "Jun 12, 2025",
+      "price": 1480000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 4179
+    },
+    {
+      "address": "802 N 5th St",
+      "date": "Jun 11, 2025",
+      "price": 1472000,
+      "beds": 5,
+      "baths": 3.5,
+      "sqft": 3135
+    }
+  ],
+  "Atlanta": [
+    {
+      "address": "927 Berkshire Rd NE",
+      "date": "Jun 11, 2025",
+      "price": 3550000,
+      "beds": 5,
+      "baths": 6,
+      "sqft": 5894
+    },
+    {
+      "address": "4140 Hillside Pl NW",
+      "date": "Jun 11, 2025",
+      "price": 3470000,
+      "beds": 7,
+      "baths": 9,
+      "sqft": 9052
+    },
+    {
+      "address": "1395 Oconee Pass NE",
+      "date": "Jun 13, 2025",
+      "price": 1925000,
+      "beds": 6,
+      "baths": 5.5,
+      "sqft": 6102
+    },
+    {
+      "address": "2700 Paces Ferry Rd SE #302",
+      "date": "Jun 16, 2025",
+      "price": 1615000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 2378
+    },
+    {
+      "address": "1043 Elizabeth Ct NE",
+      "date": "Jun 11, 2025",
+      "price": 1600000,
+      "beds": 4,
+      "baths": 4.5,
+      "sqft": 3240
+    },
+    {
+      "address": "331 Gordon Ave NE",
+      "date": "Jun 11, 2025",
+      "price": 1320000,
+      "beds": 6,
+      "baths": 5,
+      "sqft": 4250
+    },
+    {
+      "address": "1291 Stillwood Dr NE",
+      "date": "Jun 13, 2025",
+      "price": 1200000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 2501
+    },
+    {
+      "address": "2639 Acorn Ave NE",
+      "date": "Jun 12, 2025",
+      "price": 1160000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 2910
+    },
+    {
+      "address": "2361 Woodward Way NW",
+      "date": "Jun 11, 2025",
+      "price": 1100000,
+      "beds": 5,
+      "baths": 3,
+      "sqft": 1667
+    },
+    {
+      "address": "907 Edgewood Ave NE",
+      "date": "Jun 13, 2025",
+      "price": 1085000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2272
+    }
+  ],
+  "LasVegas": [
+    {
+      "address": "48 Augusta Canyon Way",
+      "date": "Jun 11, 2025",
+      "price": 15500000,
+      "beds": 8,
+      "baths": 10,
+      "sqft": 18210
+    },
+    {
+      "address": "10756 Steel Ridge Ct",
+      "date": "Jun 16, 2025",
+      "price": 2930000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 4351
+    },
+    {
+      "address": "10000 Cresent Mesa Ln",
+      "date": "Jun 13, 2025",
+      "price": 2650000,
+      "beds": 5,
+      "baths": 4.75,
+      "sqft": 6104
+    },
+    {
+      "address": "10562 Cerotto Ln",
+      "date": "Jun 12, 2025",
+      "price": 1650000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 3217
+    },
+    {
+      "address": "5860 Noah Springs Ct",
+      "date": "Jun 13, 2025",
+      "price": 1620000,
+      "beds": 4,
+      "baths": 3.75,
+      "sqft": 3504
+    },
+    {
+      "address": "220 Villa Borghese St",
+      "date": "Jun 11, 2025",
+      "price": 1550000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 4144
+    },
+    {
+      "address": "2221 Glenbrook Way",
+      "date": "Jun 11, 2025",
+      "price": 1550000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 3513
+    },
+    {
+      "address": "382 Chaplin Cove Ave",
+      "date": "Jun 13, 2025",
+      "price": 1525000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 3331
+    },
+    {
+      "address": "5271 Villa Vecchio Ct",
+      "date": "Jun 11, 2025",
+      "price": 1315000,
+      "beds": 4,
+      "baths": 4.25,
+      "sqft": 3743
+    },
+    {
+      "address": "6975 Darby Ave",
+      "date": "Jun 13, 2025",
+      "price": 1300000,
+      "beds": 5,
+      "baths": 3,
+      "sqft": 3425
+    }
+  ]
+}

@@ -36,17 +36,7 @@ const fetcher = (url: string) => fetch(url).then(res => {
   return res.json();
 });
 
-const mockSalesData = {
-  '90210': [
-    { address: '123 Rodeo Dr', date: 'June 15, 2024', price: 12300000 },
-    { address: '456 Beverly Dr', date: 'June 12, 2024', price: 11800000 },
-    { address: '789 Canon Dr', date: 'June 10, 2024', price: 10500000 },
-    { address: '321 Alpine Dr', date: 'June 8, 2024', price: 9200000 },
-    { address: '654 Crescent Dr', date: 'June 5, 2024', price: 8900000 },
-  ]
-};
-
-const mockPriceHistory = [8500000, 9200000, 10100000, 11200000, 12300000, 11800000, 12300000];
+// Sales data will be fetched from API
 
 const Index = () => {
   const [selectedZip, setSelectedZip] = useState<ZipCodeData | null>(null);
@@ -61,6 +51,15 @@ const Index = () => {
       onError: (error) => {
         toast.error('Could not load leaderboard – retrying');
       }
+    }
+  );
+
+  // Fetch sales data for modals
+  const { data: salesData } = useSWR<Record<string, any[]>>(
+    '/sales-data.json',
+    fetcher,
+    {
+      refreshInterval: 60000
     }
   );
 
@@ -102,6 +101,24 @@ const Index = () => {
   const handleZipClick = (zipData: ZipCodeData) => {
     setSelectedZip(zipData);
     setIsModalOpen(true);
+  };
+
+  // Get sales data and price history for selected zip
+  const getZipSalesData = (zipCode: string) => {
+    return salesData?.[zipCode] || [];
+  };
+
+  const getPriceHistory = (zipCode: string) => {
+    const sales = salesData?.[zipCode] || [];
+    if (sales.length === 0) return [];
+    
+    // Create a simple price history from the sales data
+    // Sort by date and take the last 7 prices
+    const sortedSales = [...sales]
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .slice(-7);
+    
+    return sortedSales.map(sale => sale.price);
   };
 
   return (
@@ -161,8 +178,8 @@ const Index = () => {
           zipCode={selectedZip.zipCode}
           city={selectedZip.city}
           state={selectedZip.state}
-          topSales={mockSalesData[selectedZip.zipCode as keyof typeof mockSalesData] || []}
-          priceHistory={mockPriceHistory}
+          topSales={getZipSalesData(selectedZip.zipCode)}
+          priceHistory={getPriceHistory(selectedZip.zipCode)}
         />
       )}
     </div>

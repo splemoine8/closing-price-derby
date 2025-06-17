@@ -5,7 +5,7 @@
     "state": "NV",
     "teamName": "Leo",
     "price": 15500000,
-    "ts": 1750144909111
+    "ts": 1750146390137
   },
   {
     "zip": "SanFrancisco",
@@ -13,7 +13,7 @@
     "state": "CA",
     "teamName": "David",
     "price": 8325000,
-    "ts": 1750144877951
+    "ts": 1750146373277
   },
   {
     "zip": "Denver",
@@ -21,7 +21,7 @@
     "state": "CO",
     "teamName": "Ivy",
     "price": 6800000,
-    "ts": 1750144898472
+    "ts": 1750146383936
   },
   {
     "zip": "BeverlyHills",
@@ -29,7 +29,7 @@
     "state": "CA",
     "teamName": "Alice",
     "price": 6650000,
-    "ts": 1750144867928
+    "ts": 1750146367541
   },
   {
     "zip": "Boston",
@@ -37,7 +37,7 @@
     "state": "MA",
     "teamName": "Emma",
     "price": 6120000,
-    "ts": 1750144882673
+    "ts": 1750146375431
   },
   {
     "zip": "Austin",
@@ -45,7 +45,7 @@
     "state": "TX",
     "teamName": "Henry",
     "price": 5499000,
-    "ts": 1750144894521
+    "ts": 1750146381374
   },
   {
     "zip": "Nashville",
@@ -53,7 +53,7 @@
     "state": "TN",
     "teamName": "Jack",
     "price": 4990000,
-    "ts": 1750144901594
+    "ts": 1750146385777
   },
   {
     "zip": "Chicago",
@@ -61,7 +61,7 @@
     "state": "IL",
     "teamName": "Frank",
     "price": 4822571,
-    "ts": 1750144887214
+    "ts": 1750146377289
   },
   {
     "zip": "Seattle",
@@ -69,7 +69,7 @@
     "state": "WA",
     "teamName": "Grace",
     "price": 4500000,
-    "ts": 1750144890662
+    "ts": 1750146379636
   },
   {
     "zip": "Atlanta",
@@ -77,7 +77,7 @@
     "state": "GA",
     "teamName": "Kate",
     "price": 3550000,
-    "ts": 1750144905087
+    "ts": 1750146387927
   },
   {
     "zip": "MiamiBeach",
@@ -85,7 +85,7 @@
     "state": "FL",
     "teamName": "Charlie",
     "price": 3150000,
-    "ts": 1750144874178
+    "ts": 1750146371431
   },
   {
     "zip": "Manhattan",
@@ -93,6 +93,6 @@
     "state": "NY",
     "teamName": "Bob",
     "price": 770000,
-    "ts": 1750144871580
+    "ts": 1750146369559
   }
 ]
