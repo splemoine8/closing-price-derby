@@ -22,6 +22,23 @@ A React application for tracking real estate closing prices in a competitive lea
 - Preview: `npm run preview`
 - Lint: `npm run lint`
 
+## Quick Share with Netlify Drop
+
+To quickly share your app with others:
+
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+
+2. Go to [netlify.com/drop](https://netlify.com/drop) in your browser
+
+3. Drag and drop the entire `dist/` folder onto the page
+
+4. Get your live URL (e.g., `amazing-cupcake-123456.netlify.app`)
+
+5. Share the URL - it stays live for 24 hours (extend with free Netlify account)
+
 ## Data Scraping
 
 The application includes a data scraping system that fetches real estate data from Redfin via RapidAPI:
