@@ -189,7 +189,8 @@ async function scrapeAllCities() {
           price: parseInt(property.priceInfo?.amount || property.priceInfo?.homePrice?.int64Value || 0),
           beds: property.beds || 0,
           baths: property.baths || 0,
-          sqft: parseInt(property.sqftInfo?.amount || 0)
+          sqft: parseInt(property.sqftInfo?.amount || 0),
+          url: property.url ? `https://www.redfin.com${property.url}` : null
         }));
       
       if (highestSale) {

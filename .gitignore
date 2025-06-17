@@ -32,5 +32,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Scraper results and cache files
+rapidapi-results-*.json
+denver.json
+
 # Source export (not needed in final repo)
 derby-price-dash-lovable/

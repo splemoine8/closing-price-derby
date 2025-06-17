@@ -5,7 +5,23 @@
     "state": "NV",
     "teamName": "Leo",
     "price": 15500000,
-    "ts": 1750146390137
+    "ts": 1750191760290
+  },
+  {
+    "zip": "NewportBeach",
+    "city": "Newport Beach",
+    "state": "CA",
+    "teamName": "Bob",
+    "price": 13500000,
+    "ts": 1750191737197
+  },
+  {
+    "zip": "Boston",
+    "city": "Boston",
+    "state": "MA",
+    "teamName": "Emma",
+    "price": 13500000,
+    "ts": 1750191743320
   },
   {
     "zip": "SanFrancisco",
@@ -13,7 +29,7 @@
     "state": "CA",
     "teamName": "David",
     "price": 8325000,
-    "ts": 1750146373277
+    "ts": 1750191741402
   },
   {
     "zip": "Denver",
@@ -21,7 +37,7 @@
     "state": "CO",
     "teamName": "Ivy",
     "price": 6800000,
-    "ts": 1750146383936
+    "ts": 1750191753772
   },
   {
     "zip": "BeverlyHills",
@@ -29,15 +45,15 @@
     "state": "CA",
     "teamName": "Alice",
     "price": 6650000,
-    "ts": 1750146367541
+    "ts": 1750191735731
   },
   {
-    "zip": "Boston",
-    "city": "Boston",
-    "state": "MA",
-    "teamName": "Emma",
-    "price": 6120000,
-    "ts": 1750146375431
+    "zip": "MiamiBeach",
+    "city": "Miami Beach",
+    "state": "FL",
+    "teamName": "Charlie",
+    "price": 6500000,
+    "ts": 1750191739110
   },
   {
     "zip": "Austin",
@@ -45,7 +61,7 @@
     "state": "TX",
     "teamName": "Henry",
     "price": 5499000,
-    "ts": 1750146381374
+    "ts": 1750191750795
   },
   {
     "zip": "Nashville",
@@ -53,15 +69,7 @@
     "state": "TN",
     "teamName": "Jack",
     "price": 4990000,
-    "ts": 1750146385777
-  },
-  {
-    "zip": "Chicago",
-    "city": "Chicago",
-    "state": "IL",
-    "teamName": "Frank",
-    "price": 4822571,
-    "ts": 1750146377289
+    "ts": 1750191755722
   },
   {
     "zip": "Seattle",
@@ -69,7 +77,15 @@
     "state": "WA",
     "teamName": "Grace",
     "price": 4500000,
-    "ts": 1750146379636
+    "ts": 1750191747631
+  },
+  {
+    "zip": "Chicago",
+    "city": "Chicago",
+    "state": "IL",
+    "teamName": "Frank",
+    "price": 4405100,
+    "ts": 1750191745394
   },
   {
     "zip": "Atlanta",
@@ -77,22 +93,6 @@
     "state": "GA",
     "teamName": "Kate",
     "price": 3550000,
-    "ts": 1750146387927
-  },
-  {
-    "zip": "MiamiBeach",
-    "city": "Miami Beach",
-    "state": "FL",
-    "teamName": "Charlie",
-    "price": 3150000,
-    "ts": 1750146371431
-  },
-  {
-    "zip": "NewportBeach",
-    "city": "Newport Beach",
-    "state": "CA",
-    "teamName": "Bob",
-    "price": 8500000,
-    "ts": 1750146369559
+    "ts": 1750191757559
   }
 ]

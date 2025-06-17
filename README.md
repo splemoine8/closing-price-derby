@@ -22,15 +22,23 @@ A React application for tracking real estate closing prices in a competitive lea
 - Preview: `npm run preview`
 - Lint: `npm run lint`
 
-## Local Scraping
+## Data Scraping
 
-The application includes a data scraping system that fetches real estate data from Redfin:
+The application includes a data scraping system that fetches real estate data from Redfin via RapidAPI:
+
+### Prerequisites
+You need a RapidAPI key for the Redfin API. Add it to your `.env` file:
+```
+RAPIDAPI_KEY=your_api_key_here
+```
 
 ### One-time scrape
 ```bash
 npm run scrape
 ```
-This fetches the latest sales data for all ZIP codes and writes results to `/public/leaderboard.json`.
+This fetches the latest sales data for all cities and updates:
+- `/public/leaderboard.json` (current top prices)
+- `/public/sales-data.json` (detailed sales data)
 
 ### Continuous scraping
 ```bash
@@ -39,9 +47,12 @@ npm run cron
 Runs the scraper every 4 hours automatically. Press Ctrl+C to stop.
 
 ### Configuration
-- ZIP codes are configured in `/scripts/zips.json`
-- Scraper respects rate limits (300ms between requests)
-- Failed requests result in price = 0 (graceful degradation)
+- Cities and team assignments are configured in `/scripts/city-regions.js`
+- Scraper includes rate limiting and error handling
+- Failed requests are logged but don't crash the process
+
+### Manual Refresh
+After running the scraper, refresh your browser or click the floating refresh button in the app to see updated data.
 
 ## GitHub Cron Deploy
 

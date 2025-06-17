@@ -3,7 +3,7 @@
 
 export const CITY_REGIONS = {
   'Beverly Hills, CA': '6_1669',
-  'Newport Beach, CA': '6_13096', 
+  'Newport Beach, CA': '6_13193',  // Corrected - was 6_13096 which mapped to South Carolina
   'Miami Beach, FL': '6_11467',
   'San Francisco, CA': '6_17151',
   'Boston, MA': '6_1826',

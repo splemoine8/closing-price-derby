@@ -4,6 +4,19 @@ import RankBadge from './RankBadge';
 import PriceDisplay from './PriceDisplay';
 import PriceDelta from './PriceDelta';
 
+const stateNames: Record<string, string> = {
+  'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
+  'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
+  'HI': 'Hawaii', 'ID': 'Idaho', 'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa',
+  'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland',
+  'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi', 'MO': 'Missouri',
+  'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey',
+  'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio',
+  'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',
+  'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont',
+  'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
+};
+
 interface ZipCodeData {
   rank: number;
   zipCode: string;
@@ -41,7 +54,10 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, onClick }: ZipCodeCardProps) =>
           <RankBadge rank={data.rank} />
           <div>
             <div className="font-semibold text-gray-900 text-base">
-              {data.city} {data.state}
+              {data.city}
+            </div>
+            <div className="text-xs text-gray-500 font-normal">
+              {stateNames[data.state] || data.state}
             </div>
             <div className="text-xs text-blue-600 font-medium">
               {data.teamName}

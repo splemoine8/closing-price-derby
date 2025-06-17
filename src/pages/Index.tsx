@@ -4,6 +4,7 @@ import useSWR from 'swr';
 import { toast } from 'sonner';
 import LeaderboardHeader from '../components/LeaderboardHeader';
 import StatusBanner from '../components/StatusBanner';
+import LiveEventTicker from '../components/LiveEventTicker';
 import ZipCodeCard from '../components/ZipCodeCard';
 import FloatingRefreshButton from '../components/FloatingRefreshButton';
 import ZipDetailModal from '../components/ZipDetailModal';
@@ -48,25 +49,27 @@ const calculatePriceDelta = (zipCode: string, currentPrice: number, salesData: R
     return { delta: 0 };
   }
 
-  // Sort sales by date to get chronological order
-  const sortedSales = [...sales]
-    .filter(sale => sale.price > 0) // Filter out zero prices
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  // Filter out zero prices
+  const validSales = sales.filter(sale => sale.price > 0);
 
-  if (sortedSales.length < 1) {
+  if (validSales.length < 1) {
     return { delta: 0 };
   }
 
-  // Get the most recent sale date
-  const mostRecentSale = sortedSales[sortedSales.length - 1];
-  const lastSoldDate = mostRecentSale.date;
+  // Sort sales by price to get highest to lowest
+  const sortedByPrice = [...validSales]
+    .sort((a, b) => b.price - a.price);
+
+  // Get the most recent sale date (from the highest priced sale)
+  const highestSale = sortedByPrice[0];
+  const lastSoldDate = highestSale.date;
 
   // Calculate delta if we have at least 2 sales
   let delta = 0;
-  if (sortedSales.length >= 2) {
-    const previousHighest = sortedSales[sortedSales.length - 2].price;
-    delta = currentPrice - previousHighest;
-    console.log(`Price delta for ${zipCode}: $${currentPrice.toLocaleString()} - $${previousHighest.toLocaleString()} = $${delta.toLocaleString()}`);
+  if (sortedByPrice.length >= 2) {
+    const secondHighest = sortedByPrice[1].price;
+    delta = currentPrice - secondHighest;
+    console.log(`Price delta for ${zipCode}: $${currentPrice.toLocaleString()} - $${secondHighest.toLocaleString()} = $${delta.toLocaleString()}`);
   }
   
   return { delta, lastSoldDate };
@@ -148,6 +151,67 @@ const Index = () => {
     return new Date(maxTs).toLocaleString();
   }, [rawData]);
 
+  const formatPrice = (price: number) => {
+    if (price >= 1000000) {
+      return `$${(price / 1000000).toFixed(1)}M`;
+    } else if (price >= 1000) {
+      return `$${(price / 1000).toFixed(0)}K`;
+    } else {
+      return `$${price.toLocaleString()}`;
+    }
+  };
+
+  const getRelativeTime = (dateString?: string) => {
+    if (!dateString) return 'recently';
+    
+    // Parse date like "Jun 16, 2025"
+    const saleDate = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - saleDate.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+    
+    if (diffHours < 1) return 'now';
+    if (diffHours < 24) return `${diffHours}h ago`; // Show hours for anything under 24 hours
+    if (diffDays === 1) return 'yesterday';
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return `${Math.floor(diffDays / 7)}w ago`;
+  };
+
+  // Generate live events for ticker
+  const liveEvents = useMemo(() => {
+    if (!displayData.length) return [];
+    
+    const events = [];
+    const leader = displayData[0];
+    
+    // Current leader event
+    events.push({
+      text: `🔥 ${leader.city} leads with ${formatPrice(leader.topPrice)}!`,
+      timestamp: getRelativeTime(leader.lastSoldDate)
+    });
+    
+    // Recent big sales
+    if (displayData.length > 1) {
+      const second = displayData[1];
+      events.push({
+        text: `💰 ${second.city} sold for ${formatPrice(second.topPrice)}`,
+        timestamp: getRelativeTime(second.lastSoldDate)
+      });
+    }
+    
+    // Rank changes (sample)
+    if (displayData.length > 2) {
+      const third = displayData[2];
+      events.push({
+        text: `📈 ${third.city} moved up to #${third.rank}`,
+        timestamp: getRelativeTime(third.lastSoldDate)
+      });
+    }
+    
+    return events;
+  }, [displayData]);
+
   const handleRefresh = () => {
     mutate(); // Trigger SWR revalidation
   };
@@ -179,8 +243,9 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <LeaderboardHeader />
       <StatusBanner lastUpdate={lastUpdate} />
+      <LiveEventTicker events={liveEvents} />
       
-      <div className="max-w-sm mx-auto px-4 py-4 space-y-3 pb-20">
+      <div className="max-w-sm mx-auto px-4 py-6 space-y-3 pb-20">
         {isLoading && (
           <div className="text-center py-8">
             <div className="text-gray-500">Loading leaderboard...</div>
@@ -204,7 +269,7 @@ const Index = () => {
             {index === 0 && (
               <div className="mb-4">
                 <img 
-                  src="https://media.cleanshot.cloud/media/125514/6HilZS1l7LVTfKdsg90qWWTNKiDRo6ejNWlZi4I6.jpeg?Expires=1750153046&Signature=DQzc59b5Xj6dDF14wUsQf~KnY1lWMSCkXRkqGpyeXuOJiFvigvcqkX17lzS1VOC9w0U6a71-3-nDSt3RM9ymkFQcXX6u0TDg1u4oSAjYAgcHBnQo82GJ2MMyYnP8mqN7qZ9To48WclWhmOfENV8cPHEGzv9CDOgYfVsCV7QiNFR0ruTo-ENJQHZ1z05uUQz3l7F0LX5G65SHc9rOaRH23GgSZFuZWwej0ndu9lIMFu75P6Z5pmt9nbT3atFYRJcHu~nujWzeE5c-ndCFf8Y3x2uY1o62lSvibOui9OooYZrp0vLlCa-HEt6whrieRbN4SoO-H7VlqEBG3OVGX7XnGA__&Key-Pair-Id=K269JMAT9ZF4GZ" 
+                  src="../public/derby-banner.webp" 
                   alt="Leaderboard banner"
                   className="w-full h-auto rounded-lg"
                 />
