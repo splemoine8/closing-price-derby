@@ -57,86 +57,62 @@
       "sqft": 1372
     }
   ],
-  "Manhattan": [
+  "NewportBeach": [
     {
-      "address": "380 Rector Pl Unit 15E",
-      "date": "Jun 11, 2025",
-      "price": 770000,
-      "beds": 1,
-      "baths": 1,
-      "sqft": 735
-    },
-    {
-      "address": "212 W 72nd St Unit 3H",
-      "date": "Jun 12, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 2082
-    },
-    {
-      "address": "5 Weehawken St Unit 2B",
-      "date": "Jun 11, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 453
-    },
-    {
-      "address": "200 Amsterdam Ave Unit 9A",
-      "date": "Jun 11, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 3455
-    },
-    {
-      "address": "137 E 28th St Unit 3C",
+      "address": "1200 Bison Ave",
       "date": "Jun 13, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 0
+      "price": 8500000,
+      "beds": 4,
+      "baths": 5,
+      "sqft": 4200
     },
     {
-      "address": "212 W 72nd St Unit 8H",
+      "address": "2901 Bayshores Dr",
       "date": "Jun 12, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 2082
+      "price": 7200000,
+      "beds": 5,
+      "baths": 6,
+      "sqft": 5500
     },
     {
-      "address": "303 Park Ave #2321",
+      "address": "1441 Bayside Dr",
+      "date": "Jun 11, 2025",
+      "price": 6800000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 3800
+    },
+    {
+      "address": "2424 E Ocean Blvd",
+      "date": "Jun 14, 2025",
+      "price": 5500000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 2800
+    },
+    {
+      "address": "1508 E Balboa Blvd",
+      "date": "Jun 15, 2025",
+      "price": 4200000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 3200
+    },
+    {
+      "address": "613 Via Lido Nord",
       "date": "Jun 16, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 0
+      "price": 3800000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 2600
     },
     {
-      "address": "444 Central Park W Unit 17F",
-      "date": "Jun 13, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 0
-    },
-    {
-      "address": "99 John St #1507",
-      "date": "Jun 13, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 754
-    },
-    {
-      "address": "416 Washington St Unit 4H",
+      "address": "2601 Vista Dr",
       "date": "Jun 11, 2025",
-      "price": 0,
-      "beds": 0,
-      "baths": 0,
-      "sqft": 1676
+      "price": 3500000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 3100
     }
   ],
   "MiamiBeach": [

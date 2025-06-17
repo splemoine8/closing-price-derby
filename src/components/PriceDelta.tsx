@@ -5,9 +5,10 @@ import { ArrowUp, ArrowDown } from 'lucide-react';
 interface PriceDeltaProps {
   delta: number;
   animate?: boolean;
+  lastSoldDate?: string;
 }
 
-const PriceDelta = ({ delta, animate = false }: PriceDeltaProps) => {
+const PriceDelta = ({ delta, animate = false, lastSoldDate }: PriceDeltaProps) => {
   const formatDelta = (delta: number) => {
     const absValue = Math.abs(delta);
     if (absValue >= 1000000) {
@@ -23,13 +24,13 @@ const PriceDelta = ({ delta, animate = false }: PriceDeltaProps) => {
     if (delta > 0) {
       return {
         icon: <ArrowUp size={14} />,
-        text: `↑ ${formatDelta(delta)}`,
+        text: formatDelta(delta),
         color: '#4CAF50'
       };
     } else if (delta < 0) {
       return {
         icon: <ArrowDown size={14} />,
-        text: `↓ ${formatDelta(delta)}`,
+        text: formatDelta(delta),
         color: '#F44336'
       };
     } else {
@@ -44,12 +45,19 @@ const PriceDelta = ({ delta, animate = false }: PriceDeltaProps) => {
   const { icon, text, color } = getDeltaDisplay();
 
   return (
-    <div 
-      className={`flex items-center gap-1 text-sm font-medium ${animate ? 'animate-[scale_150ms_ease-out]' : ''}`}
-      style={{ color }}
-    >
-      {icon}
-      <span>{text}</span>
+    <div className={`flex flex-col items-end ${animate ? 'animate-[scale_150ms_ease-out]' : ''}`}>
+      <div 
+        className="flex items-center gap-1 text-sm font-medium"
+        style={{ color }}
+      >
+        {icon}
+        <span>{text}</span>
+      </div>
+      {lastSoldDate && (
+        <div className="text-xs text-gray-400 italic mt-0.5">
+          {lastSoldDate}
+        </div>
+      )}
     </div>
   );
 };

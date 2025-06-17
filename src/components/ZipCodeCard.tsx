@@ -12,6 +12,7 @@ interface ZipCodeData {
   teamName: string;
   topPrice: number;
   priceDelta: number;
+  lastSoldDate?: string;
 }
 
 interface ZipCodeCardProps {
@@ -40,9 +41,6 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, onClick }: ZipCodeCardProps) =>
           <RankBadge rank={data.rank} />
           <div>
             <div className="font-semibold text-gray-900 text-base">
-              {data.zipCode}
-            </div>
-            <div className="text-sm text-gray-500">
               {data.city} {data.state}
             </div>
             <div className="text-xs text-blue-600 font-medium">
@@ -56,7 +54,7 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, onClick }: ZipCodeCardProps) =>
             maxPrice={maxPrice} 
             minPrice={minPrice}
           />
-          <PriceDelta delta={data.priceDelta} animate={animate} />
+          <PriceDelta delta={data.priceDelta} animate={animate} lastSoldDate={data.lastSoldDate} />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
 
 export const CITY_REGIONS = {
   'Beverly Hills, CA': '6_1669',
-  'Manhattan, NY': '6_35948', 
+  'Newport Beach, CA': '6_13096', 
   'Miami Beach, FL': '6_11467',
   'San Francisco, CA': '6_17151',
   'Boston, MA': '6_1826',
@@ -19,7 +19,7 @@ export const CITY_REGIONS = {
 // Friend assignments for the fantasy league
 export const FRIEND_ASSIGNMENTS = {
   'Beverly Hills, CA': 'Alice',
-  'Manhattan, NY': 'Bob', 
+  'Newport Beach, CA': 'Bob', 
   'Miami Beach, FL': 'Charlie',
   'San Francisco, CA': 'David',
   'Boston, MA': 'Emma',

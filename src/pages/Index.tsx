@@ -26,6 +26,7 @@ type ZipCodeData = {
   teamName: string;
   topPrice: number;
   priceDelta: number;
+  lastSoldDate?: string;
 };
 
 // Fetcher function for SWR
@@ -36,11 +37,47 @@ const fetcher = (url: string) => fetch(url).then(res => {
   return res.json();
 });
 
+// Helper function to calculate price delta from sales data
+const calculatePriceDelta = (zipCode: string, currentPrice: number, salesData: Record<string, any[]> | undefined): { delta: number; lastSoldDate?: string } => {
+  if (!salesData || !salesData[zipCode]) {
+    return { delta: 0 };
+  }
+
+  const sales = salesData[zipCode];
+  if (sales.length < 1) {
+    return { delta: 0 };
+  }
+
+  // Sort sales by date to get chronological order
+  const sortedSales = [...sales]
+    .filter(sale => sale.price > 0) // Filter out zero prices
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  if (sortedSales.length < 1) {
+    return { delta: 0 };
+  }
+
+  // Get the most recent sale date
+  const mostRecentSale = sortedSales[sortedSales.length - 1];
+  const lastSoldDate = mostRecentSale.date;
+
+  // Calculate delta if we have at least 2 sales
+  let delta = 0;
+  if (sortedSales.length >= 2) {
+    const previousHighest = sortedSales[sortedSales.length - 2].price;
+    delta = currentPrice - previousHighest;
+    console.log(`Price delta for ${zipCode}: $${currentPrice.toLocaleString()} - $${previousHighest.toLocaleString()} = $${delta.toLocaleString()}`);
+  }
+  
+  return { delta, lastSoldDate };
+};
+
 // Sales data will be fetched from API
 
 const Index = () => {
   const [selectedZip, setSelectedZip] = useState<ZipCodeData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zipDataWithDeltas, setZipDataWithDeltas] = useState<ZipCodeData[]>([]);
 
   // Fetch leaderboard data with SWR
   const { data: rawData, error, mutate, isLoading } = useSWR<ZipStat[]>(
@@ -78,14 +115,31 @@ const Index = () => {
         state: item.state,
         teamName: item.teamName,
         topPrice: item.price,
-        priceDelta: 0 // TODO: Calculate price delta from previous data
+        priceDelta: 0 // Will be calculated asynchronously
       }));
     
     return sorted;
   }, [rawData]);
 
-  const maxPrice = zipData.length > 0 ? Math.max(...zipData.map(zip => zip.topPrice)) : 0;
-  const minPrice = zipData.length > 0 ? Math.min(...zipData.filter(zip => zip.topPrice > 0).map(zip => zip.topPrice)) : 0;
+  // Calculate price deltas using sales data
+  React.useEffect(() => {
+    if (!zipData.length || !salesData) {
+      setZipDataWithDeltas(zipData);
+      return;
+    }
+    
+    const updatedData = zipData.map((zip) => {
+      const { delta, lastSoldDate } = calculatePriceDelta(zip.zipCode, zip.topPrice, salesData);
+      return { ...zip, priceDelta: delta, lastSoldDate };
+    });
+    
+    setZipDataWithDeltas(updatedData);
+  }, [zipData, salesData]);
+
+  // Use zipDataWithDeltas for calculations and rendering
+  const displayData = zipDataWithDeltas.length > 0 ? zipDataWithDeltas : zipData;
+  const maxPrice = displayData.length > 0 ? Math.max(...displayData.map(zip => zip.topPrice)) : 0;
+  const minPrice = displayData.length > 0 ? Math.min(...displayData.filter(zip => zip.topPrice > 0).map(zip => zip.topPrice)) : 0;
   
   // Calculate last update time
   const lastUpdate = useMemo(() => {
@@ -145,7 +199,7 @@ const Index = () => {
           </div>
         )}
         
-        {zipData.map((zipDataItem, index) => (
+        {displayData.map((zipDataItem, index) => (
           <React.Fragment key={zipDataItem.zipCode}>
             {index === 0 && (
               <div className="mb-4">
