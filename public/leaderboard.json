@@ -1,162 +1,98 @@
 [
   {
-    "zip": "90210",
-    "city": "Beverly Hills",
-    "state": "CA",
-    "teamName": "Golden Gate Giants",
-    "price": 8500000,
-    "ts": 1750138146363
+    "zip": "LasVegas",
+    "city": "Las Vegas",
+    "state": "NV",
+    "teamName": "Leo",
+    "price": 15500000,
+    "ts": 1750144909111
   },
   {
-    "zip": "10021",
-    "city": "New York",
-    "state": "NY",
-    "teamName": "Empire State Eagles",
-    "price": 7200000,
-    "ts": 1750138146755
-  },
-  {
-    "zip": "33109",
-    "city": "Miami Beach",
-    "state": "FL",
-    "teamName": "Sunset Sharks",
-    "price": 6800000,
-    "ts": 1750138147159
-  },
-  {
-    "zip": "94127",
+    "zip": "SanFrancisco",
     "city": "San Francisco",
     "state": "CA",
-    "teamName": "Bay Area Bulls",
-    "price": 6500000,
-    "ts": 1750138147558
+    "teamName": "David",
+    "price": 8325000,
+    "ts": 1750144877951
   },
   {
-    "zip": "02199",
+    "zip": "Denver",
+    "city": "Denver",
+    "state": "CO",
+    "teamName": "Ivy",
+    "price": 6800000,
+    "ts": 1750144898472
+  },
+  {
+    "zip": "BeverlyHills",
+    "city": "Beverly Hills",
+    "state": "CA",
+    "teamName": "Alice",
+    "price": 6650000,
+    "ts": 1750144867928
+  },
+  {
+    "zip": "Boston",
     "city": "Boston",
     "state": "MA",
-    "teamName": "Harbor Hawks",
-    "price": 5900000,
-    "ts": 1750138147951
+    "teamName": "Emma",
+    "price": 6120000,
+    "ts": 1750144882673
   },
   {
-    "zip": "90049",
-    "city": "Los Angeles",
-    "state": "CA",
-    "teamName": "Hollywood Hustlers",
-    "price": 0,
-    "ts": 1750138148377
-  },
-  {
-    "zip": "98039",
-    "city": "Medina",
-    "state": "WA",
-    "teamName": "Emerald City Elite",
-    "price": 0,
-    "ts": 1750138148783
-  },
-  {
-    "zip": "07620",
-    "city": "Alpine",
-    "state": "NJ",
-    "teamName": "Garden State Gladiators",
-    "price": 0,
-    "ts": 1750138149170
-  },
-  {
-    "zip": "06830",
-    "city": "Greenwich",
-    "state": "CT",
-    "teamName": "Constitution Crushers",
-    "price": 0,
-    "ts": 1750138149580
-  },
-  {
-    "zip": "33480",
-    "city": "Palm Beach",
-    "state": "FL",
-    "teamName": "Tropical Titans",
-    "price": 0,
-    "ts": 1750138149988
-  },
-  {
-    "zip": "90272",
-    "city": "Pacific Palisades",
-    "state": "CA",
-    "teamName": "Coastal Kings",
-    "price": 0,
-    "ts": 1750138150394
-  },
-  {
-    "zip": "11962",
-    "city": "Sagaponack",
-    "state": "NY",
-    "teamName": "Hamptons Heroes",
-    "price": 0,
-    "ts": 1750138150785
-  },
-  {
-    "zip": "94028",
-    "city": "Portola Valley",
-    "state": "CA",
-    "teamName": "Silicon Stallions",
-    "price": 0,
-    "ts": 1750138151189
-  },
-  {
-    "zip": "33701",
-    "city": "St. Petersburg",
-    "state": "FL",
-    "teamName": "Sunshine Speedsters",
-    "price": 0,
-    "ts": 1750138151558
-  },
-  {
-    "zip": "77019",
-    "city": "Houston",
+    "zip": "Austin",
+    "city": "Austin",
     "state": "TX",
-    "teamName": "Lone Star Legends",
-    "price": 0,
-    "ts": 1750138151950
+    "teamName": "Henry",
+    "price": 5499000,
+    "ts": 1750144894521
   },
   {
-    "zip": "80424",
-    "city": "Breckenridge",
-    "state": "CO",
-    "teamName": "Mountain Mavericks",
-    "price": 0,
-    "ts": 1750138152323
-  },
-  {
-    "zip": "84060",
-    "city": "Park City",
-    "state": "UT",
-    "teamName": "Powder Panthers",
-    "price": 0,
-    "ts": 1750138152707
-  },
-  {
-    "zip": "29928",
-    "city": "Hilton Head",
-    "state": "SC",
-    "teamName": "Lowcountry Lions",
-    "price": 0,
-    "ts": 1750138153097
-  },
-  {
-    "zip": "37027",
-    "city": "Brentwood",
+    "zip": "Nashville",
+    "city": "Nashville",
     "state": "TN",
-    "teamName": "Music City Mustangs",
-    "price": 0,
-    "ts": 1750138153501
+    "teamName": "Jack",
+    "price": 4990000,
+    "ts": 1750144901594
   },
   {
-    "zip": "85253",
-    "city": "Paradise Valley",
-    "state": "AZ",
-    "teamName": "Desert Diamonds",
-    "price": 0,
-    "ts": 1750138153939
+    "zip": "Chicago",
+    "city": "Chicago",
+    "state": "IL",
+    "teamName": "Frank",
+    "price": 4822571,
+    "ts": 1750144887214
+  },
+  {
+    "zip": "Seattle",
+    "city": "Seattle",
+    "state": "WA",
+    "teamName": "Grace",
+    "price": 4500000,
+    "ts": 1750144890662
+  },
+  {
+    "zip": "Atlanta",
+    "city": "Atlanta",
+    "state": "GA",
+    "teamName": "Kate",
+    "price": 3550000,
+    "ts": 1750144905087
+  },
+  {
+    "zip": "MiamiBeach",
+    "city": "Miami Beach",
+    "state": "FL",
+    "teamName": "Charlie",
+    "price": 3150000,
+    "ts": 1750144874178
+  },
+  {
+    "zip": "Manhattan",
+    "city": "Manhattan",
+    "state": "NY",
+    "teamName": "Bob",
+    "price": 770000,
+    "ts": 1750144871580
   }
 ]

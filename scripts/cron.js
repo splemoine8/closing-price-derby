@@ -7,7 +7,7 @@ const execAsync = promisify(exec);
 async function runScrape() {
   try {
     console.log('Starting scheduled scrape...');
-    const { stdout, stderr } = await execAsync('node ./scripts/scrape.js');
+    const { stdout, stderr } = await execAsync('node ./scripts/scrape-rapidapi.js');
     
     if (stdout) console.log(stdout);
     if (stderr) console.error('Scrape stderr:', stderr);

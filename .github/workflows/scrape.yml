@@ -24,6 +24,8 @@ jobs:
         run: npm ci
         
       - name: Run scraper
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: npm run scrape
         
       - name: Commit and push changes
