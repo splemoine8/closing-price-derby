@@ -1,0 +1,162 @@
+[
+  {
+    "zip": "90210",
+    "city": "Beverly Hills",
+    "state": "CA",
+    "teamName": "Golden Gate Giants",
+    "price": 8500000,
+    "ts": 1750138146363
+  },
+  {
+    "zip": "10021",
+    "city": "New York",
+    "state": "NY",
+    "teamName": "Empire State Eagles",
+    "price": 7200000,
+    "ts": 1750138146755
+  },
+  {
+    "zip": "33109",
+    "city": "Miami Beach",
+    "state": "FL",
+    "teamName": "Sunset Sharks",
+    "price": 6800000,
+    "ts": 1750138147159
+  },
+  {
+    "zip": "94127",
+    "city": "San Francisco",
+    "state": "CA",
+    "teamName": "Bay Area Bulls",
+    "price": 6500000,
+    "ts": 1750138147558
+  },
+  {
+    "zip": "02199",
+    "city": "Boston",
+    "state": "MA",
+    "teamName": "Harbor Hawks",
+    "price": 5900000,
+    "ts": 1750138147951
+  },
+  {
+    "zip": "90049",
+    "city": "Los Angeles",
+    "state": "CA",
+    "teamName": "Hollywood Hustlers",
+    "price": 0,
+    "ts": 1750138148377
+  },
+  {
+    "zip": "98039",
+    "city": "Medina",
+    "state": "WA",
+    "teamName": "Emerald City Elite",
+    "price": 0,
+    "ts": 1750138148783
+  },
+  {
+    "zip": "07620",
+    "city": "Alpine",
+    "state": "NJ",
+    "teamName": "Garden State Gladiators",
+    "price": 0,
+    "ts": 1750138149170
+  },
+  {
+    "zip": "06830",
+    "city": "Greenwich",
+    "state": "CT",
+    "teamName": "Constitution Crushers",
+    "price": 0,
+    "ts": 1750138149580
+  },
+  {
+    "zip": "33480",
+    "city": "Palm Beach",
+    "state": "FL",
+    "teamName": "Tropical Titans",
+    "price": 0,
+    "ts": 1750138149988
+  },
+  {
+    "zip": "90272",
+    "city": "Pacific Palisades",
+    "state": "CA",
+    "teamName": "Coastal Kings",
+    "price": 0,
+    "ts": 1750138150394
+  },
+  {
+    "zip": "11962",
+    "city": "Sagaponack",
+    "state": "NY",
+    "teamName": "Hamptons Heroes",
+    "price": 0,
+    "ts": 1750138150785
+  },
+  {
+    "zip": "94028",
+    "city": "Portola Valley",
+    "state": "CA",
+    "teamName": "Silicon Stallions",
+    "price": 0,
+    "ts": 1750138151189
+  },
+  {
+    "zip": "33701",
+    "city": "St. Petersburg",
+    "state": "FL",
+    "teamName": "Sunshine Speedsters",
+    "price": 0,
+    "ts": 1750138151558
+  },
+  {
+    "zip": "77019",
+    "city": "Houston",
+    "state": "TX",
+    "teamName": "Lone Star Legends",
+    "price": 0,
+    "ts": 1750138151950
+  },
+  {
+    "zip": "80424",
+    "city": "Breckenridge",
+    "state": "CO",
+    "teamName": "Mountain Mavericks",
+    "price": 0,
+    "ts": 1750138152323
+  },
+  {
+    "zip": "84060",
+    "city": "Park City",
+    "state": "UT",
+    "teamName": "Powder Panthers",
+    "price": 0,
+    "ts": 1750138152707
+  },
+  {
+    "zip": "29928",
+    "city": "Hilton Head",
+    "state": "SC",
+    "teamName": "Lowcountry Lions",
+    "price": 0,
+    "ts": 1750138153097
+  },
+  {
+    "zip": "37027",
+    "city": "Brentwood",
+    "state": "TN",
+    "teamName": "Music City Mustangs",
+    "price": 0,
+    "ts": 1750138153501
+  },
+  {
+    "zip": "85253",
+    "city": "Paradise Valley",
+    "state": "AZ",
+    "teamName": "Desert Diamonds",
+    "price": 0,
+    "ts": 1750138153939
+  }
+]
