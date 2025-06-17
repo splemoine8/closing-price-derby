@@ -26,6 +26,11 @@ interface SaleData {
   url?: string;
 }
 
+interface PriceHistoryData {
+  price: number;
+  date: string;
+}
+
 interface ZipDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -33,11 +38,11 @@ interface ZipDetailModalProps {
   city: string;
   state: string;
   topSales: SaleData[];
-  priceHistory: number[];
+  priceHistory: PriceHistoryData[];
 }
 
-const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: number[], width?: number, height?: number }) => {
-  const [hoveredPoint, setHoveredPoint] = useState<{ index: number, x: number, y: number, price: number } | null>(null);
+const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: PriceHistoryData[], width?: number, height?: number }) => {
+  const [hoveredPoint, setHoveredPoint] = useState<{ index: number, x: number, y: number, price: number, date: string } | null>(null);
 
   if (!data || data.length < 2) {
     return (
@@ -50,8 +55,9 @@ const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: number[], w
     );
   }
 
-  const maxPrice = Math.max(...data);
-  const minPrice = Math.min(...data);
+  const prices = data.map(d => d.price);
+  const maxPrice = Math.max(...prices);
+  const minPrice = Math.min(...prices);
   
   // Add padding so points aren't on the edge
   const yPadding = (maxPrice - minPrice) * 0.2;
@@ -59,10 +65,10 @@ const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: number[], w
   const yMin = Math.max(0, minPrice - yPadding);
 
   // Map data points to SVG coordinates
-  const points = data.map((price, index) => {
+  const points = data.map((dataPoint, index) => {
     const x = (index / (data.length - 1)) * width;
-    const y = height - ((price - yMin) / (yMax - yMin)) * height;
-    return { x, y, price, index };
+    const y = height - ((dataPoint.price - yMin) / (yMax - yMin)) * height;
+    return { x, y, price: dataPoint.price, date: dataPoint.date, index };
   });
 
   // Generate SVG path data
@@ -119,9 +125,9 @@ const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: number[], w
             stroke="#3B82F6"
             strokeWidth="2"
             className="cursor-pointer transition-all duration-150"
-            onMouseEnter={() => setHoveredPoint({ ...point, index: i })}
+            onMouseEnter={() => setHoveredPoint(point)}
             onMouseLeave={() => setHoveredPoint(null)}
-            onTouchStart={() => setHoveredPoint({ ...point, index: i })}
+            onTouchStart={() => setHoveredPoint(point)}
           />
         ))}
       </svg>
@@ -137,7 +143,7 @@ const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: number[], w
           }}
         >
           <div className="font-medium">{formatPrice(hoveredPoint.price)}</div>
-          <div className="text-gray-300">Period {hoveredPoint.index + 1}</div>
+          <div className="text-gray-300">{hoveredPoint.date}</div>
         </div>
       )}
     </div>

@@ -5,7 +5,7 @@
     "state": "NV",
     "teamName": "Leo",
     "price": 15500000,
-    "ts": 1750191760290
+    "ts": 1750196995815
   },
   {
     "zip": "NewportBeach",
@@ -13,7 +13,7 @@
     "state": "CA",
     "teamName": "Bob",
     "price": 13500000,
-    "ts": 1750191737197
+    "ts": 1750196972620
   },
   {
     "zip": "Boston",
@@ -21,7 +21,15 @@
     "state": "MA",
     "teamName": "Emma",
     "price": 13500000,
-    "ts": 1750191743320
+    "ts": 1750196979381
+  },
+  {
+    "zip": "MiamiBeach",
+    "city": "Miami Beach",
+    "state": "FL",
+    "teamName": "Charlie",
+    "price": 9400000,
+    "ts": 1750196974782
   },
   {
     "zip": "SanFrancisco",
@@ -29,7 +37,7 @@
     "state": "CA",
     "teamName": "David",
     "price": 8325000,
-    "ts": 1750191741402
+    "ts": 1750196977003
   },
   {
     "zip": "Denver",
@@ -37,7 +45,7 @@
     "state": "CO",
     "teamName": "Ivy",
     "price": 6800000,
-    "ts": 1750191753772
+    "ts": 1750196988451
   },
   {
     "zip": "BeverlyHills",
@@ -45,15 +53,7 @@
     "state": "CA",
     "teamName": "Alice",
     "price": 6650000,
-    "ts": 1750191735731
-  },
-  {
-    "zip": "MiamiBeach",
-    "city": "Miami Beach",
-    "state": "FL",
-    "teamName": "Charlie",
-    "price": 6500000,
-    "ts": 1750191739110
+    "ts": 1750196971026
   },
   {
     "zip": "Austin",
@@ -61,7 +61,7 @@
     "state": "TX",
     "teamName": "Henry",
     "price": 5499000,
-    "ts": 1750191750795
+    "ts": 1750196985975
   },
   {
     "zip": "Nashville",
@@ -69,7 +69,7 @@
     "state": "TN",
     "teamName": "Jack",
     "price": 4990000,
-    "ts": 1750191755722
+    "ts": 1750196990891
   },
   {
     "zip": "Seattle",
@@ -77,7 +77,7 @@
     "state": "WA",
     "teamName": "Grace",
     "price": 4500000,
-    "ts": 1750191747631
+    "ts": 1750196984278
   },
   {
     "zip": "Chicago",
@@ -85,7 +85,7 @@
     "state": "IL",
     "teamName": "Frank",
     "price": 4405100,
-    "ts": 1750191745394
+    "ts": 1750196981739
   },
   {
     "zip": "Atlanta",
@@ -93,6 +93,6 @@
     "state": "GA",
     "teamName": "Kate",
     "price": 3550000,
-    "ts": 1750191757559
+    "ts": 1750196992834
   }
 ]

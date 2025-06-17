@@ -158,6 +158,15 @@
   ],
   "MiamiBeach": [
     {
+      "address": "800 S Pointe Dr #2002",
+      "date": "Jun 13, 2025",
+      "price": 9400000,
+      "beds": 2,
+      "baths": 3.5,
+      "sqft": 3103,
+      "url": "https://www.redfin.com/FL/Miami-Beach/800-S-Pointe-Dr-33139/unit-2002/home/43407633"
+    },
+    {
       "address": "501 West Ave #2901",
       "date": "Jun 17, 2025",
       "price": 6500000,
@@ -237,15 +246,6 @@
       "baths": 1,
       "sqft": 516,
       "url": "https://www.redfin.com/FL/Miami-Beach/4401-Collins-Ave-33140/unit-2501/home/43319903"
-    },
-    {
-      "address": "2155 Washington Ct #503",
-      "date": "Jun 11, 2025",
-      "price": 898000,
-      "beds": 2,
-      "baths": 2,
-      "sqft": 1132,
-      "url": "https://www.redfin.com/FL/Miami-Beach/2155-Washington-Ct-33139/unit-503/home/50121259"
     }
   ],
   "SanFrancisco": [
@@ -607,13 +607,13 @@
       "url": "https://www.redfin.com/WA/Seattle/4539-E-Laurel-Dr-NE-98105/home/122499"
     },
     {
-      "address": "11360 23rd Ave NE",
-      "date": "Jun 12, 2025",
-      "price": 1993760,
-      "beds": 5,
-      "baths": 3.25,
-      "sqft": 3370,
-      "url": "https://www.redfin.com/WA/Seattle/11360-23rd-Ave-NE-98125/home/116373"
+      "address": "2518 E McGraw St",
+      "date": "Jun 16, 2025",
+      "price": 2035000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2568,
+      "url": "https://www.redfin.com/WA/Seattle/2518-E-McGraw-St-98112/home/138690"
     }
   ],
   "Austin": [
@@ -1013,6 +1013,15 @@
       "url": "https://www.redfin.com/NV/Las-Vegas/10000-Cresent-Mesa-Ln-89145/home/29115274"
     },
     {
+      "address": "2101 Strada Mia Ct",
+      "date": "Jun 17, 2025",
+      "price": 2000000,
+      "beds": 5,
+      "baths": 7,
+      "sqft": 7357,
+      "url": "https://www.redfin.com/NV/Las-Vegas/2101-Strada-Mia-Ct-89117/home/29522186"
+    },
+    {
       "address": "10562 Cerotto Ln",
       "date": "Jun 12, 2025",
       "price": 1650000,
@@ -1065,15 +1074,6 @@
       "baths": 3,
       "sqft": 3425,
       "url": "https://www.redfin.com/NV/Las-Vegas/6975-Darby-Ave-89117/home/29538098"
-    },
-    {
-      "address": "350 Gandara St",
-      "date": "Jun 16, 2025",
-      "price": 1250000,
-      "beds": 5,
-      "baths": 3.5,
-      "sqft": 2827,
-      "url": "https://www.redfin.com/NV/Las-Vegas/350-Gandara-St-89138/home/173181905"
     }
   ]
 }

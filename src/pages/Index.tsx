@@ -3,8 +3,8 @@ import React, { useState, useMemo } from 'react';
 import useSWR from 'swr';
 import { toast } from 'sonner';
 import LeaderboardHeader from '../components/LeaderboardHeader';
-import StatusBanner from '../components/StatusBanner';
 import LiveEventTicker from '../components/LiveEventTicker';
+import Footer from '../components/Footer';
 import ZipCodeCard from '../components/ZipCodeCard';
 import FloatingRefreshButton from '../components/FloatingRefreshButton';
 import ZipDetailModal from '../components/ZipDetailModal';
@@ -178,6 +178,51 @@ const Index = () => {
     return `${Math.floor(diffDays / 7)}w ago`;
   };
 
+  // Track rank changes
+  const [rankChangeEvents, setRankChangeEvents] = useState<Array<{ text: string; timestamp: string }>>([]);
+
+  // Detect rank changes and update localStorage
+  React.useEffect(() => {
+    if (!displayData.length) return;
+
+    const currentRankings = displayData.map(city => ({
+      city: city.city,
+      rank: city.rank,
+      price: city.topPrice,
+      lastSoldDate: city.lastSoldDate
+    }));
+
+    // Get previous rankings from localStorage
+    const storedRankings = localStorage.getItem('previousRankings');
+    const previousRankings = storedRankings ? JSON.parse(storedRankings) : [];
+
+    if (previousRankings.length > 0) {
+      const changes = [];
+      
+      // Detect rank changes
+      currentRankings.forEach(current => {
+        const previous = previousRankings.find((p: any) => p.city === current.city);
+        if (previous && previous.rank !== current.rank) {
+          const direction = current.rank < previous.rank ? 'up' : 'down';
+          const emoji = direction === 'up' ? '📈' : '📉';
+          const actionText = direction === 'up' ? 'jumped to' : 'dropped to';
+          
+          changes.push({
+            text: `${emoji} ${current.city} ${actionText} #${current.rank}`,
+            timestamp: getRelativeTime(current.lastSoldDate)
+          });
+        }
+      });
+
+      if (changes.length > 0) {
+        setRankChangeEvents(changes.slice(0, 2)); // Keep last 2 rank changes
+      }
+    }
+
+    // Store current rankings for next comparison
+    localStorage.setItem('previousRankings', JSON.stringify(currentRankings));
+  }, [displayData]);
+
   // Generate live events for ticker
   const liveEvents = useMemo(() => {
     if (!displayData.length) return [];
@@ -195,22 +240,27 @@ const Index = () => {
     if (displayData.length > 1) {
       const second = displayData[1];
       events.push({
-        text: `💰 ${second.city} sold for ${formatPrice(second.topPrice)}`,
+        text: `💰 New ${second.city} sale for ${formatPrice(second.topPrice)}`,
         timestamp: getRelativeTime(second.lastSoldDate)
       });
     }
     
-    // Rank changes (sample)
-    if (displayData.length > 2) {
+    // Add actual rank change events
+    rankChangeEvents.forEach(event => {
+      events.push(event);
+    });
+    
+    // Fallback: if no rank changes, show current #3
+    if (rankChangeEvents.length === 0 && displayData.length > 2) {
       const third = displayData[2];
       events.push({
-        text: `📈 ${third.city} moved up to #${third.rank}`,
+        text: `🏆 ${third.city} holds #${third.rank} position`,
         timestamp: getRelativeTime(third.lastSoldDate)
       });
     }
     
     return events;
-  }, [displayData]);
+  }, [displayData, rankChangeEvents]);
 
   const handleRefresh = () => {
     mutate(); // Trigger SWR revalidation
@@ -230,22 +280,21 @@ const Index = () => {
     const sales = salesData?.[zipCode] || [];
     if (sales.length === 0) return [];
     
-    // Create a simple price history from the sales data
-    // Sort by date and take the last 7 prices
+    // Create a price history from the sales data with dates
+    // Sort by date and take the last 7 sales
     const sortedSales = [...sales]
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .slice(-7);
     
-    return sortedSales.map(sale => sale.price);
+    return sortedSales.map(sale => ({ price: sale.price, date: sale.date }));
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <LeaderboardHeader />
-      <StatusBanner lastUpdate={lastUpdate} />
       <LiveEventTicker events={liveEvents} />
       
-      <div className="max-w-sm mx-auto px-4 py-6 space-y-3 pb-20">
+      <div className="max-w-sm mx-auto px-4 py-6 space-y-3 pb-16">
         {isLoading && (
           <div className="text-center py-8">
             <div className="text-gray-500">Loading leaderboard...</div>
@@ -269,7 +318,7 @@ const Index = () => {
             {index === 0 && (
               <div className="mb-4">
                 <img 
-                  src="../public/derby-banner.webp" 
+                  src="/derby-banner.webp" 
                   alt="Leaderboard banner"
                   className="w-full h-auto rounded-lg"
                 />
@@ -301,6 +350,8 @@ const Index = () => {
           priceHistory={getPriceHistory(selectedZip.zipCode)}
         />
       )}
+      
+      <Footer lastUpdate={lastUpdate} />
     </div>
   );
 };

@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "scrape": "RAPIDAPI_KEY=${RAPIDAPI_KEY} node ./scripts/scrape-rapidapi.js",
+    "scrape": "node --env-file=.env ./scripts/scrape-rapidapi.js",
     "cron": "node ./scripts/cron.js"
   },
   "dependencies": {

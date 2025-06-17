@@ -44,9 +44,23 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, onClick }: ZipCodeCardProps) =>
     onClick();
   };
 
+  // Get border styling based on rank
+  const getBorderStyling = (rank: number) => {
+    switch (rank) {
+      case 1:
+        return "border-2 border-yellow-400 bg-yellow-50"; // Gold
+      case 2:
+        return "border-2 border-gray-400 bg-gray-50"; // Silver
+      case 3:
+        return "border-2 border-amber-600 bg-amber-50"; // Bronze
+      default:
+        return "border border-gray-200 bg-white"; // Default
+    }
+  };
+
   return (
     <div 
-      className="bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer active:scale-98"
+      className={`rounded-xl p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer active:scale-98 ${getBorderStyling(data.rank)}`}
       onClick={handleClick}
     >
       <div className="flex items-center justify-between">
