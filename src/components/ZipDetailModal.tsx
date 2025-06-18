@@ -35,14 +35,12 @@ interface PriceHistoryData {
 interface ZipDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  zipCode: string;
   city: string;
   state: string;
   topSales: SaleData[];
   priceHistory: PriceHistoryData[];
   baseline?: number;     // NEW: For score breakdown
-  scorePct?: number;     // NEW: For score breakdown
-  multiplier?: string;   // NEW: For score breakdown
+  highestSale?: SaleData | null; // NEW: The highest sale driving the score
 }
 
 const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: PriceHistoryData[], width?: number, height?: number }) => {
@@ -68,9 +66,13 @@ const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: PriceHistor
   const yMax = maxPrice + yPadding;
   const yMin = Math.max(0, minPrice - yPadding);
 
+  // Add horizontal padding to prevent circles from being cut off
+  const horizontalPadding = 6; // Slightly larger than circle radius
+  const chartWidth = width - (horizontalPadding * 2);
+  
   // Map data points to SVG coordinates
   const points = data.map((dataPoint, index) => {
-    const x = (index / (data.length - 1)) * width;
+    const x = horizontalPadding + (index / (data.length - 1)) * chartWidth;
     const y = height - ((dataPoint.price - yMin) / (yMax - yMin)) * height;
     return { x, y, price: dataPoint.price, date: dataPoint.date, index };
   });
@@ -157,14 +159,12 @@ const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: PriceHistor
 const ZipDetailModal = ({ 
   isOpen, 
   onClose, 
-  zipCode, 
   city, 
   state, 
   topSales, 
   priceHistory,
   baseline,
-  scorePct,
-  multiplier
+  highestSale
 }: ZipDetailModalProps) => {
   if (!isOpen) return null;
 
@@ -178,32 +178,24 @@ const ZipDetailModal = ({
     }
   };
 
-  const handleShare = () => {
-    navigator.clipboard.writeText(`Check out ${zipCode} on Closing-Price Derby!`);
-  };
 
   const hasData = topSales.length > 0;
   
-  // Find the most recent sale by date
-  const mostRecentSale = topSales.length > 0 ? 
-    topSales.reduce((latest, sale) => {
-      const saleDate = new Date(sale.date);
-      const latestDate = new Date(latest.date);
-      return saleDate > latestDate ? sale : latest;
-    }) : null;
+  // Use the highest sale (passed from parent) for display and scoring
+  const displaySale = highestSale;
 
-  const saleMultiple = baseline ? 
-    `×${((mostRecentSale.price - baseline) / baseline + 1).toFixed(1)}` : 
+  const saleMultiple = baseline && displaySale ? 
+    `×${((displaySale.price - baseline) / baseline + 1).toFixed(1)}` : 
     null;
 
   // Score breakdown component
   const ScoreBreakdown = () => {
-    if (!baseline || !mostRecentSale) {
+    if (!baseline || !displaySale) {
       return null;
     }
 
-    // Calculate score for the actual mostRecentSale being displayed
-    const actualScorePct = ((mostRecentSale.price - baseline) / baseline) * 100;
+    // Calculate score for the highest sale being displayed
+    const actualScorePct = ((displaySale.price - baseline) / baseline) * 100;
     const actualMultiple = `×${(actualScorePct / 100 + 1).toFixed(1)}`;
 
     return (
@@ -212,8 +204,8 @@ const ZipDetailModal = ({
         <div className="p-4 bg-blue-50 rounded-lg">
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-600">Last Sale Price:</span>
-              <span className="font-medium">{formatPrice(mostRecentSale.price)}</span>
+              <span className="text-gray-600">Highest Sale Price:</span>
+              <span className="font-medium">{formatPrice(displaySale.price)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Market Baseline:</span>
@@ -284,29 +276,29 @@ const ZipDetailModal = ({
 
               <ScoreBreakdown />
 
-              {mostRecentSale && (
+              {displaySale && (
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                    <span className="text-lg">🏠</span>
-                    Most Recent Sale
+                    <span className="text-lg">💸</span>
+                    Highest Sale
                   </h3>
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <div className="font-medium text-blue-900 mb-1">{mostRecentSale.address}</div>
+                        <div className="font-medium text-blue-900 mb-1">{displaySale.address}</div>
                         <div className="text-sm font-medium text-blue-700 mb-1">
-                          Sold: {mostRecentSale.date}
+                          Sold: {displaySale.date}
                         </div>
-                        {(mostRecentSale.beds || mostRecentSale.baths || mostRecentSale.sqft) && (
+                        {(displaySale.beds || displaySale.baths || displaySale.sqft) && (
                           <div className="text-xs text-blue-600 mb-2">
-                            {mostRecentSale.beds && `${mostRecentSale.beds} bed`}{mostRecentSale.beds && mostRecentSale.baths && ' • '}
-                            {mostRecentSale.baths && `${mostRecentSale.baths} bath`}{(mostRecentSale.beds || mostRecentSale.baths) && mostRecentSale.sqft && ' • '}
-                            {mostRecentSale.sqft && `${mostRecentSale.sqft.toLocaleString()} sq ft`}
+                            {displaySale.beds && `${displaySale.beds} bed`}{displaySale.beds && displaySale.baths && ' • '}
+                            {displaySale.baths && `${displaySale.baths} bath`}{(displaySale.beds || displaySale.baths) && displaySale.sqft && ' • '}
+                            {displaySale.sqft && `${displaySale.sqft.toLocaleString()} sq ft`}
                           </div>
                         )}
-                        {mostRecentSale.url && (
+                        {displaySale.url && (
                           <a 
-                            href={mostRecentSale.url} 
+                            href={displaySale.url} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-xs text-blue-700 hover:text-blue-900 font-medium hover:underline"
@@ -317,7 +309,7 @@ const ZipDetailModal = ({
                       </div>
                       <div className="text-right">
                         <div className="text-xl font-bold text-blue-900">
-                          {formatPrice(mostRecentSale.price)}
+                          {formatPrice(displaySale.price)}
                         </div>
                         <div className="text-xl font-bold text-gray-500 mt-1">
                           {saleMultiple}
@@ -332,8 +324,9 @@ const ZipDetailModal = ({
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Recent Sales History</h3>
                 <div className="space-y-3">
                   {topSales
+                    .filter(sale => !displaySale || sale.address !== displaySale.address || sale.date !== displaySale.date) // Exclude the highest sale already shown
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by date, newest first
-                    .slice(1, 6) // Skip the first (most recent, already shown above), take next 5
+                    .slice(0, 5) // Take top 5 remaining sales
                     .map((sale, index) => {
                       // Calculate multiple for this sale
                       const saleMultiple = baseline ? 

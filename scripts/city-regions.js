@@ -1,20 +1,20 @@
 // Static mapping of NFL city names to Redfin region IDs
 // These IDs are stable and rarely change, so we cache them to avoid unnecessary API calls
-// Note: Placeholder IDs for Phase 0 testing - will get real IDs in Phase 1
+// All IDs have been validated and are ready for production use
 
 export const CITY_REGIONS = {
-  'Kansas City, MO': '6_12345',    // Placeholder - Chiefs
-  'New Orleans, LA': '6_23456',   // Placeholder - Saints
-  'Green Bay, WI': '6_34567',     // Placeholder - Packers
-  'Nashville, TN': '6_13415',     // Real ID - Titans (keeping from previous)
-  'Buffalo, NY': '6_56789',       // Placeholder - Bills
-  'Pittsburgh, PA': '6_67890',    // Placeholder - Steelers
-  'Cincinnati, OH': '6_78901',    // Placeholder - Bengals
-  'Cleveland, OH': '6_89012',     // Placeholder - Browns
-  'Jacksonville, FL': '6_90123',  // Placeholder - Jaguars
-  'Indianapolis, IN': '6_01234',  // Placeholder - Colts
-  'Baltimore, MD': '6_12346',     // Placeholder - Ravens
-  'Charlotte, NC': '6_23457'      // Placeholder - Panthers (using Charlotte for Carolina)
+  'Kansas City, MO': '6_35751',    // Chiefs
+  'New Orleans, LA': '6_14233',   // Saints
+  'Green Bay, WI': '6_7928',      // Packers
+  'Nashville, TN': '6_13415',     // Titans
+  'Buffalo, NY': '6_2832',        // Bills
+  'Pittsburgh, PA': '6_15702',    // Steelers
+  'Cincinnati, OH': '6_3879',     // Bengals
+  'Cleveland, OH': '6_4145',      // Browns
+  'Jacksonville, FL': '6_8907',   // Jaguars
+  'Indianapolis, IN': '6_9170',   // Colts
+  'Baltimore, MD': '6_1073',      // Ravens
+  'Charlotte, NC': '6_3105'       // Panthers (using Charlotte for Carolina)
 };
 
 // Friend assignments for the NFL fantasy league

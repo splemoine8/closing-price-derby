@@ -1,98 +1,98 @@
 [
   {
-    "zip": "LasVegas",
-    "city": "Las Vegas",
-    "state": "NV",
-    "teamName": "Leo",
-    "price": 15500000,
-    "ts": 1750196995815
+    "zip": "KansasCity",
+    "city": "Kansas City",
+    "state": "MO",
+    "teamName": "Patrick",
+    "price": 1200000,
+    "ts": 1750238179455
   },
   {
-    "zip": "NewportBeach",
-    "city": "Newport Beach",
-    "state": "CA",
-    "teamName": "Bob",
-    "price": 13500000,
-    "ts": 1750196972620
+    "zip": "NewOrleans",
+    "city": "New Orleans",
+    "state": "LA",
+    "teamName": "Drew",
+    "price": 2330000,
+    "ts": 1750238180738
   },
   {
-    "zip": "Boston",
-    "city": "Boston",
-    "state": "MA",
-    "teamName": "Emma",
-    "price": 13500000,
-    "ts": 1750196979381
-  },
-  {
-    "zip": "MiamiBeach",
-    "city": "Miami Beach",
-    "state": "FL",
-    "teamName": "Charlie",
-    "price": 9400000,
-    "ts": 1750196974782
-  },
-  {
-    "zip": "SanFrancisco",
-    "city": "San Francisco",
-    "state": "CA",
-    "teamName": "David",
-    "price": 8325000,
-    "ts": 1750196977003
-  },
-  {
-    "zip": "Denver",
-    "city": "Denver",
-    "state": "CO",
-    "teamName": "Ivy",
-    "price": 6800000,
-    "ts": 1750196988451
-  },
-  {
-    "zip": "BeverlyHills",
-    "city": "Beverly Hills",
-    "state": "CA",
-    "teamName": "Alice",
-    "price": 6650000,
-    "ts": 1750196971026
-  },
-  {
-    "zip": "Austin",
-    "city": "Austin",
-    "state": "TX",
-    "teamName": "Henry",
-    "price": 5499000,
-    "ts": 1750196985975
+    "zip": "GreenBay",
+    "city": "Green Bay",
+    "state": "WI",
+    "teamName": "Aaron",
+    "price": 660000,
+    "ts": 1750238181976
   },
   {
     "zip": "Nashville",
     "city": "Nashville",
     "state": "TN",
-    "teamName": "Jack",
+    "teamName": "Derrick",
     "price": 4990000,
-    "ts": 1750196990891
+    "ts": 1750238183973
   },
   {
-    "zip": "Seattle",
-    "city": "Seattle",
-    "state": "WA",
-    "teamName": "Grace",
-    "price": 4500000,
-    "ts": 1750196984278
+    "zip": "Buffalo",
+    "city": "Buffalo",
+    "state": "NY",
+    "teamName": "Josh",
+    "price": 960433,
+    "ts": 1750238185772
   },
   {
-    "zip": "Chicago",
-    "city": "Chicago",
-    "state": "IL",
-    "teamName": "Frank",
-    "price": 4405100,
-    "ts": 1750196981739
+    "zip": "Pittsburgh",
+    "city": "Pittsburgh",
+    "state": "PA",
+    "teamName": "TJ",
+    "price": 1299250,
+    "ts": 1750238187308
   },
   {
-    "zip": "Atlanta",
-    "city": "Atlanta",
-    "state": "GA",
-    "teamName": "Kate",
-    "price": 3550000,
-    "ts": 1750196992834
+    "zip": "Cincinnati",
+    "city": "Cincinnati",
+    "state": "OH",
+    "teamName": "Joe",
+    "price": 1625000,
+    "ts": 1750238189393
+  },
+  {
+    "zip": "Cleveland",
+    "city": "Cleveland",
+    "state": "OH",
+    "teamName": "Myles",
+    "price": 750000,
+    "ts": 1750238190888
+  },
+  {
+    "zip": "Jacksonville",
+    "city": "Jacksonville",
+    "state": "FL",
+    "teamName": "Trevor",
+    "price": 2033000,
+    "ts": 1750238192578
+  },
+  {
+    "zip": "Indianapolis",
+    "city": "Indianapolis",
+    "state": "IN",
+    "teamName": "Anthony",
+    "price": 925000,
+    "ts": 1750238194826
+  },
+  {
+    "zip": "Baltimore",
+    "city": "Baltimore",
+    "state": "MD",
+    "teamName": "Lamar",
+    "price": 1100000,
+    "ts": 1750238196998
+  },
+  {
+    "zip": "Charlotte",
+    "city": "Charlotte",
+    "state": "NC",
+    "teamName": "Bryce",
+    "price": 6150000,
+    "ts": 1750238199236
   }
 ]

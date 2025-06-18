@@ -91,7 +91,7 @@ const PriceDisplay = ({ price, maxPrice, minPrice, baseline, scorePct, multiplie
                 {multiplier}
               </div>
               <div className="text-sm text-gray-500">
-                Last Sale: {formatPrice(price)}
+                Highest Sale: {formatPrice(price)}
               </div>
             </div>
           </TooltipTrigger>

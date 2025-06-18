@@ -41,41 +41,48 @@ const fetcher = (url: string) => fetch(url).then(res => {
   return res.json();
 });
 
-// Helper function to calculate price delta from sales data
-const calculatePriceDelta = (zipCode: string, currentPrice: number, salesData: Record<string, any[]> | undefined): { delta: number; lastSoldDate?: string } => {
+// Helper function to get highest sale data for competition scoring
+const getHighestSaleData = (zipCode: string, salesData: Record<string, any[]> | undefined): { price: number; delta: number; highestSaleDate?: string; mostRecentDate?: string } => {
   if (!salesData || !salesData[zipCode]) {
-    return { delta: 0 };
+    return { price: 0, delta: 0 };
   }
 
   const sales = salesData[zipCode];
   if (sales.length < 1) {
-    return { delta: 0 };
+    return { price: 0, delta: 0 };
   }
 
   // Filter out zero prices
   const validSales = sales.filter(sale => sale.price > 0);
 
   if (validSales.length < 1) {
-    return { delta: 0 };
+    return { price: 0, delta: 0 };
   }
 
-  // Sort sales by price to get highest to lowest
+  // Sort sales by price to get highest to lowest (for competition scoring)
   const sortedByPrice = [...validSales]
     .sort((a, b) => b.price - a.price);
 
-  // Get the most recent sale date (from the highest priced sale)
+  // Get the highest sale for scoring and ranking
   const highestSale = sortedByPrice[0];
-  const lastSoldDate = highestSale.date;
+  const price = highestSale.price;
+  const highestSaleDate = highestSale.date;
 
-  // Calculate delta if we have at least 2 sales
+  // Get the most recent sale date for activity tracking
+  const sortedByDate = [...validSales]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const mostRecentSale = sortedByDate[0];
+  const mostRecentDate = mostRecentSale.date;
+
+  // Calculate delta between highest and second highest
   let delta = 0;
   if (sortedByPrice.length >= 2) {
     const secondHighest = sortedByPrice[1].price;
-    delta = currentPrice - secondHighest;
-    console.log(`Price delta for ${zipCode}: $${currentPrice.toLocaleString()} - $${secondHighest.toLocaleString()} = $${delta.toLocaleString()}`);
+    delta = price - secondHighest;
+    console.log(`Price delta for ${zipCode}: $${price.toLocaleString()} - $${secondHighest.toLocaleString()} = $${delta.toLocaleString()}`);
   }
   
-  return { delta, lastSoldDate };
+  return { price, delta, highestSaleDate, mostRecentDate };
 };
 
 // Sales data will be fetched from API
@@ -86,7 +93,7 @@ const Index = () => {
   const [zipDataWithDeltas, setZipDataWithDeltas] = useState<ZipCodeData[]>([]);
 
   // Fetch leaderboard data with SWR (Phase 0: using test data)
-  const { data: rawData, error, mutate, isLoading } = useSWR<ZipStat[]>(
+  const { data: rawData, mutate, isLoading } = useSWR<ZipStat[]>(
     '/test-leaderboard.json',
     fetcher,
     {
@@ -128,7 +135,7 @@ const Index = () => {
     return mapped;
   }, [rawData]);
 
-  // Calculate price deltas using sales data
+  // Calculate real prices and deltas using sales data
   React.useEffect(() => {
     if (!zipData.length || !salesData) {
       setZipDataWithDeltas(zipData);
@@ -136,11 +143,45 @@ const Index = () => {
     }
     
     const updatedData = zipData.map((zip) => {
-      const { delta, lastSoldDate } = calculatePriceDelta(zip.zipCode, zip.topPrice, salesData);
-      return { ...zip, priceDelta: delta, lastSoldDate };
+      const { price, delta, highestSaleDate, mostRecentDate } = getHighestSaleData(zip.zipCode, salesData);
+      
+      // Use real highest sale price if available, otherwise fallback to dummy data
+      const actualPrice = price > 0 ? price : zip.topPrice;
+      
+      // Recalculate score and multiplier with highest sale price vs baseline
+      let actualScorePct = zip.scorePct;
+      let actualMultiplier = zip.multiplier;
+      
+      if (price > 0 && zip.baseline) {
+        actualScorePct = ((actualPrice - zip.baseline) / zip.baseline) * 100;
+        actualMultiplier = `×${(actualScorePct / 100 + 1).toFixed(1)}`;
+      }
+      
+      return { 
+        ...zip, 
+        topPrice: actualPrice,           // Highest sale price for scoring
+        scorePct: actualScorePct,        // Score based on highest sale
+        multiplier: actualMultiplier,    // Multiplier based on highest sale
+        priceDelta: delta,               // Delta between highest and 2nd highest
+        lastSoldDate: mostRecentDate     // Most recent activity for ticker
+      };
     });
     
-    setZipDataWithDeltas(updatedData);
+    // Sort by score percentage (highest first), fallback to price
+    const sortedData = updatedData.sort((a, b) => {
+      if (a.scorePct !== b.scorePct) {
+        return (b.scorePct || 0) - (a.scorePct || 0);
+      }
+      return (b.topPrice || 0) - (a.topPrice || 0);
+    });
+    
+    // Add ranks
+    const rankedData = sortedData.map((item, index) => ({
+      ...item,
+      rank: index + 1
+    }));
+    
+    setZipDataWithDeltas(rankedData);
   }, [zipData, salesData]);
 
   // Use zipDataWithDeltas for calculations and rendering
@@ -187,50 +228,11 @@ const Index = () => {
     return `${Math.floor(diffDays / 7)}w ago`;
   };
 
-  // Track rank changes
-  const [rankChangeEvents, setRankChangeEvents] = useState<Array<{ text: string; timestamp: string }>>([]);
-
-  // Detect rank changes and update localStorage
+  // Clear old rank change tracking since we're using real data now
   React.useEffect(() => {
-    if (!displayData.length) return;
-
-    const currentRankings = displayData.map(city => ({
-      city: city.city,
-      rank: city.rank,
-      price: city.topPrice,
-      lastSoldDate: city.lastSoldDate
-    }));
-
-    // Get previous rankings from localStorage
-    const storedRankings = localStorage.getItem('previousRankings');
-    const previousRankings = storedRankings ? JSON.parse(storedRankings) : [];
-
-    if (previousRankings.length > 0) {
-      const changes = [];
-      
-      // Detect rank changes
-      currentRankings.forEach(current => {
-        const previous = previousRankings.find((p: any) => p.city === current.city);
-        if (previous && previous.rank !== current.rank) {
-          const direction = current.rank < previous.rank ? 'up' : 'down';
-          const emoji = direction === 'up' ? '📈' : '📉';
-          const actionText = direction === 'up' ? 'jumped to' : 'dropped to';
-          
-          changes.push({
-            text: `${emoji} ${current.city} ${actionText} #${current.rank}`,
-            timestamp: getRelativeTime(current.lastSoldDate)
-          });
-        }
-      });
-
-      if (changes.length > 0) {
-        setRankChangeEvents(changes.slice(0, 2)); // Keep last 2 rank changes
-      }
-    }
-
-    // Store current rankings for next comparison
-    localStorage.setItem('previousRankings', JSON.stringify(currentRankings));
-  }, [displayData]);
+    // Force clear old localStorage on component mount
+    localStorage.removeItem('previousRankings');
+  }, []); // Run once on mount
 
   // Generate live events for ticker
   const liveEvents = useMemo(() => {
@@ -274,13 +276,8 @@ const Index = () => {
       }
     }
     
-    // Add actual rank change events
-    rankChangeEvents.forEach(event => {
-      events.push(event);
-    });
-    
-    // Fallback: if no rank changes, show current #3
-    if (rankChangeEvents.length === 0 && displayData.length > 2) {
+    // Show current #3 position
+    if (displayData.length > 2) {
       const third = displayData[2];
       if (third.multiplier) {
         events.push({
@@ -296,7 +293,7 @@ const Index = () => {
     }
     
     return events;
-  }, [displayData, rankChangeEvents]);
+  }, [displayData]);
 
   const handleRefresh = () => {
     mutate(); // Trigger SWR revalidation
@@ -312,17 +309,30 @@ const Index = () => {
     return salesData?.[zipCode] || [];
   };
 
+  // Get the highest sale for modal display (consistent with card)
+  const getHighestSaleForModal = (zipCode: string) => {
+    const sales = salesData?.[zipCode] || [];
+    if (sales.length === 0) return null;
+    
+    const validSales = sales.filter(sale => sale.price > 0);
+    if (validSales.length === 0) return null;
+    
+    // Return the highest priced sale (same logic as scoring)
+    return validSales.sort((a, b) => b.price - a.price)[0];
+  };
+
   const getPriceHistory = (zipCode: string) => {
     const sales = salesData?.[zipCode] || [];
     if (sales.length === 0) return [];
     
-    // Create a price history from the sales data with dates
-    // Sort by date and take the last 7 sales
+    // Get all sales sorted by date (newest first)
     const sortedSales = [...sales]
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .slice(-7);
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
-    return sortedSales.map(sale => ({ price: sale.price, date: sale.date }));
+    // Take the 7 most recent sales, then reverse to show chronological progression in chart
+    const recentSales = sortedSales.slice(0, 7).reverse();
+    
+    return recentSales.map(sale => ({ price: sale.price, date: sale.date }));
   };
 
   return (
@@ -337,17 +347,6 @@ const Index = () => {
           </div>
         )}
         
-        {error && (
-          <div className="text-center py-8">
-            <div className="text-red-500 mb-2">Failed to load data</div>
-            <button 
-              onClick={handleRefresh}
-              className="text-blue-600 hover:text-blue-800"
-            >
-              Try again
-            </button>
-          </div>
-        )}
         
         {displayData.map((zipDataItem, index) => (
           <React.Fragment key={zipDataItem.zipCode}>
@@ -381,14 +380,12 @@ const Index = () => {
         <ZipDetailModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          zipCode={selectedZip.zipCode}
           city={selectedZip.city}
           state={selectedZip.state}
           topSales={getZipSalesData(selectedZip.zipCode)}
           priceHistory={getPriceHistory(selectedZip.zipCode)}
           baseline={selectedZip.baseline}
-          scorePct={selectedZip.scorePct}
-          multiplier={selectedZip.multiplier}
+          highestSale={getHighestSaleForModal(selectedZip.zipCode)}
         />
       )}
       

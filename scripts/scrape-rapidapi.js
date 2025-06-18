@@ -270,18 +270,7 @@ async function scrapeAllCities() {
     }
   }
 
-  // Sort by score percentage (highest first), fallback to price
-  leaderboard.sort((a, b) => {
-    if (a.scorePct !== b.scorePct) {
-      return (b.scorePct || 0) - (a.scorePct || 0);
-    }
-    return (b.recentHighest || 0) - (a.recentHighest || 0);
-  });
-  
-  // Add ranks
-  leaderboard.forEach((item, index) => {
-    item.rank = index + 1;
-  });
+  // Don't sort here - let the frontend handle sorting and ranking
 
   return { leaderboard, errors, allSalesData };
 }
