@@ -35,10 +35,12 @@ interface ZipCodeCardProps {
   data: ZipCodeData;
   maxPrice: number;
   minPrice: number;
+  maxScorePct?: number;  // NEW: For relative color coding
+  minScorePct?: number;  // NEW: For relative color coding
   onClick: () => void;
 }
 
-const ZipCodeCard = ({ data, maxPrice, minPrice, onClick }: ZipCodeCardProps) => {
+const ZipCodeCard = ({ data, maxPrice, minPrice, maxScorePct, minScorePct, onClick }: ZipCodeCardProps) => {
   const [animate, setAnimate] = useState(false);
 
   const handleClick = () => {
@@ -89,8 +91,16 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, onClick }: ZipCodeCardProps) =>
             baseline={data.baseline}
             scorePct={data.scorePct}
             multiplier={data.multiplier}
+            maxScorePct={maxScorePct}
+            minScorePct={minScorePct}
           />
-          <PriceDelta delta={data.priceDelta} animate={animate} lastSoldDate={data.lastSoldDate} />
+          {data.baseline ? (
+            <div className="text-xs text-gray-400 text-right">
+              Median Price: ${(data.baseline / 1000).toFixed(0)}K
+            </div>
+          ) : (
+            <PriceDelta delta={data.priceDelta} animate={animate} lastSoldDate={data.lastSoldDate} />
+          )}
         </div>
       </div>
     </div>

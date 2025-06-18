@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, Share2 } from 'lucide-react';
 import WeatherWidget from './WeatherWidget';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const stateNames: Record<string, string> = {
   'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
@@ -39,6 +40,9 @@ interface ZipDetailModalProps {
   state: string;
   topSales: SaleData[];
   priceHistory: PriceHistoryData[];
+  baseline?: number;     // NEW: For score breakdown
+  scorePct?: number;     // NEW: For score breakdown
+  multiplier?: string;   // NEW: For score breakdown
 }
 
 const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: PriceHistoryData[], width?: number, height?: number }) => {
@@ -157,7 +161,10 @@ const ZipDetailModal = ({
   city, 
   state, 
   topSales, 
-  priceHistory 
+  priceHistory,
+  baseline,
+  scorePct,
+  multiplier
 }: ZipDetailModalProps) => {
   if (!isOpen) return null;
 
@@ -184,6 +191,62 @@ const ZipDetailModal = ({
       const latestDate = new Date(latest.date);
       return saleDate > latestDate ? sale : latest;
     }) : null;
+
+  const saleMultiple = baseline ? 
+    `×${((mostRecentSale.price - baseline) / baseline + 1).toFixed(1)}` : 
+    null;
+
+  // Score breakdown component
+  const ScoreBreakdown = () => {
+    if (!baseline || !mostRecentSale) {
+      return null;
+    }
+
+    // Calculate score for the actual mostRecentSale being displayed
+    const actualScorePct = ((mostRecentSale.price - baseline) / baseline) * 100;
+    const actualMultiple = `×${(actualScorePct / 100 + 1).toFixed(1)}`;
+
+    return (
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-3">Score Breakdown</h3>
+        <div className="p-4 bg-blue-50 rounded-lg">
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-gray-600">Last Sale Price:</span>
+              <span className="font-medium">{formatPrice(mostRecentSale.price)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">Market Baseline:</span>
+              <span className="font-medium">{formatPrice(baseline)}</span>
+            </div>
+            <div className="flex justify-between border-t pt-2">
+              <span className="text-gray-600">Performance:</span>
+              <span className="font-medium text-green-600">+{actualScorePct.toFixed(1)}%</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">Multiple:</span>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="font-medium text-green-600 cursor-help underline decoration-dotted">
+                      {actualMultiple}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div className="text-sm">
+                      <div className="font-semibold mb-1">Calculation Method</div>
+                      <div>Score = (Sale Price - Baseline) ÷ Baseline × 100</div>
+                      <div>Multiple = Score ÷ 100 + 1</div>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end">
@@ -218,6 +281,8 @@ const ZipDetailModal = ({
                   <PriceTrendChart data={priceHistory} />
                 </div>
               </div>
+
+              <ScoreBreakdown />
 
               {mostRecentSale && (
                 <div className="mb-6">
@@ -254,6 +319,9 @@ const ZipDetailModal = ({
                         <div className="text-xl font-bold text-blue-900">
                           {formatPrice(mostRecentSale.price)}
                         </div>
+                        <div className="text-xl font-bold text-gray-500 mt-1">
+                          {saleMultiple}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -261,38 +329,53 @@ const ZipDetailModal = ({
               )}
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Top 5 Closings</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Recent Sales History</h3>
                 <div className="space-y-3">
-                  {topSales.slice(0, 5).map((sale, index) => (
-                    <div key={index} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900">{sale.address}</div>
-                        <div className="text-sm text-gray-500">{sale.date}</div>
-                        {(sale.beds || sale.baths || sale.sqft) && (
-                          <div className="text-xs text-gray-400 mt-1">
-                            {sale.beds && `${sale.beds} bed`}{sale.beds && sale.baths && ' • '}
-                            {sale.baths && `${sale.baths} bath`}{(sale.beds || sale.baths) && sale.sqft && ' • '}
-                            {sale.sqft && `${sale.sqft.toLocaleString()} sq ft`}
+                  {topSales
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by date, newest first
+                    .slice(1, 6) // Skip the first (most recent, already shown above), take next 5
+                    .map((sale, index) => {
+                      // Calculate multiple for this sale
+                      const saleMultiple = baseline ? 
+                        `×${((sale.price - baseline) / baseline + 1).toFixed(1)}` : 
+                        null;
+                      
+                      return (
+                        <div key={index} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900">{sale.address}</div>
+                            <div className="text-sm text-gray-500">{sale.date}</div>
+                            {(sale.beds || sale.baths || sale.sqft) && (
+                              <div className="text-xs text-gray-400 mt-1">
+                                {sale.beds && `${sale.beds} bed`}{sale.beds && sale.baths && ' • '}
+                                {sale.baths && `${sale.baths} bath`}{(sale.beds || sale.baths) && sale.sqft && ' • '}
+                                {sale.sqft && `${sale.sqft.toLocaleString()} sq ft`}
+                              </div>
+                            )}
+                            {sale.url && (
+                              <a 
+                                href={sale.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-xs text-blue-600 hover:text-blue-800 font-medium hover:underline mt-1 inline-block"
+                              >
+                                View Listing →
+                              </a>
+                            )}
                           </div>
-                        )}
-                        {sale.url && (
-                          <a 
-                            href={sale.url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-xs text-blue-600 hover:text-blue-800 font-medium hover:underline mt-1 inline-block"
-                          >
-                            View Listing →
-                          </a>
-                        )}
-                      </div>
-                      <div className="text-right">
-                        <div className="font-semibold text-blue-600">
-                          {formatPrice(sale.price)}
+                          <div className="text-right">
+                            <div className="font-semibold text-blue-600">
+                              {formatPrice(sale.price)}
+                            </div>
+                            {saleMultiple && (
+                              <div className="font-semibold text-gray-500 mt-1">
+                                {saleMultiple}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
+                      );
+                    })}
                 </div>
               </div>
             </>

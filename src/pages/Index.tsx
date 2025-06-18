@@ -148,6 +148,11 @@ const Index = () => {
   const maxPrice = displayData.length > 0 ? Math.max(...displayData.map(zip => zip.topPrice)) : 0;
   const minPrice = displayData.length > 0 ? Math.min(...displayData.filter(zip => zip.topPrice > 0).map(zip => zip.topPrice)) : 0;
   
+  // Calculate score range for relative color coding
+  const validScores = displayData.filter(zip => zip.scorePct !== undefined).map(zip => zip.scorePct!);
+  const maxScorePct = validScores.length > 0 ? Math.max(...validScores) : undefined;
+  const minScorePct = validScores.length > 0 ? Math.min(...validScores) : undefined;
+  
   // Calculate last update time
   const lastUpdate = useMemo(() => {
     if (!rawData || rawData.length === 0) return 'Never';
@@ -234,19 +239,39 @@ const Index = () => {
     const events = [];
     const leader = displayData[0];
     
-    // Current leader event
-    events.push({
-      text: `🔥 ${leader.city} leads with ${formatPrice(leader.topPrice)}!`,
-      timestamp: getRelativeTime(leader.lastSoldDate)
-    });
+    // Current leader event with multiplier
+    if (leader.multiplier && leader.baseline) {
+      events.push({
+        text: `🔥 ${leader.city} leads with ${leader.multiplier}!`,
+        timestamp: getRelativeTime(leader.lastSoldDate)
+      });
+    } else {
+      // Fallback to price if no percentage scoring
+      events.push({
+        text: `🔥 ${leader.city} leads with ${formatPrice(leader.topPrice)}!`,
+        timestamp: getRelativeTime(leader.lastSoldDate)
+      });
+    }
     
-    // Recent big sales
+    // Recent big performance events
     if (displayData.length > 1) {
       const second = displayData[1];
-      events.push({
-        text: `💰 New ${second.city} sale for ${formatPrice(second.topPrice)}`,
-        timestamp: getRelativeTime(second.lastSoldDate)
-      });
+      if (second.multiplier && second.scorePct && second.scorePct >= 200) {
+        events.push({
+          text: `🚀 ${second.city} hits ${second.multiplier} performance!`,
+          timestamp: getRelativeTime(second.lastSoldDate)
+        });
+      } else if (second.multiplier) {
+        events.push({
+          text: `📈 ${second.city} scores ${second.multiplier}`,
+          timestamp: getRelativeTime(second.lastSoldDate)
+        });
+      } else {
+        events.push({
+          text: `💰 New ${second.city} sale for ${formatPrice(second.topPrice)}`,
+          timestamp: getRelativeTime(second.lastSoldDate)
+        });
+      }
     }
     
     // Add actual rank change events
@@ -257,10 +282,17 @@ const Index = () => {
     // Fallback: if no rank changes, show current #3
     if (rankChangeEvents.length === 0 && displayData.length > 2) {
       const third = displayData[2];
-      events.push({
-        text: `🏆 ${third.city} holds #${third.rank} position`,
-        timestamp: getRelativeTime(third.lastSoldDate)
-      });
+      if (third.multiplier) {
+        events.push({
+          text: `🏆 ${third.city} holds #${third.rank} with ${third.multiplier}`,
+          timestamp: getRelativeTime(third.lastSoldDate)
+        });
+      } else {
+        events.push({
+          text: `🏆 ${third.city} holds #${third.rank} position`,
+          timestamp: getRelativeTime(third.lastSoldDate)
+        });
+      }
     }
     
     return events;
@@ -332,6 +364,8 @@ const Index = () => {
               data={zipDataItem}
               maxPrice={maxPrice}
               minPrice={minPrice}
+              maxScorePct={maxScorePct}
+              minScorePct={minScorePct}
               onClick={() => handleZipClick(zipDataItem)}
             />
           </React.Fragment>
@@ -352,6 +386,9 @@ const Index = () => {
           state={selectedZip.state}
           topSales={getZipSalesData(selectedZip.zipCode)}
           priceHistory={getPriceHistory(selectedZip.zipCode)}
+          baseline={selectedZip.baseline}
+          scorePct={selectedZip.scorePct}
+          multiplier={selectedZip.multiplier}
         />
       )}
       
