@@ -18,7 +18,7 @@ if (!RAPIDAPI_KEY) {
 }
 
 // Configuration
-const DAYS_FOR_BASELINE = 30; // Use 30 days of data for median calculation
+const DAYS_FOR_BASELINE = 90; // Use 90 days of data for median calculation
 const MIN_SALES_REQUIRED = 5; // Minimum sales needed for reliable median
 
 async function getSoldPropertiesForBaseline(regionId, cityName) {
