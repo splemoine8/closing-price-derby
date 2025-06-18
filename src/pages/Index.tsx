@@ -1,7 +1,8 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import useSWR from 'swr';
 import { toast } from 'sonner';
+import { useCompetitionData } from '@/hooks/useCompetitionData';
 import LeaderboardHeader from '../components/LeaderboardHeader';
 import LiveEventTicker from '../components/LiveEventTicker';
 import Footer from '../components/Footer';
@@ -10,14 +11,6 @@ import FloatingRefreshButton from '../components/FloatingRefreshButton';
 import ZipDetailModal from '../components/ZipDetailModal';
 
 // Types
-type ZipStat = {
-  zip: string;
-  city: string;
-  state: string;
-  teamName: string;
-  price: number;
-  ts: number;
-};
 
 type ZipCodeData = {
   rank: number;
@@ -33,10 +26,10 @@ type ZipCodeData = {
   multiplier?: string;      // NEW: Display format
 };
 
-// Fetcher function for SWR
+// Fetcher function for sales data
 const fetcher = (url: string) => fetch(url).then(res => {
   if (!res.ok) {
-    throw new Error('Failed to fetch leaderboard data');
+    throw new Error('Failed to fetch sales data');
   }
   return res.json();
 });
@@ -92,17 +85,15 @@ const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [zipDataWithDeltas, setZipDataWithDeltas] = useState<ZipCodeData[]>([]);
 
-  // Fetch leaderboard data with SWR (Phase 0: using test data)
-  const { data: rawData, mutate, isLoading } = useSWR<ZipStat[]>(
-    '/test-leaderboard.json',
-    fetcher,
-    {
-      refreshInterval: 60000, // Auto-refresh every 60 seconds
-      onError: (error) => {
-        toast.error('Could not load leaderboard – retrying');
-      }
-    }
-  );
+  // Use custom hook for all competition data
+  const { 
+    leaderboardData, 
+    baselineData, 
+    teamNamesData, 
+    mutate, 
+    isLoading,
+    errors 
+  } = useCompetitionData();
 
   // Fetch sales data for modals
   const { data: salesData } = useSWR<Record<string, any[]>>(
@@ -113,27 +104,69 @@ const Index = () => {
     }
   );
 
-  // Transform data (test data is already sorted by percentage score)
+  // Show toast notifications for data issues
+  useEffect(() => {
+    if (errors.leaderboard) {
+      toast.error('Could not load leaderboard – retrying');
+    }
+    if (errors.baseline) {
+      toast.warning('Baseline data unavailable – multipliers will show as "--"');
+    }
+  }, [errors]);
+
+  // Centralized data processing with real data and baseline scoring
   const zipData = useMemo(() => {
-    if (!rawData) return [];
+    if (!leaderboardData) return [];
     
-    const mapped = [...rawData]
-      .filter(item => item.price > 0) // Filter out zero prices
-      .map((item): ZipCodeData => ({
-        rank: (item as any).rank || 1, // Use existing rank from test data
-        zipCode: item.zip,
-        city: item.city,
-        state: item.state,
-        teamName: item.teamName,
-        topPrice: item.price,
-        priceDelta: 0, // Will be calculated asynchronously
-        baseline: (item as any).baseline,     // NEW: From test data
-        scorePct: (item as any).scorePct,     // NEW: From test data
-        multiplier: (item as any).multiplier  // NEW: From test data
-      }));
+    const mapped = leaderboardData
+      .filter(item => item.price > 0)
+      .map((item): ZipCodeData => {
+        // Get baseline for this city (graceful degradation)
+        const cityName = item.city;
+        const baseline = baselineData?.baselines[cityName] || 0;
+        
+        // Get team name from assignments (graceful degradation)
+        const teamName = teamNamesData?.assignments[cityName] || item.teamName || 'Unknown';
+        
+        // Calculate score and multiplier with fallbacks
+        let scorePct = 0;
+        let multiplier = '×1.0';
+        
+        if (baseline > 0) {
+          scorePct = ((item.price - baseline) / baseline) * 100;
+          multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
+        } else if (!baselineData) {
+          multiplier = '--'; // Indicates missing baseline data
+        }
+        
+        return {
+          rank: 0, // Will be set after sorting
+          zipCode: item.zip,
+          city: item.city,
+          state: item.state,
+          teamName: teamName,
+          topPrice: item.price,
+          priceDelta: 0, // Will be calculated asynchronously
+          baseline: baseline,
+          scorePct: scorePct,
+          multiplier: multiplier
+        };
+      });
     
-    return mapped;
-  }, [rawData]);
+    // Sort by score percentage, then by price
+    const sorted = mapped.sort((a, b) => {
+      if (a.scorePct !== b.scorePct) {
+        return (b.scorePct || 0) - (a.scorePct || 0);
+      }
+      return (b.topPrice || 0) - (a.topPrice || 0);
+    });
+    
+    // Assign ranks
+    return sorted.map((item, index) => ({
+      ...item,
+      rank: index + 1
+    }));
+  }, [leaderboardData, baselineData, teamNamesData]);
 
   // Calculate real prices and deltas using sales data
   React.useEffect(() => {
@@ -196,10 +229,10 @@ const Index = () => {
   
   // Calculate last update time
   const lastUpdate = useMemo(() => {
-    if (!rawData || rawData.length === 0) return 'Never';
-    const maxTs = Math.max(...rawData.map(z => z.ts));
+    if (!leaderboardData || leaderboardData.length === 0) return 'Never';
+    const maxTs = Math.max(...leaderboardData.map(z => (z as any).ts || Date.now()));
     return new Date(maxTs).toLocaleString();
-  }, [rawData]);
+  }, [leaderboardData]);
 
   const formatPrice = (price: number) => {
     if (price >= 1000000) {
@@ -386,6 +419,7 @@ const Index = () => {
           priceHistory={getPriceHistory(selectedZip.zipCode)}
           baseline={selectedZip.baseline}
           highestSale={getHighestSaleForModal(selectedZip.zipCode)}
+          highestSaleMultiplier={selectedZip.multiplier}
         />
       )}
       

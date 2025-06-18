@@ -72,13 +72,13 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, maxScorePct, minScorePct, onCli
         <div className="flex items-center gap-3">
           <RankBadge rank={data.rank} />
           <div>
-            <div className="font-semibold text-gray-900 text-base">
+            <div className="font-semibold text-gray-900 text-lg">
               {data.city}
             </div>
             <div className="text-xs text-gray-500 font-normal">
               {stateNames[data.state] || data.state}
             </div>
-            <div className="text-xs text-blue-600 font-medium">
+            <div className="font-semibold text-xs text-blue-600 mt-2">
               {data.teamName}
             </div>
           </div>

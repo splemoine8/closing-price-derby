@@ -41,6 +41,7 @@ interface ZipDetailModalProps {
   priceHistory: PriceHistoryData[];
   baseline?: number;     // NEW: For score breakdown
   highestSale?: SaleData | null; // NEW: The highest sale driving the score
+  highestSaleMultiplier?: string;  // NEW: Pre-calculated from parent
 }
 
 const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: PriceHistoryData[], width?: number, height?: number }) => {
@@ -164,7 +165,8 @@ const ZipDetailModal = ({
   topSales, 
   priceHistory,
   baseline,
-  highestSale
+  highestSale,
+  highestSaleMultiplier
 }: ZipDetailModalProps) => {
   if (!isOpen) return null;
 
@@ -184,9 +186,8 @@ const ZipDetailModal = ({
   // Use the highest sale (passed from parent) for display and scoring
   const displaySale = highestSale;
 
-  const saleMultiple = baseline && displaySale ? 
-    `×${((displaySale.price - baseline) / baseline + 1).toFixed(1)}` : 
-    null;
+  // Use pre-calculated multiplier from parent instead of calculating here
+  const saleMultiple = highestSaleMultiplier || null;
 
   // Score breakdown component
   const ScoreBreakdown = () => {
@@ -194,9 +195,9 @@ const ZipDetailModal = ({
       return null;
     }
 
-    // Calculate score for the highest sale being displayed
+    // Use pre-calculated values from parent
     const actualScorePct = ((displaySale.price - baseline) / baseline) * 100;
-    const actualMultiple = `×${(actualScorePct / 100 + 1).toFixed(1)}`;
+    const actualMultiple = highestSaleMultiplier || '--';
 
     return (
       <div className="mb-6">
@@ -328,10 +329,10 @@ const ZipDetailModal = ({
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by date, newest first
                     .slice(0, 5) // Take top 5 remaining sales
                     .map((sale, index) => {
-                      // Calculate multiple for this sale
+                      // Calculate multiple for this individual sale (not the highest)
                       const saleMultiple = baseline ? 
                         `×${((sale.price - baseline) / baseline + 1).toFixed(1)}` : 
-                        null;
+                        '--';
                       
                       return (
                         <div key={index} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
