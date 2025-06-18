@@ -1,91 +1,132 @@
 # Closing Price Derby
 
-A React application for tracking real estate closing prices in a competitive leaderboard format. ZIP codes compete as teams ranked by their highest recent property sales.
+A competitive real estate leaderboard that turns luxury property sales into a sports-style competition. Cities compete as teams, ranked by their highest recent closing prices in a gamified interface.
 
-## Quick Start
+## 🏆 Live Demo
 
-1. Install dependencies:
+![Derby Banner](public/derby-banner.webp)
+
+The app displays real estate data as a dynamic leaderboard with:
+- **Team-based competition** - Cities represented as sports teams
+- **Real-time price tracking** - Live updates every 60 seconds  
+- **Price deltas** - Shows gains/losses from previous sales
+- **Interactive modals** - Detailed sales data and price history charts
+- **Live event ticker** - Breaking news style updates for rank changes
+
+## 🚀 Quick Start
+
+1. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. Start the development server:
+2. **Start development server:**
    ```bash
    npm run dev
    ```
 
-3. Open your browser and navigate to http://localhost:5173
+3. **Open browser** → http://localhost:5173
 
-## Development
-
-- Build: `npm run build`
-- Preview: `npm run preview`
-- Lint: `npm run lint`
-
-## Quick Share with Netlify Drop
-
-To quickly share your app with others:
-
-1. Build the application:
-   ```bash
-   npm run build
-   ```
-
-2. Go to [netlify.com/drop](https://netlify.com/drop) in your browser
-
-3. Drag and drop the entire `dist/` folder onto the page
-
-4. Get your live URL (e.g., `amazing-cupcake-123456.netlify.app`)
-
-5. Share the URL - it stays live for 24 hours (extend with free Netlify account)
-
-## Data Scraping
-
-The application includes a data scraping system that fetches real estate data from Redfin via RapidAPI:
-
-### Prerequisites
-You need a RapidAPI key for the Redfin API. Add it to your `.env` file:
-```
-RAPIDAPI_KEY=your_api_key_here
-```
-
-### One-time scrape
+### Available Commands
 ```bash
-npm run scrape
+npm run build    # Production build
+npm run preview  # Preview production build  
+npm run lint     # Code linting
+npm run scrape   # One-time data scrape
+npm run cron     # Continuous scraping (4hr intervals)
 ```
-This fetches the latest sales data for all cities and updates:
-- `/public/leaderboard.json` (current top prices)
-- `/public/sales-data.json` (detailed sales data)
 
-### Continuous scraping
+## 📊 Data Pipeline
+
+### RapidAPI Integration
+Real estate data is fetched from Redfin via RapidAPI. Configure your API key:
+
 ```bash
-npm run cron
+# Create .env file
+RAPIDAPI_KEY=your_rapidapi_key_here
 ```
-Runs the scraper every 4 hours automatically. Press Ctrl+C to stop.
+
+### Scraping System
+- **One-time scrape:** `npm run scrape` - Updates data files immediately
+- **Scheduled scraping:** `npm run cron` - Runs every 4 hours automatically
+- **GitHub Actions:** Automated scraping with deployment triggers
+
+### Data Output
+- `/public/leaderboard.json` - Current rankings and top prices
+- `/public/sales-data.json` - Detailed property sales by ZIP code
 
 ### Configuration
-- Cities and team assignments are configured in `/scripts/city-regions.js`
-- Scraper includes rate limiting and error handling
-- Failed requests are logged but don't crash the process
+Cities and team assignments are managed in `/scripts/city-regions.js`
 
-### Manual Refresh
-After running the scraper, refresh your browser or click the floating refresh button in the app to see updated data.
+## 🛠 Tech Stack
 
-## GitHub Cron Deploy
+**Frontend:**
+- React 18 + TypeScript
+- Vite (fast build/dev)
+- Tailwind CSS + Shadcn/ui components
+- SWR for data fetching
+- Recharts for price history
 
-The repository includes a GitHub Actions workflow (`.github/workflows/scrape.yml`) that:
-- Runs every 4 hours automatically
-- Scrapes fresh data and commits to `/public/leaderboard.json`
-- Triggers redeployment on platforms like Vercel/Netlify
+**Backend/Scraping:**
+- Node.js scripts
+- RapidAPI (Redfin data)
+- node-cron for scheduling
+- Rate limiting & error handling
 
-## Tech Stack
+**Deployment:**
+- Static site compatible (Netlify, Vercel, etc.)
+- GitHub Actions for automated data updates
 
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- Shadcn UI
-- SWR (data fetching)
-- React Router
-- Node.js (scraping scripts)
-- node-cron (scheduling)
+## 🏗 Architecture
+
+```
+src/
+├── components/          # UI components
+│   ├── ZipCodeCard.tsx     # Leaderboard item
+│   ├── ZipDetailModal.tsx  # Sales detail modal
+│   ├── LiveEventTicker.tsx # Breaking news ticker
+│   └── ui/                 # Shadcn/ui components
+├── pages/Index.tsx      # Main leaderboard page
+├── hooks/use-mobile.tsx # Responsive utilities
+└── lib/utils.ts         # Shared utilities
+
+scripts/
+├── scrape-rapidapi.js   # Data fetching logic
+├── city-regions.js      # City/team configuration
+└── cron.js             # Scheduled execution
+
+public/
+├── leaderboard.json     # Current rankings (auto-generated)
+└── sales-data.json      # Sales details (auto-generated)
+```
+
+## 🚀 Quick Deploy with Netlify Drop
+
+1. Build: `npm run build`
+2. Visit [netlify.com/drop](https://netlify.com/drop)
+3. Drag `dist/` folder to the page
+4. Get instant live URL (24hr free hosting)
+
+## 🔄 Automated Updates
+
+The GitHub Actions workflow automatically:
+- Scrapes fresh data every 4 hours
+- Commits updated JSON files
+- Triggers redeployment on hosting platforms
+
+## 📱 Mobile-First Design
+
+- Touch-friendly interactions
+- Bottom sheet modals
+- Responsive breakpoints
+- Optimized animations
+
+## 🎮 Features
+
+- **Live leaderboard** with team-style competition
+- **Real-time price deltas** showing market movements  
+- **Interactive sales modals** with detailed property data
+- **Price history charts** for trend analysis
+- **Live event ticker** for rank changes and big sales
+- **Auto-refresh** every 60 seconds
+- **Mobile-optimized** responsive design
