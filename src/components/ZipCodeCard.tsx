@@ -26,6 +26,9 @@ interface ZipCodeData {
   topPrice: number;
   priceDelta: number;
   lastSoldDate?: string;
+  baseline?: number;        // NEW: For percentage scoring
+  scorePct?: number;        // NEW: Percentage score
+  multiplier?: string;      // NEW: Display format
 }
 
 interface ZipCodeCardProps {
@@ -83,6 +86,9 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, onClick }: ZipCodeCardProps) =>
             price={data.topPrice} 
             maxPrice={maxPrice} 
             minPrice={minPrice}
+            baseline={data.baseline}
+            scorePct={data.scorePct}
+            multiplier={data.multiplier}
           />
           <PriceDelta delta={data.priceDelta} animate={animate} lastSoldDate={data.lastSoldDate} />
         </div>

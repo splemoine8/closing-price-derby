@@ -9,6 +9,50 @@ const BASE_URL = 'https://redfin-com-data.p.rapidapi.com';
 // Get cities from the cached region mapping
 const CITIES = Object.keys(CITY_REGIONS);
 
+// Load baseline data for percentage scoring
+async function loadBaselines() {
+  try {
+    const baselinesPath = path.join(process.cwd(), 'public', 'baselines.json');
+    const baselinesData = await fs.readFile(baselinesPath, 'utf8');
+    const baselines = JSON.parse(baselinesData);
+    console.log('✅ Loaded baseline data for percentage scoring');
+    return baselines.baselines;
+  } catch (error) {
+    console.warn('⚠️  No baselines.json found, using price-only scoring');
+    return null;
+  }
+}
+
+// Calculate percentage score and multiplier display
+function calculateScore(price, baseline) {
+  if (!baseline || baseline <= 0) {
+    return { scorePct: 0, multiplier: '×1.0' };
+  }
+  
+  const scorePct = ((price - baseline) / baseline) * 100;
+  const multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
+  
+  return { scorePct: Math.round(scorePct * 10) / 10, multiplier };
+}
+
+// Get city baseline from loaded baselines data
+function getCityBaseline(cityName, baselines) {
+  if (!baselines) return null;
+  
+  // Try exact match first
+  if (baselines[cityName]) {
+    return baselines[cityName].median;
+  }
+  
+  // Try partial match (e.g., "Kansas City" for "Kansas City, MO")
+  const cityKey = Object.keys(baselines).find(key => 
+    key.toLowerCase().includes(cityName.toLowerCase()) ||
+    cityName.toLowerCase().includes(key.toLowerCase())
+  );
+  
+  return cityKey ? baselines[cityKey].median : null;
+}
+
 async function getCityRegionId(cityName) {
   console.log(`🔍 Looking up region ID for: ${cityName}`);
   
@@ -134,7 +178,10 @@ function findHighestSaleRecent(properties, cityName) {
 }
 
 async function scrapeAllCities() {
-  console.log('🚀 Starting RapidAPI Redfin scraper...\n');
+  console.log('🚀 Starting RapidAPI Redfin scraper with percentage scoring...\n');
+  
+  // Load baselines at start
+  const baselines = await loadBaselines();
   
   const leaderboard = [];
   const errors = [];
@@ -194,12 +241,21 @@ async function scrapeAllCities() {
         }));
       
       if (highestSale) {
+        const baseCityName = cityName.split(',')[0].trim(); // Get base city name for baseline lookup
+        const baseline = getCityBaseline(baseCityName, baselines);
+        const { scorePct, multiplier } = calculateScore(highestSale.price, baseline);
+        
+        console.log(`📊 ${baseCityName}: $${highestSale.price.toLocaleString()} vs baseline $${baseline?.toLocaleString() || 'N/A'} = ${multiplier}`);
+        
         leaderboard.push({
           city: cityName,
           playerName: FRIEND_ASSIGNMENTS[cityName] || 'Unknown Player',
           recentHighest: highestSale.price,
           recentAddress: highestSale.address,
           recentSalesCount: highestSale.salesCount,
+          baseline: baseline,           // NEW: Baseline median
+          scorePct: scorePct,          // NEW: Percentage score
+          multiplier: multiplier,      // NEW: Display format
           lastUpdated: new Date().toISOString(),
           regionId // Store for future use
         });
@@ -214,8 +270,13 @@ async function scrapeAllCities() {
     }
   }
 
-  // Sort by highest recent price
-  leaderboard.sort((a, b) => (b.recentHighest || 0) - (a.recentHighest || 0));
+  // Sort by score percentage (highest first), fallback to price
+  leaderboard.sort((a, b) => {
+    if (a.scorePct !== b.scorePct) {
+      return (b.scorePct || 0) - (a.scorePct || 0);
+    }
+    return (b.recentHighest || 0) - (a.recentHighest || 0);
+  });
   
   // Add ranks
   leaderboard.forEach((item, index) => {

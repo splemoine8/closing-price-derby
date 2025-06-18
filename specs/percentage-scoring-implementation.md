@@ -106,124 +106,73 @@ Keep existing `/public/sales-data.json` structure unchanged for compatibility.
 
 ### Phase 0: Testing with Mock Data (Day 1)
 
-#### 0.1 Create Mock Baselines
-- [ ] Create `/public/baselines.json` with estimated medians
-- [ ] Use reasonable market estimates for all 12 NFL cities:
-  ```json
-  {
-    "lastUpdated": "2025-06-15T00:00:00Z",
-    "calculationPeriod": "Mock data for testing",
-    "baselines": {
-      "Kansas City": {"median": 850000, "sampleSize": 50, "dateRange": "estimated"},
-      "New Orleans": {"median": 720000, "sampleSize": 45, "dateRange": "estimated"},
-      "Green Bay": {"median": 450000, "sampleSize": 35, "dateRange": "estimated"},
-      "Nashville": {"median": 950000, "sampleSize": 55, "dateRange": "estimated"},
-      "Buffalo": {"median": 420000, "sampleSize": 40, "dateRange": "estimated"},
-      "Pittsburgh": {"median": 380000, "sampleSize": 50, "dateRange": "estimated"},
-      "Cincinnati": {"median": 400000, "sampleSize": 45, "dateRange": "estimated"},
-      "Cleveland": {"median": 350000, "sampleSize": 40, "dateRange": "estimated"},
-      "Jacksonville": {"median": 650000, "sampleSize": 50, "dateRange": "estimated"},
-      "Indianapolis": {"median": 480000, "sampleSize": 55, "dateRange": "estimated"},
-      "Baltimore": {"median": 750000, "sampleSize": 45, "dateRange": "estimated"},
-      "Carolina": {"median": 820000, "sampleSize": 50, "dateRange": "estimated"}
-    }
-  }
-  ```
+**See detailed specification**: [`/specs/phase-0-mock-testing.md`](./phase-0-mock-testing.md)
 
-#### 0.2 Enhance Scraper for Testing
-- [ ] Modify `scripts/scrape-rapidapi.js` to load mock baselines
-- [ ] Add percentage scoring calculations
-- [ ] Generate test leaderboard with current sales data
-- [ ] Verify scoring makes intuitive sense
+**Summary**: Validate percentage scoring concept using mock baseline data with existing sales.
 
-#### 0.3 Quick Frontend Test
-- [ ] Update `PriceDisplay.tsx` to show multipliers
-- [ ] Test with mock data to see how scores look
-- [ ] Validate competitive balance feels right
-- [ ] Get initial feedback on multiplier display
+**Key Tasks**:
+- Create mock baselines for 12 NFL cities
+- Enhance scraper with percentage scoring logic
+- Update frontend to display multipliers (×1.5)
+- Test competitive balance and UI clarity
 
-#### 0.4 Validation & Feedback
-- [ ] Review mock scoring results
-- [ ] Adjust baseline estimates if needed
-- [ ] Confirm approach before collecting real data
-- [ ] Share with friends for initial reactions
+**Time Estimate**: 3-4 hours  
+**Risk Level**: Low (easy rollback, no permanent changes)
 
-### Phase 1: Real Baseline Collection (Day 2 Morning)
+### Phase 1: Real Baseline Collection (DEFERRED)
 
-#### 1.1 Create Baseline Collection Script
-- [ ] Create `scripts/collect-baselines.js`
-- [ ] Fetch 90-day historical data for each city via RapidAPI
-- [ ] Calculate median prices per city
-- [ ] Generate `/public/baselines.json`
+**See detailed specification**: [`/specs/phase-1-baseline-collection.md`](./phase-1-baseline-collection.md)
 
-**Script Logic**:
-```javascript
-// For each NFL city in CITY_REGIONS:
-// 1. Fetch sales from 90 days ago to today
-// 2. Calculate median price from all sales
-// 3. Store with metadata
-```
+**Summary**: Collect real 90-day historical median prices via RapidAPI to replace mock baseline data.
 
-#### 1.2 Run Baseline Collection
-- [ ] Execute script once to generate baseline data
-- [ ] Verify data quality and sample sizes
-- [ ] Commit baselines.json to repository
+**Key Tasks**:
+- Create automated baseline collection script
+- Research and validate real region IDs for NFL cities
+- Execute collection with data quality validation
+- Generate production-ready `/public/baselines.json`
 
-### Phase 2: Enhanced Scraper (Day 2 Afternoon)
+**Time Estimate**: 4-5 hours  
+**Risk Level**: Medium (API dependencies, data quality variables)
 
-#### 2.1 Modify Existing Scraper
-File: `scripts/scrape-rapidapi.js`
+**Status**: 🚧 **HOLDING OFF** - Waiting for leaguemates to select their NFL cities from the 32 teams before collecting real baseline data. Mock baselines will continue supporting development of other components.
 
-**New Functions to Add**:
-- [ ] `loadBaselines()` - Read baselines.json
-- [ ] `calculateScore(price, baseline)` - Percentage formula
-- [ ] `formatMultiplier(scorePct)` - Display format
-- [ ] Enhanced leaderboard data structure
+### Phase 2: Production Integration (SIMPLIFIED)
 
-**Modified Data Flow**:
-1. Load baseline data at script start
-2. Fetch recent sales (existing logic)
-3. **NEW**: Calculate percentage scores for each city
-4. **NEW**: Add baseline, scorePct, multiplier to output
-5. Sort by score percentage instead of absolute price
-6. Generate enhanced leaderboard.json
+**Summary**: Use existing percentage scoring system with production data flow.
 
-#### 2.2 Update Data Generation
-- [ ] Modify `saveResults()` function for new data structure
-- [ ] Ensure backward compatibility with existing fields
-- [ ] Test with current frontend before UI changes
+**Key Insight**: Phase 0 already created working percentage scoring! No need to modify the main scraper.
 
-### Phase 3: Frontend Updates (Day 3)
+**Simple Integration Tasks**:
+- Keep `scripts/scrape-rapidapi.js` unchanged (fetches fresh sales data)
+- Use existing `scripts/phase0-test-scoring.js` logic on fresh data
+- Replace mock baselines with real baselines (when cities selected)
+- Switch frontend from `test-leaderboard.json` back to percentage-scored results
 
-#### 3.1 Update Core Components
+**Time Estimate**: 1 hour (just data flow changes)  
+**Risk Level**: Very Low (leverage existing working system)
 
-**PriceDisplay.tsx** - Show multipliers
-- [ ] Display `×1.5` instead of `$4.2M` as primary
-- [ ] Add tooltip showing actual price and calculation
-- [ ] Color coding based on score ranges (green >20%, yellow 10-20%, etc.)
+### Phase 3: UI Polish & Enhancement (SIMPLIFIED)
 
-**ZipCodeCard.tsx** - Enhanced data display  
-- [ ] Use `multiplier` field for main display
-- [ ] Show baseline in smaller text
-- [ ] Add visual indicators for score ranges
+**See detailed specification**: [`/specs/phase-3-ui-polish.md`](./phase-3-ui-polish.md)
 
-**ZipDetailModal.tsx** - Score breakdown
-- [ ] Add "Score Breakdown" section
-- [ ] Show: "Price: $4.2M | Baseline: $2.85M | Score: ×1.5 (+47%)"
-- [ ] Visual comparison chart or bar
+**Summary**: Polish the existing working percentage scoring UI with enhanced visual features.
 
-#### 3.2 Update Data Fetching
-File: `src/pages/Index.tsx`
+**Current State**: Core percentage scoring ✅ ALREADY WORKING
+- ✅ Multipliers display correctly (×30.0, ×19.8, etc.)
+- ✅ Frontend processes percentage data properly  
+- ✅ ZipCodeCard passes percentage fields to PriceDisplay
+- ✅ Test data flow complete with `/test-leaderboard.json`
 
-- [ ] No changes to SWR logic (keep JSON polling)
-- [ ] Update data processing for new fields
-- [ ] Ensure ranking by `scorePct` instead of `price`
-- [ ] Update price delta calculation to use percentages
+**Key Tasks** (only polish needed):
+- Add tooltips and color coding for score ranges
+- Enhance ZipDetailModal with score breakdown section
+- Update LiveEventTicker to use multipliers instead of prices
+- Visual indicators for competitive score ranges
 
-#### 3.3 Live Event Ticker Updates
-- [ ] Modify event text to use multipliers
-- [ ] "🔥 Kansas City leads with ×1.5!" instead of price
-- [ ] Update relative time and ranking change logic
+**Time Estimate**: 2-3 hours (not full day!)  
+**Risk Level**: Very Low (polish existing working system)
+
+**Note**: 🚧 **Data source switch** from test data to production data will be handled separately during production integration.
 
 ---
 
@@ -277,9 +226,9 @@ File: `src/pages/Index.tsx`
 - **Morning**: Create mock baselines with estimated medians
 - **Afternoon**: Test scoring with existing sales data + basic frontend updates
 
-### Day 2: Real Data Collection
+### Day 2: Real Data Integration  
 - **Morning**: Real baseline collection script and data generation
-- **Afternoon**: Enhanced scraper with percentage scoring
+- **Afternoon**: Simple integration of percentage scoring with production data (1 hour)
 
 ### Day 3: Frontend Polish
 - **Morning**: Complete component updates for multiplier display

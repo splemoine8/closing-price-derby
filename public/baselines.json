@@ -1,0 +1,79 @@
+{
+  "lastUpdated": "2025-06-18T00:00:00Z",
+  "calculationPeriod": "Mock data for testing - Phase 0",
+  "note": "Estimated medians for testing percentage scoring concept",
+  "baselines": {
+    "Kansas City": {
+      "median": 850000,
+      "sampleSize": 50,
+      "dateRange": "estimated",
+      "state": "MO"
+    },
+    "New Orleans": {
+      "median": 720000,
+      "sampleSize": 45,
+      "dateRange": "estimated",
+      "state": "LA"
+    },
+    "Green Bay": {
+      "median": 450000,
+      "sampleSize": 35,
+      "dateRange": "estimated",
+      "state": "WI"
+    },
+    "Nashville": {
+      "median": 950000,
+      "sampleSize": 55,
+      "dateRange": "estimated",
+      "state": "TN"
+    },
+    "Buffalo": {
+      "median": 420000,
+      "sampleSize": 40,
+      "dateRange": "estimated",
+      "state": "NY"
+    },
+    "Pittsburgh": {
+      "median": 380000,
+      "sampleSize": 50,
+      "dateRange": "estimated",
+      "state": "PA"
+    },
+    "Cincinnati": {
+      "median": 400000,
+      "sampleSize": 45,
+      "dateRange": "estimated",
+      "state": "OH"
+    },
+    "Cleveland": {
+      "median": 350000,
+      "sampleSize": 40,
+      "dateRange": "estimated",
+      "state": "OH"
+    },
+    "Jacksonville": {
+      "median": 650000,
+      "sampleSize": 50,
+      "dateRange": "estimated",
+      "state": "FL"
+    },
+    "Indianapolis": {
+      "median": 480000,
+      "sampleSize": 55,
+      "dateRange": "estimated",
+      "state": "IN"
+    },
+    "Baltimore": {
+      "median": 750000,
+      "sampleSize": 45,
+      "dateRange": "estimated",
+      "state": "MD"
+    },
+    "Carolina": {
+      "median": 820000,
+      "sampleSize": 50,
+      "dateRange": "estimated",
+      "state": "NC"
+    }
+  }
+}

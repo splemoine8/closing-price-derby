@@ -28,6 +28,9 @@ type ZipCodeData = {
   topPrice: number;
   priceDelta: number;
   lastSoldDate?: string;
+  baseline?: number;        // NEW: For percentage scoring
+  scorePct?: number;        // NEW: Percentage score
+  multiplier?: string;      // NEW: Display format
 };
 
 // Fetcher function for SWR
@@ -82,9 +85,9 @@ const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [zipDataWithDeltas, setZipDataWithDeltas] = useState<ZipCodeData[]>([]);
 
-  // Fetch leaderboard data with SWR
+  // Fetch leaderboard data with SWR (Phase 0: using test data)
   const { data: rawData, error, mutate, isLoading } = useSWR<ZipStat[]>(
-    '/leaderboard.json',
+    '/test-leaderboard.json',
     fetcher,
     {
       refreshInterval: 60000, // Auto-refresh every 60 seconds
@@ -103,25 +106,26 @@ const Index = () => {
     }
   );
 
-  // Transform and sort data
+  // Transform data (test data is already sorted by percentage score)
   const zipData = useMemo(() => {
     if (!rawData) return [];
     
-    // Sort by price descending and add ranks
-    const sorted = [...rawData]
+    const mapped = [...rawData]
       .filter(item => item.price > 0) // Filter out zero prices
-      .sort((a, b) => b.price - a.price)
-      .map((item, index): ZipCodeData => ({
-        rank: index + 1,
+      .map((item): ZipCodeData => ({
+        rank: (item as any).rank || 1, // Use existing rank from test data
         zipCode: item.zip,
         city: item.city,
         state: item.state,
         teamName: item.teamName,
         topPrice: item.price,
-        priceDelta: 0 // Will be calculated asynchronously
+        priceDelta: 0, // Will be calculated asynchronously
+        baseline: (item as any).baseline,     // NEW: From test data
+        scorePct: (item as any).scorePct,     // NEW: From test data
+        multiplier: (item as any).multiplier  // NEW: From test data
       }));
     
-    return sorted;
+    return mapped;
   }, [rawData]);
 
   // Calculate price deltas using sales data
