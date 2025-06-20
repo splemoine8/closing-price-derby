@@ -3,6 +3,9 @@ import React, { useState, useMemo, useEffect } from 'react';
 import useSWR from 'swr';
 import { toast } from 'sonner';
 import { useCompetitionData } from '@/hooks/useCompetitionData';
+import { useCompetitionState, type CompetitionState } from '@/hooks/useCompetitionState';
+import { CompetitionBanner } from '@/components/CompetitionBanner';
+import { CompetitionCountdown } from '@/components/CompetitionCountdown';
 import LeaderboardHeader from '../components/LeaderboardHeader';
 import LiveEventTicker from '../components/LiveEventTicker';
 import Footer from '../components/Footer';
@@ -35,7 +38,11 @@ const fetcher = (url: string) => fetch(url).then(res => {
 });
 
 // Helper function to get highest sale data for competition scoring
-const getHighestSaleData = (zipCode: string, salesData: Record<string, any[]> | undefined): { price: number; delta: number; highestSaleDate?: string; mostRecentDate?: string } => {
+const getHighestSaleData = (
+  zipCode: string, 
+  salesData: Record<string, any[]> | undefined,
+  competitionState?: CompetitionState
+): { price: number; delta: number; highestSaleDate?: string; mostRecentDate?: string } => {
   if (!salesData || !salesData[zipCode]) {
     return { price: 0, delta: 0 };
   }
@@ -46,7 +53,15 @@ const getHighestSaleData = (zipCode: string, salesData: Record<string, any[]> | 
   }
 
   // Filter out zero prices
-  const validSales = sales.filter(sale => sale.price > 0);
+  let validSales = sales.filter(sale => sale.price > 0);
+
+  // If competition state is provided and we're in live or complete mode, filter by competition dates
+  if (competitionState && competitionState.mode !== 'setup' && competitionState.config?.start_from_zero) {
+    validSales = validSales.filter(sale => {
+      const saleDate = new Date(sale.date);
+      return saleDate >= competitionState.startDate && saleDate <= competitionState.endDate;
+    });
+  }
 
   if (validSales.length < 1) {
     return { price: 0, delta: 0 };
@@ -94,6 +109,9 @@ const Index = () => {
     isLoading,
     errors 
   } = useCompetitionData();
+
+  // Get competition state
+  const competitionState = useCompetitionState();
 
   // Fetch sales data for modals
   const { data: salesData } = useSWR<Record<string, any[]>>(
@@ -176,7 +194,7 @@ const Index = () => {
     }
     
     const updatedData = zipData.map((zip) => {
-      const { price, delta, highestSaleDate, mostRecentDate } = getHighestSaleData(zip.zipCode, salesData);
+      const { price, delta, highestSaleDate, mostRecentDate } = getHighestSaleData(zip.zipCode, salesData, competitionState);
       
       // Use real highest sale price if available, otherwise fallback to dummy data
       const actualPrice = price > 0 ? price : zip.topPrice;
@@ -215,7 +233,7 @@ const Index = () => {
     }));
     
     setZipDataWithDeltas(rankedData);
-  }, [zipData, salesData]);
+  }, [zipData, salesData, competitionState]);
 
   // Use zipDataWithDeltas for calculations and rendering
   const displayData = zipDataWithDeltas.length > 0 ? zipDataWithDeltas : zipData;
@@ -371,7 +389,19 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <LeaderboardHeader />
-      <LiveEventTicker events={liveEvents} />
+      
+      {/* Competition State Banner - only shows when complete */}
+      <div className="max-w-sm mx-auto px-4 py-2">
+        <CompetitionBanner />
+      </div>
+      
+      {/* Competition Countdown - only shows during setup */}
+      <div className="max-w-sm mx-auto px-4 py-2">
+        <CompetitionCountdown />
+      </div>
+      
+      {/* Live Event Ticker - only shows during live mode */}
+      {competitionState.mode === 'live' && <LiveEventTicker events={liveEvents} />}
       
       <div className="max-w-sm mx-auto px-4 py-6 space-y-3 pb-16">
         {isLoading && (

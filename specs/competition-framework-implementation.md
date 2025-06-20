@@ -343,6 +343,7 @@ function getHighestSaleData(city: string, competitionState: CompetitionState) {
 - [x] Competition config schema defined with UTC timestamps
 - [x] Mode detection logic in `useCompetitionState` hook
 - [x] State persistence via `competition-config.json`
+- [x] UI components integrated into main application
 - [ ] Manual admin controls (marked as optional/low priority)
 
 #### ✅ Time-Filtered Scoring
@@ -352,17 +353,18 @@ function getHighestSaleData(city: string, competitionState: CompetitionState) {
 - [x] Historical vs competition data separation
 - [x] Tie-breaker logic with timestamps and IDs
 
-#### ✅ Data Accumulation
-- [x] Idempotent accumulation with SHA256 IDs
-- [x] Defined sale record schema with all required fields
-- [x] Result freezing mechanism in Phase 4
-- [x] Atomic write strategy documented
+#### 🚧 Data Accumulation
+- [ ] Idempotent accumulation with SHA256 IDs
+- [ ] Defined sale record schema with all required fields
+- [ ] City-partitioned data structure implementation
+- [ ] Atomic write strategy implemented
+- [ ] Result freezing mechanism in Phase 4
 
 #### ✅ UI State Components
 - [x] Countdown timer component (`CompetitionCountdown.tsx`)
 - [x] Mode banners (`CompetitionBanner.tsx`)
 - [x] Competition status indicators
-- [x] Time-based ticker messaging
+- [x] Time-based ticker messaging (conditional display)
 
 #### ✅ End-Game Features
 - [x] Automatic competition ending at countdown zero
@@ -373,18 +375,18 @@ function getHighestSaleData(city: string, competitionState: CompetitionState) {
 ## Success Metrics
 
 ### Phase 1 Complete When:
-- [ ] UTC date handling verified and tested
-- [ ] Competition config created with proper schema
+- [x] UTC date handling verified and tested
+- [x] Competition config created with proper schema
 - [ ] Scraper writes deduplicated data to city files
 
 ### Phase 2 Complete When:
-- [ ] Sales scoring uses only competition-period data
-- [ ] Tie-breaker logic implemented and tested
-- [ ] State hook provides accurate mode detection
+- [x] Sales scoring uses only competition-period data
+- [x] Tie-breaker logic implemented and tested
+- [x] State hook provides accurate mode detection
 
 ### Phase 3 Complete When:
-- [ ] UI displays current competition state
-- [ ] Countdown timer shows accurate time remaining
+- [x] UI displays current competition state
+- [x] Countdown timer shows accurate time remaining
 - [ ] Mode transitions work seamlessly
 
 ### Full Implementation Complete When:
