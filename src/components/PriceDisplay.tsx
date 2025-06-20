@@ -82,6 +82,21 @@ const PriceDisplay = ({ price, maxPrice, minPrice, baseline, scorePct, multiplie
 
   // Show enhanced multiplier display with tooltip
   if (multiplier && baseline) {
+    // Special handling for setup mode (when multiplier is "-")
+    if (multiplier === '-') {
+      return (
+        <div className="text-right">
+          <div className="text-xl font-bold text-gray-400">
+            {multiplier}
+          </div>
+          <div className="text-sm text-gray-500">
+            Competition starts soon
+          </div>
+        </div>
+      );
+    }
+    
+    // Normal multiplier display with tooltip (live/complete mode)
     return (
       <TooltipProvider>
         <Tooltip>

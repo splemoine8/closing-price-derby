@@ -137,7 +137,7 @@ const Index = () => {
     if (!leaderboardData) return [];
     
     const mapped = leaderboardData
-      .filter(item => item.price > 0)
+      // Don't filter out zero prices in setup mode - show all cities with baselines
       .map((item): ZipCodeData => {
         // Get baseline for this city (graceful degradation)
         const cityName = item.city;
@@ -146,11 +146,12 @@ const Index = () => {
         // Get team name from assignments (graceful degradation)
         const teamName = teamNamesData?.assignments[cityName] || item.teamName || 'Unknown';
         
-        // Calculate score and multiplier with fallbacks
-        let scorePct = 0;
-        let multiplier = '×1.0';
+        // Use multiplier from leaderboard data if available (preserves "-" from setup mode)
+        let scorePct = item.scorePct || 0;
+        let multiplier = item.multiplier || '×1.0';
         
-        if (baseline > 0) {
+        // Only recalculate if we have a valid price and baseline AND the original multiplier isn't "-"
+        if (baseline > 0 && item.price > 0 && item.multiplier !== '-') {
           scorePct = ((item.price - baseline) / baseline) * 100;
           multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
         } else if (!baselineData) {
@@ -200,10 +201,11 @@ const Index = () => {
       const actualPrice = price > 0 ? price : zip.topPrice;
       
       // Recalculate score and multiplier with highest sale price vs baseline
+      // Preserve "-" multiplier from setup mode
       let actualScorePct = zip.scorePct;
       let actualMultiplier = zip.multiplier;
       
-      if (price > 0 && zip.baseline) {
+      if (price > 0 && zip.baseline && zip.multiplier !== '-') {
         actualScorePct = ((actualPrice - zip.baseline) / zip.baseline) * 100;
         actualMultiplier = `×${(actualScorePct / 100 + 1).toFixed(1)}`;
       }
@@ -241,7 +243,7 @@ const Index = () => {
   const minPrice = displayData.length > 0 ? Math.min(...displayData.filter(zip => zip.topPrice > 0).map(zip => zip.topPrice)) : 0;
   
   // Calculate score range for relative color coding
-  const validScores = displayData.filter(zip => zip.scorePct !== undefined).map(zip => zip.scorePct!);
+  const validScores = displayData.filter(zip => zip.scorePct !== undefined && zip.scorePct !== null).map(zip => zip.scorePct as number);
   const maxScorePct = validScores.length > 0 ? Math.max(...validScores) : undefined;
   const minScorePct = validScores.length > 0 ? Math.min(...validScores) : undefined;
   
@@ -293,13 +295,13 @@ const Index = () => {
     const leader = displayData[0];
     
     // Current leader event with multiplier
-    if (leader.multiplier && leader.baseline) {
+    if (leader.multiplier && leader.multiplier !== '-' && leader.baseline) {
       events.push({
         text: `🔥 ${leader.city} leads with ${leader.multiplier}!`,
         timestamp: getRelativeTime(leader.lastSoldDate)
       });
     } else {
-      // Fallback to price if no percentage scoring
+      // Fallback to price if no percentage scoring or in setup mode
       events.push({
         text: `🔥 ${leader.city} leads with ${formatPrice(leader.topPrice)}!`,
         timestamp: getRelativeTime(leader.lastSoldDate)
@@ -309,12 +311,12 @@ const Index = () => {
     // Recent big performance events
     if (displayData.length > 1) {
       const second = displayData[1];
-      if (second.multiplier && second.scorePct && second.scorePct >= 200) {
+      if (second.multiplier && second.multiplier !== '-' && second.scorePct && second.scorePct >= 200) {
         events.push({
           text: `🚀 ${second.city} hits ${second.multiplier} performance!`,
           timestamp: getRelativeTime(second.lastSoldDate)
         });
-      } else if (second.multiplier) {
+      } else if (second.multiplier && second.multiplier !== '-') {
         events.push({
           text: `📈 ${second.city} scores ${second.multiplier}`,
           timestamp: getRelativeTime(second.lastSoldDate)
@@ -330,7 +332,7 @@ const Index = () => {
     // Show current #3 position
     if (displayData.length > 2) {
       const third = displayData[2];
-      if (third.multiplier) {
+      if (third.multiplier && third.multiplier !== '-') {
         events.push({
           text: `🏆 ${third.city} holds #${third.rank} with ${third.multiplier}`,
           timestamp: getRelativeTime(third.lastSoldDate)

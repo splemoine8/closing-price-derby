@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { X, Share2 } from 'lucide-react';
 import WeatherWidget from './WeatherWidget';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useCompetitionState } from '@/hooks/useCompetitionState';
 
 const stateNames: Record<string, string> = {
   'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
@@ -170,6 +171,8 @@ const ZipDetailModal = ({
 }: ZipDetailModalProps) => {
   if (!isOpen) return null;
 
+  const { mode } = useCompetitionState();
+
   const formatPrice = (price: number) => {
     if (price >= 1000000) {
       return `$${(price / 1000000).toFixed(1)}M`;
@@ -180,8 +183,8 @@ const ZipDetailModal = ({
     }
   };
 
-
   const hasData = topSales.length > 0;
+  const isSetupMode = mode === 'setup';
   
   // Use the highest sale (passed from parent) for display and scoring
   const displaySale = highestSale;
@@ -261,7 +264,20 @@ const ZipDetailModal = ({
         </div>
 
         <div className="p-4 overflow-y-auto flex-1 min-h-0">
-          {!hasData ? (
+          {isSetupMode ? (
+            <div className="text-center py-12">
+              <div className="text-6xl mb-4 opacity-30">🏁</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Derby starts soon!</h3>
+              <p className="text-gray-500 mb-4">Sales data will appear here once the competition begins.</p>
+              {baseline && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6 inline-block">
+                  <div className="text-sm text-blue-700 mb-1">Market Baseline</div>
+                  <div className="text-xl font-bold text-blue-900">{formatPrice(baseline)}</div>
+                  <div className="text-xs text-blue-600 mt-1">Beat this to score points!</div>
+                </div>
+              )}
+            </div>
+          ) : !hasData ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4 opacity-30">🐎</div>
               <p className="text-gray-500">No closings yet — keep watching!</p>

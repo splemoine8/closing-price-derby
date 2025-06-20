@@ -13,5 +13,19 @@
     "Indianapolis": "Rex",
     "Baltimore": "Julian",
     "Charlotte": "Travis"
+  },
+  "cities": {
+    "Kansas City": { "state": "MO", "teamName": "Scott" },
+    "New Orleans": { "state": "LA", "teamName": "AJ" },
+    "Green Bay": { "state": "WI", "teamName": "Danny" },
+    "Nashville": { "state": "TN", "teamName": "Bryce" },
+    "Buffalo": { "state": "NY", "teamName": "Kevin" },
+    "Pittsburgh": { "state": "PA", "teamName": "Ryan" },
+    "Cincinnati": { "state": "OH", "teamName": "Amir" },
+    "Cleveland": { "state": "OH", "teamName": "Chris" },
+    "Jacksonville": { "state": "FL", "teamName": "Dan G" },
+    "Indianapolis": { "state": "IN", "teamName": "Rex" },
+    "Baltimore": { "state": "MD", "teamName": "Julian" },
+    "Charlotte": { "state": "NC", "teamName": "Travis" }
   }
 }
