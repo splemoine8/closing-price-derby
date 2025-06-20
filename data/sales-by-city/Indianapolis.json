@@ -3316,5 +3316,19 @@
     "square_feet": 2707,
     "url": "https://www.redfin.com/IN/Indianapolis/6558-Caressa-Way-46259/home/60053860",
     "sale_id": "f234723c4577784e5ffe90bb96532da08f03ac7a4fa6a2f3a17579b8744cbc23"
+  },
+  {
+    "address": "10560 Lighthouse Way",
+    "city": "Indianapolis",
+    "state": "IN",
+    "sale_price": 360000,
+    "sale_timestamp_utc": "2025-06-18T07:00:00.000Z",
+    "scraped_at_utc": "2025-06-20T05:49:33.654Z",
+    "source": "rapidapi",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "square_feet": 1920,
+    "url": "https://www.redfin.com/IN/Indianapolis/10560-Lighthouse-Way-46256/home/60111041",
+    "sale_id": "cbe2463440bc4df64d02b8799c1bb2bb5ca6d8da0ab7f3e83d6bcf2a2188f461"
   }
 ]

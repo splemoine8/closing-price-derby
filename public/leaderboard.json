@@ -3,156 +3,84 @@
     "zip": "KansasCity",
     "city": "Kansas City",
     "state": "MO",
-    "teamName": "Scott",
-    "price": 0,
-    "baseline": 329000,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106849,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 1999500,
+    "ts": 1750398146719
   },
   {
     "zip": "NewOrleans",
     "city": "New Orleans",
     "state": "LA",
-    "teamName": "AJ",
-    "price": 0,
-    "baseline": 300000,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106850,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 1750000,
+    "ts": 1750398148833
   },
   {
     "zip": "GreenBay",
     "city": "Green Bay",
     "state": "WI",
-    "teamName": "Danny",
-    "price": 0,
-    "baseline": 300000,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106851,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 660000,
+    "ts": 1750398149923
   },
   {
     "zip": "Nashville",
     "city": "Nashville",
     "state": "TN",
-    "teamName": "Bryce",
-    "price": 0,
-    "baseline": 528995,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106851,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 4990000,
+    "ts": 1750398151992
   },
   {
     "zip": "Buffalo",
     "city": "Buffalo",
     "state": "NY",
-    "teamName": "Kevin",
-    "price": 0,
-    "baseline": 250000,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106852,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 960433,
+    "ts": 1750398153462
   },
   {
     "zip": "Pittsburgh",
     "city": "Pittsburgh",
     "state": "PA",
-    "teamName": "Ryan",
-    "price": 0,
-    "baseline": 260000,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106852,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 1950077,
+    "ts": 1750398155406
   },
   {
     "zip": "Cincinnati",
     "city": "Cincinnati",
     "state": "OH",
-    "teamName": "Amir",
-    "price": 0,
-    "baseline": 229908,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106853,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 2995000,
+    "ts": 1750398157799
   },
   {
     "zip": "Cleveland",
     "city": "Cleveland",
     "state": "OH",
-    "teamName": "Chris",
-    "price": 0,
-    "baseline": 123000,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106853,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 493000,
+    "ts": 1750398159303
   },
   {
     "zip": "Jacksonville",
     "city": "Jacksonville",
     "state": "FL",
-    "teamName": "Dan G",
-    "price": 0,
-    "baseline": 268995,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106854,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 2033000,
+    "ts": 1750398161760
   },
   {
     "zip": "Indianapolis",
     "city": "Indianapolis",
     "state": "IN",
-    "teamName": "Rex",
-    "price": 0,
-    "baseline": 284995,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106854,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 1199900,
+    "ts": 1750398163401
   },
   {
     "zip": "Baltimore",
     "city": "Baltimore",
     "state": "MD",
-    "teamName": "Julian",
-    "price": 0,
-    "baseline": 181000,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106855,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 1100000,
+    "ts": 1750398165781
   },
   {
     "zip": "Charlotte",
     "city": "Charlotte",
     "state": "NC",
-    "teamName": "Travis",
-    "price": 0,
-    "baseline": 615500,
-    "scorePct": null,
-    "multiplier": "-",
-    "ts": 1750396106856,
-    "lastSoldDate": null,
-    "topSaleAddress": null
+    "price": 6150000,
+    "ts": 1750398168225
   }
 ]
