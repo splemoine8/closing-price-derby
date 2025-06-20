@@ -8,9 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "scrape": "node --env-file=.env ./scripts/scrape-city-partitioned.js",
-    "update-regions": "node --env-file=.env ./scripts/update-region-ids.js",
-    "calculate-baselines": "node --env-file=.env ./scripts/calculate-baselines.js",
+    "scrape": "node ./scripts/scrape-city-partitioned.js",
+    "update-regions": "node ./scripts/update-region-ids.js",
+    "calculate-baselines": "node ./scripts/calculate-baselines.js",
     "cron": "node ./scripts/cron.js"
   },
   "dependencies": {
