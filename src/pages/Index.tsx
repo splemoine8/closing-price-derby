@@ -262,11 +262,25 @@ const Index = () => {
   const maxScorePct = validScores.length > 0 ? Math.max(...validScores) : undefined;
   const minScorePct = validScores.length > 0 ? Math.min(...validScores) : undefined;
   
-  // Calculate last update time
+  // Calculate last update time in relative format
   const lastUpdate = useMemo(() => {
     if (!leaderboardData || leaderboardData.length === 0) return 'Never';
     const maxTs = Math.max(...leaderboardData.map(z => (z as any).ts || Date.now()));
-    return new Date(maxTs).toLocaleString();
+    const now = Date.now();
+    const diffMs = now - maxTs;
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    
+    if (diffMinutes < 1) return 'just now';
+    if (diffMinutes === 1) return '1 minute ago';
+    if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+    
+    const diffHours = Math.floor(diffMinutes / 60);
+    if (diffHours === 1) return '1 hour ago';
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffDays === 1) return '1 day ago';
+    return `${diffDays} days ago`;
   }, [leaderboardData]);
 
   const formatPrice = (price: number) => {
@@ -408,14 +422,18 @@ const Index = () => {
       <LeaderboardHeader />
       
       {/* Competition State Banner - only shows when complete */}
-      <div className="max-w-sm mx-auto px-4 py-2">
-        <CompetitionBanner />
-      </div>
+      {competitionState.mode === 'complete' && (
+        <div className="max-w-sm mx-auto px-4 py-2">
+          <CompetitionBanner />
+        </div>
+      )}
       
       {/* Competition Countdown - only shows during setup */}
-      <div className="max-w-sm mx-auto px-4 py-2">
-        <CompetitionCountdown />
-      </div>
+      {competitionState.mode === 'setup' && (
+        <div className="max-w-sm mx-auto px-4 py-2">
+          <CompetitionCountdown />
+        </div>
+      )}
       
       {/* Live Event Ticker - only shows during live mode */}
       {competitionState.mode === 'live' && <LiveEventTicker events={liveEvents} />}
