@@ -1,3 +1,4 @@
+import React from 'react'
 import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
 
@@ -56,11 +57,31 @@ export function useCompetitionData() {
     console.warn('Failed to load team names data. Using fallback team names.', teamNamesError);
   }
 
-  const isLoading = leaderboardLoading || !leaderboardData;
-  const hasAllData = leaderboardData && baselineData && teamNamesData;
+  // Create fallback leaderboard from team assignments if no data exists
+  const processedLeaderboardData = React.useMemo(() => {
+    if (leaderboardData && leaderboardData.length > 0) {
+      return leaderboardData;
+    }
+    
+    // Fallback: create empty leaderboard from team assignments
+    if (teamNamesData?.assignments) {
+      return Object.entries(teamNamesData.assignments).map(([city, teamName]) => ({
+        zip: "00000", // Placeholder ZIP
+        city,
+        state: getStateForCity(city), // Helper function to get state
+        price: 0,
+        teamName
+      }));
+    }
+    
+    return [];
+  }, [leaderboardData, teamNamesData]);
+
+  const isLoading = leaderboardLoading || !teamNamesData;
+  const hasAllData = processedLeaderboardData && baselineData && teamNamesData;
 
   return {
-    leaderboardData,
+    leaderboardData: processedLeaderboardData,
     baselineData,
     teamNamesData,
     mutate,
@@ -72,4 +93,23 @@ export function useCompetitionData() {
       teamNames: teamNamesError
     }
   };
+}
+
+// Helper function to get state abbreviation for each city
+function getStateForCity(city: string): string {
+  const cityStateMap: Record<string, string> = {
+    "Kansas City": "MO",
+    "New Orleans": "LA", 
+    "Green Bay": "WI",
+    "Nashville": "TN",
+    "Buffalo": "NY",
+    "Pittsburgh": "PA",
+    "Cincinnati": "OH",
+    "Cleveland": "OH",
+    "Jacksonville": "FL",
+    "Indianapolis": "IN",
+    "Baltimore": "MD",
+    "Charlotte": "NC"
+  };
+  return cityStateMap[city] || "US";
 }
