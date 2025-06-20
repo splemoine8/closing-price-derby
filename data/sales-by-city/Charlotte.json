@@ -1,1 +1,34 @@
-data/sales-by-city/Charlotte.json
+{
+  "sales": [
+    {
+      "id": "Charlotte-demo1",
+      "address": "123 Main St",
+      "city": "Charlotte",
+      "state": "NC",
+      "zip_code": "28201",
+      "price": 6800000,
+      "sale_date": "2025-06-19",
+      "sale_timestamp_utc": "2025-06-19T14:00:00.000Z"
+    },
+    {
+      "id": "Charlotte-demo2",
+      "address": "456 Oak Ave",
+      "city": "Charlotte",
+      "state": "NC",
+      "zip_code": "28201",
+      "price": 4760000,
+      "sale_date": "2025-06-18",
+      "sale_timestamp_utc": "2025-06-18T14:00:00.000Z"
+    },
+    {
+      "id": "Charlotte-demo3",
+      "address": "789 Elm St",
+      "city": "Charlotte",
+      "state": "NC",
+      "zip_code": "28201",
+      "price": 3400000,
+      "sale_date": "2025-06-17",
+      "sale_timestamp_utc": "2025-06-17T14:00:00.000Z"
+    }
+  ]
+}

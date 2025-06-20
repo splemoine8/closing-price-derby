@@ -1,1 +1,62 @@
-{}
+{
+  "45201": [
+    {"price": 3950000, "date": "Jun 19, 2025", "address": "123 Fountain Square"},
+    {"price": 2100000, "date": "Jun 18, 2025", "address": "456 Rhine St"},
+    {"price": 1850000, "date": "Jun 17, 2025", "address": "789 Over-the-Rhine"}
+  ],
+  "28201": [
+    {"price": 6800000, "date": "Jun 19, 2025", "address": "100 Trade St"},
+    {"price": 4200000, "date": "Jun 18, 2025", "address": "200 Tryon St"},
+    {"price": 3100000, "date": "Jun 16, 2025", "address": "300 Church St"}
+  ],
+  "37201": [
+    {"price": 5200000, "date": "Jun 19, 2025", "address": "123 Broadway"},
+    {"price": 3800000, "date": "Jun 17, 2025", "address": "456 Music Row"},
+    {"price": 2900000, "date": "Jun 15, 2025", "address": "789 Honky Tonk"}
+  ],
+  "32202": [
+    {"price": 2100000, "date": "Jun 18, 2025", "address": "123 Bay St"},
+    {"price": 1500000, "date": "Jun 16, 2025", "address": "456 Laura St"},
+    {"price": 950000, "date": "Jun 14, 2025", "address": "789 Main St"}
+  ],
+  "64108": [
+    {"price": 4500000, "date": "Jun 19, 2025", "address": "123 Main St"},
+    {"price": 2800000, "date": "Jun 17, 2025", "address": "456 Grand Blvd"},
+    {"price": 1900000, "date": "Jun 15, 2025", "address": "789 Broadway"}
+  ],
+  "54301": [
+    {"price": 1800000, "date": "Jun 18, 2025", "address": "123 Lambeau Dr"},
+    {"price": 950000, "date": "Jun 16, 2025", "address": "456 Packers Way"},
+    {"price": 650000, "date": "Jun 14, 2025", "address": "789 Title Town"}
+  ],
+  "14201": [
+    {"price": 1950000, "date": "Jun 19, 2025", "address": "123 Delaware Ave"},
+    {"price": 1200000, "date": "Jun 17, 2025", "address": "456 Elmwood Ave"},
+    {"price": 850000, "date": "Jun 15, 2025", "address": "789 Hertel Ave"}
+  ],
+  "46201": [
+    {"price": 3200000, "date": "Jun 18, 2025", "address": "123 Meridian St"},
+    {"price": 2100000, "date": "Jun 16, 2025", "address": "456 Capitol Ave"},
+    {"price": 1450000, "date": "Jun 14, 2025", "address": "789 Illinois St"}
+  ],
+  "21201": [
+    {"price": 2250000, "date": "Jun 19, 2025", "address": "123 Inner Harbor"},
+    {"price": 1650000, "date": "Jun 17, 2025", "address": "456 Charles St"},
+    {"price": 950000, "date": "Jun 15, 2025", "address": "789 Light St"}
+  ],
+  "44101": [
+    {"price": 850000, "date": "Jun 18, 2025", "address": "123 Superior Ave"},
+    {"price": 650000, "date": "Jun 16, 2025", "address": "456 Euclid Ave"},
+    {"price": 425000, "date": "Jun 14, 2025", "address": "789 Carnegie Ave"}
+  ],
+  "70112": [
+    {"price": 4200000, "date": "Jun 19, 2025", "address": "123 Royal St"},
+    {"price": 3100000, "date": "Jun 17, 2025", "address": "456 Bourbon St"},
+    {"price": 2250000, "date": "Jun 15, 2025", "address": "789 Magazine St"}
+  ],
+  "15201": [
+    {"price": 2600000, "date": "Jun 18, 2025", "address": "123 Liberty Ave"},
+    {"price": 1850000, "date": "Jun 16, 2025", "address": "456 Penn Ave"},
+    {"price": 1200000, "date": "Jun 14, 2025", "address": "789 Butler St"}
+  ]
+}

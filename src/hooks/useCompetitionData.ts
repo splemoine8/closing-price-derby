@@ -63,16 +63,17 @@ export function useCompetitionData() {
       return leaderboardData;
     }
     
+    // DEMO: Disable fallback to prevent double rendering
     // Fallback: create empty leaderboard from team assignments
-    if (teamNamesData?.assignments) {
-      return Object.entries(teamNamesData.assignments).map(([city, teamName]) => ({
-        zip: "00000", // Placeholder ZIP
-        city,
-        state: getStateForCity(city), // Helper function to get state
-        price: 0,
-        teamName
-      }));
-    }
+    // if (teamNamesData?.assignments) {
+    //   return Object.entries(teamNamesData.assignments).map(([city, teamName]) => ({
+    //     zip: "00000", // Placeholder ZIP
+    //     city,
+    //     state: getStateForCity(city), // Helper function to get state
+    //     price: 0,
+    //     teamName
+    //   }));
+    // }
     
     return [];
   }, [leaderboardData, teamNamesData]);

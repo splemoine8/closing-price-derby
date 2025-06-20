@@ -1,1 +1,14 @@
-[]
+[
+  {"city": "Cincinnati", "state": "OH", "zip": "45201", "price": 3950000, "teamName": "Amir", "ts": 1719000000000},
+  {"city": "Charlotte", "state": "NC", "zip": "28201", "price": 6800000, "teamName": "Travis", "ts": 1719000000000},
+  {"city": "Nashville", "state": "TN", "zip": "37201", "price": 5200000, "teamName": "Bryce", "ts": 1719000000000},
+  {"city": "Jacksonville", "state": "FL", "zip": "32202", "price": 2100000, "teamName": "Dan G", "ts": 1719000000000},
+  {"city": "Kansas City", "state": "MO", "zip": "64108", "price": 4500000, "teamName": "Scott", "ts": 1719000000000},
+  {"city": "Green Bay", "state": "WI", "zip": "54301", "price": 1800000, "teamName": "Danny", "ts": 1719000000000},
+  {"city": "Buffalo", "state": "NY", "zip": "14201", "price": 1950000, "teamName": "Kevin", "ts": 1719000000000},
+  {"city": "Indianapolis", "state": "IN", "zip": "46201", "price": 3200000, "teamName": "Rex", "ts": 1719000000000},
+  {"city": "Baltimore", "state": "MD", "zip": "21201", "price": 2250000, "teamName": "Julian", "ts": 1719000000000},
+  {"city": "Cleveland", "state": "OH", "zip": "44101", "price": 850000, "teamName": "Chris", "ts": 1719000000000},
+  {"city": "New Orleans", "state": "LA", "zip": "70112", "price": 4200000, "teamName": "AJ", "ts": 1719000000000},
+  {"city": "Pittsburgh", "state": "PA", "zip": "15201", "price": 2600000, "teamName": "Ryan", "ts": 1719000000000}
+]
