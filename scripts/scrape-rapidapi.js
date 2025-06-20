@@ -1,57 +1,13 @@
 import fetch from 'node-fetch';
 import fs from 'fs/promises';
 import path from 'path';
-import { CITY_REGIONS, FRIEND_ASSIGNMENTS } from './city-regions.js';
+import { CITY_REGIONS } from './city-regions.js';
 
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 const BASE_URL = 'https://redfin-com-data.p.rapidapi.com';
 
 // Get cities from the cached region mapping
 const CITIES = Object.keys(CITY_REGIONS);
-
-// Load baseline data for percentage scoring
-async function loadBaselines() {
-  try {
-    const baselinesPath = path.join(process.cwd(), 'public', 'baselines.json');
-    const baselinesData = await fs.readFile(baselinesPath, 'utf8');
-    const baselines = JSON.parse(baselinesData);
-    console.log('✅ Loaded baseline data for percentage scoring');
-    return baselines.baselines;
-  } catch (error) {
-    console.warn('⚠️  No baselines.json found, using price-only scoring');
-    return null;
-  }
-}
-
-// Calculate percentage score and multiplier display
-function calculateScore(price, baseline) {
-  if (!baseline || baseline <= 0) {
-    return { scorePct: 0, multiplier: '×1.0' };
-  }
-  
-  const scorePct = ((price - baseline) / baseline) * 100;
-  const multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
-  
-  return { scorePct: Math.round(scorePct * 10) / 10, multiplier };
-}
-
-// Get city baseline from loaded baselines data
-function getCityBaseline(cityName, baselines) {
-  if (!baselines) return null;
-  
-  // Try exact match first
-  if (baselines[cityName]) {
-    return baselines[cityName].median;
-  }
-  
-  // Try partial match (e.g., "Kansas City" for "Kansas City, MO")
-  const cityKey = Object.keys(baselines).find(key => 
-    key.toLowerCase().includes(cityName.toLowerCase()) ||
-    cityName.toLowerCase().includes(key.toLowerCase())
-  );
-  
-  return cityKey ? baselines[cityKey].median : null;
-}
 
 async function getCityRegionId(cityName) {
   console.log(`🔍 Looking up region ID for: ${cityName}`);
@@ -178,10 +134,7 @@ function findHighestSaleRecent(properties, cityName) {
 }
 
 async function scrapeAllCities() {
-  console.log('🚀 Starting RapidAPI Redfin scraper with percentage scoring...\n');
-  
-  // Load baselines at start
-  const baselines = await loadBaselines();
+  console.log('🚀 Starting RapidAPI Redfin scraper (data collection only)...\n');
   
   const leaderboard = [];
   const errors = [];
@@ -241,23 +194,14 @@ async function scrapeAllCities() {
         }));
       
       if (highestSale) {
-        const baseCityName = cityName.split(',')[0].trim(); // Get base city name for baseline lookup
-        const baseline = getCityBaseline(baseCityName, baselines);
-        const { scorePct, multiplier } = calculateScore(highestSale.price, baseline);
-        
-        console.log(`📊 ${baseCityName}: $${highestSale.price.toLocaleString()} vs baseline $${baseline?.toLocaleString() || 'N/A'} = ${multiplier}`);
+        console.log(`🏆 ${cityName}: $${highestSale.price.toLocaleString()} (${highestSale.salesCount} recent sales)`);
         
         leaderboard.push({
-          city: cityName,
-          playerName: FRIEND_ASSIGNMENTS[cityName] || 'Unknown Player',
-          recentHighest: highestSale.price,
-          recentAddress: highestSale.address,
-          recentSalesCount: highestSale.salesCount,
-          baseline: baseline,           // NEW: Baseline median
-          scorePct: scorePct,          // NEW: Percentage score
-          multiplier: multiplier,      // NEW: Display format
-          lastUpdated: new Date().toISOString(),
-          regionId // Store for future use
+          zip: cityName.split(',')[0].replace(/\s+/g, ''), // Create pseudo-zip from city name
+          city: cityName.split(',')[0].trim(),
+          state: cityName.split(',')[1]?.trim() || '',
+          price: highestSale.price,
+          ts: new Date().getTime()
         });
       }
 
@@ -271,26 +215,16 @@ async function scrapeAllCities() {
   }
 
   // Don't sort here - let the frontend handle sorting and ranking
-
+  
   return { leaderboard, errors, allSalesData };
 }
 
 async function saveResults(leaderboard, errors, allSalesData) {
-  // Save to public directory for frontend
+  // Save raw data to public directory for frontend
   const publicPath = path.join(process.cwd(), 'public', 'leaderboard.json');
   
-  // Transform to frontend-expected format
-  const frontendData = leaderboard.map(item => ({
-    zip: item.city.split(',')[0].replace(/\s+/g, ''), // Create a pseudo-zip from city name
-    city: item.city.split(',')[0].trim(),
-    state: item.city.split(',')[1]?.trim() || '',
-    teamName: item.playerName,
-    price: item.recentHighest,
-    ts: new Date(item.lastUpdated).getTime()
-  }));
-
-  // Save in the format the frontend expects
-  await fs.writeFile(publicPath, JSON.stringify(frontendData, null, 2));
+  // Save raw leaderboard data (frontend will handle all calculations)
+  await fs.writeFile(publicPath, JSON.stringify(leaderboard, null, 2));
   console.log(`💾 Leaderboard saved to: ${publicPath}`);
   
   // Save detailed sales data for modals
@@ -305,7 +239,7 @@ async function saveResults(leaderboard, errors, allSalesData) {
     date: new Date().toISOString().split('T')[0],
     lastUpdated: new Date().toISOString(),
     leaderboard,
-    frontendData,
+    allSalesData,
     metadata: {
       totalCities: CITIES.length,
       successfulScrapes: leaderboard.length,
@@ -324,15 +258,12 @@ async function main() {
     
     const { leaderboard, errors, allSalesData } = await scrapeAllCities();
     
-    console.log('\n🏆 Recent Sales Leaderboard:');
+    console.log('\n🏆 Recent Sales Data Collected:');
     if (leaderboard.length === 0) {
       console.log('   No recent sales found - this is unusual');
     } else {
-      leaderboard.forEach(player => {
-        console.log(`   ${player.rank}. ${player.playerName} (${player.city}): $${player.recentHighest?.toLocaleString() || 'N/A'}`);
-        console.log(`      Address: ${player.recentAddress}`);
-        console.log(`      Recent sales: ${player.recentSalesCount}`);
-        console.log('');
+      leaderboard.forEach(item => {
+        console.log(`   ${item.city}, ${item.state}: $${item.price?.toLocaleString() || 'N/A'}`);
       });
     }
     

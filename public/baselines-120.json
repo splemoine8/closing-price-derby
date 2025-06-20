@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2025-06-20T03:58:09.443Z",
+  "daysUsed": 120,
+  "minSalesRequired": 5,
+  "baselines": {
+    "Kansas City": 330000,
+    "New Orleans": 300000,
+    "Green Bay": 300000,
+    "Nashville": 527913,
+    "Buffalo": 252000,
+    "Pittsburgh": 260250,
+    "Cincinnati": 235000,
+    "Cleveland": 124900,
+    "Jacksonville": 271000,
+    "Indianapolis": 280500,
+    "Baltimore": 183500,
+    "Charlotte": 615000
+  }
+}

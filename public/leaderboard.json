@@ -3,96 +3,84 @@
     "zip": "KansasCity",
     "city": "Kansas City",
     "state": "MO",
-    "teamName": "Patrick",
-    "price": 1200000,
-    "ts": 1750238179455
+    "price": 1999500,
+    "ts": 1750285956782
   },
   {
     "zip": "NewOrleans",
     "city": "New Orleans",
     "state": "LA",
-    "teamName": "Drew",
     "price": 2330000,
-    "ts": 1750238180738
+    "ts": 1750285958329
   },
   {
     "zip": "GreenBay",
     "city": "Green Bay",
     "state": "WI",
-    "teamName": "Aaron",
     "price": 660000,
-    "ts": 1750238181976
+    "ts": 1750285960061
   },
   {
     "zip": "Nashville",
     "city": "Nashville",
     "state": "TN",
-    "teamName": "Derrick",
     "price": 4990000,
-    "ts": 1750238183973
+    "ts": 1750285962777
   },
   {
     "zip": "Buffalo",
     "city": "Buffalo",
     "state": "NY",
-    "teamName": "Josh",
     "price": 960433,
-    "ts": 1750238185772
+    "ts": 1750285964591
   },
   {
     "zip": "Pittsburgh",
     "city": "Pittsburgh",
     "state": "PA",
-    "teamName": "TJ",
-    "price": 1299250,
-    "ts": 1750238187308
+    "price": 1950077,
+    "ts": 1750285966448
   },
   {
     "zip": "Cincinnati",
     "city": "Cincinnati",
     "state": "OH",
-    "teamName": "Joe",
-    "price": 1625000,
-    "ts": 1750238189393
+    "price": 2995000,
+    "ts": 1750285968371
   },
   {
     "zip": "Cleveland",
     "city": "Cleveland",
     "state": "OH",
-    "teamName": "Myles",
     "price": 750000,
-    "ts": 1750238190888
+    "ts": 1750285970714
   },
   {
     "zip": "Jacksonville",
     "city": "Jacksonville",
     "state": "FL",
-    "teamName": "Trevor",
     "price": 2033000,
-    "ts": 1750238192578
+    "ts": 1750285973634
   },
   {
     "zip": "Indianapolis",
     "city": "Indianapolis",
     "state": "IN",
-    "teamName": "Anthony",
-    "price": 925000,
-    "ts": 1750238194826
+    "price": 1199900,
+    "ts": 1750285976561
   },
   {
     "zip": "Baltimore",
     "city": "Baltimore",
     "state": "MD",
-    "teamName": "Lamar",
     "price": 1100000,
-    "ts": 1750238196998
+    "ts": 1750285979260
   },
   {
     "zip": "Charlotte",
     "city": "Charlotte",
     "state": "NC",
-    "teamName": "Bryce",
     "price": 6150000,
-    "ts": 1750238199236
+    "ts": 1750285993017
   }
 ]

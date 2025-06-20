@@ -38,3 +38,20 @@ denver.json
 
 # Source export (not needed in final repo)
 derby-price-dash-lovable/
+
+# Screenshots and images (outside of site assets)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.gif
+!public/**/*.webp
+!src/**/*.png
+!src/**/*.jpg
+!src/**/*.jpeg
+!src/**/*.gif
+!src/**/*.webp

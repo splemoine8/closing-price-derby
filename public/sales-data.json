@@ -1,6 +1,15 @@
 {
   "KansasCity": [
     {
+      "address": "5760 Ward Pkwy",
+      "date": "Jun 17, 2025",
+      "price": 1999500,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 4993,
+      "url": "https://www.redfin.com/MO/Kansas-City/5760-Ward-Pkwy-64113/home/93164885"
+    },
+    {
       "address": "5408 Central St",
       "date": "Jun 12, 2025",
       "price": 1200000,
@@ -26,6 +35,15 @@
       "baths": 4.5,
       "sqft": 3750,
       "url": "https://www.redfin.com/MO/Kansas-City/1201-W-67th-St-64113/home/93232175"
+    },
+    {
+      "address": "8395 NW Baker Rd Cir",
+      "date": "Jun 17, 2025",
+      "price": 979500,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 3426,
+      "url": "https://www.redfin.com/MO/Kansas-City/8395-NW-Baker-Road-Cir-64153/home/191922905"
     },
     {
       "address": "7755 Bridle Parc Ln",
@@ -64,31 +82,13 @@
       "url": "https://www.redfin.com/MO/Kansas-City/5815-Central-St-64113/home/93163689"
     },
     {
-      "address": "9604 NE 89 St",
-      "date": "Jun 16, 2025",
-      "price": 659000,
-      "beds": 4,
-      "baths": 4.5,
-      "sqft": 4393,
-      "url": "https://www.redfin.com/MO/Kansas-City/9604-NE-89th-St-64157/home/102851199"
-    },
-    {
-      "address": "13019 N Prospect Ave",
-      "date": "Jun 16, 2025",
-      "price": 650000,
-      "beds": 4,
-      "baths": 3.5,
-      "sqft": 1762,
-      "url": "https://www.redfin.com/MO/Kansas-City/13019-N-Prospect-Ave-64166/home/78271056"
-    },
-    {
-      "address": "1617 W 50th St",
-      "date": "Jun 16, 2025",
-      "price": 649950,
-      "beds": 4,
-      "baths": 3,
-      "sqft": 2615,
-      "url": "https://www.redfin.com/MO/Kansas-City/1617-W-50th-St-64112/home/93157038"
+      "address": "8701 NE 86th St",
+      "date": "Jun 18, 2025",
+      "price": 675000,
+      "beds": 5,
+      "baths": 4,
+      "sqft": 4306,
+      "url": "https://www.redfin.com/MO/Kansas-City/8701-NE-86th-St-64157/home/78267950"
     }
   ],
   "NewOrleans": [
@@ -230,6 +230,15 @@
       "url": "https://www.redfin.com/WI/Green-Bay/1602-Prairie-Clover-Ct-54311/home/195551752"
     },
     {
+      "address": "4977 Finger Rd",
+      "date": "Jun 13, 2025",
+      "price": 489900,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 1797,
+      "url": "https://www.redfin.com/WI/Green-Bay/4977-Finger-Rd-54311/home/90162240"
+    },
+    {
       "address": "2173 True Ln",
       "date": "Jun 13, 2025",
       "price": 455000,
@@ -248,6 +257,15 @@
       "url": "https://www.redfin.com/WI/Green-Bay/2807-Aquarius-Rd-54311/home/90183058"
     },
     {
+      "address": "1534 Mcrae Cir",
+      "date": "Jun 17, 2025",
+      "price": 405000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2173,
+      "url": "https://www.redfin.com/WI/Green-Bay/1534-McRae-Cir-54311/home/57681138"
+    },
+    {
       "address": "2815 Aquarius Rd",
       "date": "Jun 16, 2025",
       "price": 405000,
@@ -255,24 +273,6 @@
       "baths": 2.5,
       "sqft": 2688,
       "url": "https://www.redfin.com/WI/Green-Bay/2815-Aquarius-Rd-54311/home/90183046"
-    },
-    {
-      "address": "2157 Royal Crest Cir #2",
-      "date": "Jun 13, 2025",
-      "price": 389900,
-      "beds": 3,
-      "baths": 3,
-      "sqft": 2112,
-      "url": "https://www.redfin.com/WI/Green-Bay/2157-Royal-Crest-Cir-54311/unit-2/home/102818291"
-    },
-    {
-      "address": "151 Hilltop Dr",
-      "date": "Jun 12, 2025",
-      "price": 352000,
-      "beds": 3,
-      "baths": 3,
-      "sqft": 1927,
-      "url": "https://www.redfin.com/WI/Green-Bay/151-Hilltop-Dr-54301/home/90157684"
     }
   ],
   "Nashville": [
@@ -358,13 +358,13 @@
       "url": "https://www.redfin.com/TN/Nashville/249-Stephens-Valley-Blvd-37221/home/169632761"
     },
     {
-      "address": "903 Hillmont Ct",
-      "date": "Jun 12, 2025",
-      "price": 1480000,
-      "beds": 4,
+      "address": "420 Glen West Dr",
+      "date": "Jun 18, 2025",
+      "price": 1495000,
+      "beds": 3,
       "baths": 3.5,
-      "sqft": 4179,
-      "url": "https://www.redfin.com/TN/Nashville/903-Hillmont-Ct-37221/home/87881344"
+      "sqft": 3198,
+      "url": "https://www.redfin.com/TN/Nashville/420-Glen-West-Dr-37215/home/77525399"
     }
   ],
   "Buffalo": [
@@ -403,6 +403,15 @@
       "baths": 2.5,
       "sqft": 2681,
       "url": "https://www.redfin.com/NY/West-Seneca/2-Vista-Ct-14224/home/92584073"
+    },
+    {
+      "address": "238 Rachel Vincent Way",
+      "date": "Jun 16, 2025",
+      "price": 609900,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2144,
+      "url": "https://www.redfin.com/NY/Buffalo/238-Rachel-Vincent-Way-14216/home/184700761"
     },
     {
       "address": "54 Granger Pl",
@@ -448,18 +457,18 @@
       "baths": 2.5,
       "sqft": 1949,
       "url": "https://www.redfin.com/NY/Buffalo/303-Sprucewood-Ter-14221/home/73053661"
-    },
-    {
-      "address": "234 University Ave",
-      "date": "Jun 17, 2025",
-      "price": 410000,
-      "beds": 5,
-      "baths": 4,
-      "sqft": 4058,
-      "url": "https://www.redfin.com/NY/Buffalo/234-University-Ave-14223/home/73189959"
     }
   ],
   "Pittsburgh": [
+    {
+      "address": "4 Shady Court Dr",
+      "date": "Jun 17, 2025",
+      "price": 1950077,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2700,
+      "url": "https://www.redfin.com/PA/Pittsburgh/4-Shady-Court-Dr-15232/home/74749266"
+    },
     {
       "address": "540 Glen Arden Dr",
       "date": "Jun 16, 2025",
@@ -468,6 +477,15 @@
       "baths": 3.5,
       "sqft": 0,
       "url": "https://www.redfin.com/PA/Pittsburgh/540-Glen-Arden-Dr-15208/home/74476508"
+    },
+    {
+      "address": "912 Bellefonte St",
+      "date": "Jun 17, 2025",
+      "price": 1150000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 3258,
+      "url": "https://www.redfin.com/PA/Pittsburgh/912-Bellefonte-St-15232/home/74665357"
     },
     {
       "address": "312 Juniata Ct",
@@ -531,27 +549,27 @@
       "baths": 2,
       "sqft": 2000,
       "url": "https://www.redfin.com/PA/Pittsburgh/847-W-North-Ave-15233/home/113699627"
-    },
-    {
-      "address": "20 Club Dive East",
-      "date": "Jun 16, 2025",
-      "price": 754575,
-      "beds": 4,
-      "baths": 3.5,
-      "sqft": 3465,
-      "url": "https://www.redfin.com/PA/Pittsburgh/20-Club-Dr-E-15236/home/74555816"
-    },
-    {
-      "address": "6012 Wellesley Ave",
-      "date": "Jun 13, 2025",
-      "price": 729500,
-      "beds": 5,
-      "baths": 2.5,
-      "sqft": 2282,
-      "url": "https://www.redfin.com/PA/Pittsburgh/6012-Wellesley-Ave-15206/home/74742217"
     }
   ],
   "Cincinnati": [
+    {
+      "address": "5705 Graves Rd",
+      "date": "Jun 18, 2025",
+      "price": 2995000,
+      "beds": 6,
+      "baths": 6.5,
+      "sqft": 7720,
+      "url": "https://www.redfin.com/OH/Cincinnati/5705-Graves-Rd-45243/home/101006763"
+    },
+    {
+      "address": "7963 Kugler Mill Rd",
+      "date": "Jun 17, 2025",
+      "price": 1850000,
+      "beds": 5,
+      "baths": 4.5,
+      "sqft": 5724,
+      "url": "https://www.redfin.com/OH/Cincinnati/7963-Kugler-Mill-Rd-45243/home/78918660"
+    },
     {
       "address": "2787 Walsh Rd",
       "date": "Jun 13, 2025",
@@ -623,24 +641,6 @@
       "baths": 3.5,
       "sqft": 2677,
       "url": "https://www.redfin.com/OH/Madeira/5525-Mapleridge-Dr-45227/home/108035295"
-    },
-    {
-      "address": "9 Hill & Hollow Ln",
-      "date": "Jun 13, 2025",
-      "price": 975000,
-      "beds": 3,
-      "baths": 3,
-      "sqft": 2975,
-      "url": "https://www.redfin.com/OH/Cincinnati/9-Hill-and-Hollow-Ln-45208/home/100953755"
-    },
-    {
-      "address": "5912 Woodland Ln",
-      "date": "Jun 13, 2025",
-      "price": 910000,
-      "beds": 3,
-      "baths": 3,
-      "sqft": 2566,
-      "url": "https://www.redfin.com/OH/Cincinnati/5912-Woodland-Ln-45227/home/113093446"
     }
   ],
   "Cleveland": [
@@ -699,6 +699,15 @@
       "url": "https://www.redfin.com/OH/Cleveland/3832-W-158th-St-44111/home/70751810"
     },
     {
+      "address": "4523 S Hills Dr",
+      "date": "Jun 18, 2025",
+      "price": 300000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 1412,
+      "url": "https://www.redfin.com/OH/Cleveland/4523-S-Hills-Dr-44109/home/66159103"
+    },
+    {
       "address": "4541 South Hills Dr",
       "date": "Jun 16, 2025",
       "price": 294000,
@@ -724,15 +733,6 @@
       "baths": 2,
       "sqft": 1188,
       "url": "https://www.redfin.com/OH/Cleveland/2030-Euclid-Ave-44115/unit-302/home/66238211"
-    },
-    {
-      "address": "2255 E 100th St",
-      "date": "Jun 13, 2025",
-      "price": 261000,
-      "beds": 3,
-      "baths": 2.5,
-      "sqft": 1624,
-      "url": "https://www.redfin.com/OH/Cleveland/2255-E-100th-St-44106/home/70777137"
     }
   ],
   "Jacksonville": [
@@ -773,6 +773,15 @@
       "url": "https://www.redfin.com/FL/Jacksonville/1445-Edgewood-Cir-32205/home/62433682"
     },
     {
+      "address": "8122 Wekiva Ln",
+      "date": "Jun 18, 2025",
+      "price": 1295000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 3653,
+      "url": "https://www.redfin.com/FL/Jacksonville/8122-Wekiva-Ln-32256/home/62425513"
+    },
+    {
       "address": "2440 Izola Ct",
       "date": "Jun 12, 2025",
       "price": 1160000,
@@ -791,6 +800,15 @@
       "url": "https://www.redfin.com/FL/Jacksonville/13544-Mandarin-Rd-32223/home/170223888"
     },
     {
+      "address": "6074 War Admiral Rd",
+      "date": "Jun 18, 2025",
+      "price": 1010000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 2873,
+      "url": "https://www.redfin.com/FL/Jacksonville/6074-War-Admiral-Rd-32234/home/72723095"
+    },
+    {
       "address": "5572 Rain Barrel Rd",
       "date": "Jun 16, 2025",
       "price": 993555,
@@ -807,27 +825,27 @@
       "baths": 3,
       "sqft": 3208,
       "url": "https://www.redfin.com/FL/Jacksonville/3613-Valverde-Cir-32224/home/62461991"
-    },
-    {
-      "address": "12511 Mission Hills Cir N",
-      "date": "Jun 12, 2025",
-      "price": 879000,
-      "beds": 6,
-      "baths": 4.5,
-      "sqft": 4064,
-      "url": "https://www.redfin.com/FL/Jacksonville/12511-Mission-Hills-Cir-N-32225/home/72778323"
-    },
-    {
-      "address": "4644 Harbour North Ct",
-      "date": "Jun 16, 2025",
-      "price": 785000,
-      "beds": 4,
-      "baths": 2,
-      "sqft": 2624,
-      "url": "https://www.redfin.com/FL/Jacksonville/4644-Harbour-North-Ct-32225/home/72779267"
     }
   ],
   "Indianapolis": [
+    {
+      "address": "8990 Pickwick Dr",
+      "date": "Jun 18, 2025",
+      "price": 1199900,
+      "beds": 4,
+      "baths": 4.5,
+      "sqft": 5443,
+      "url": "https://www.redfin.com/IN/Indianapolis/8990-Pickwick-Dr-46260/home/60126252"
+    },
+    {
+      "address": "5414 N Washington Blvd",
+      "date": "Jun 17, 2025",
+      "price": 1100000,
+      "beds": 6,
+      "baths": 4,
+      "sqft": 5300,
+      "url": "https://www.redfin.com/IN/Indianapolis/5414-Washington-Blvd-46220/home/82239278"
+    },
     {
       "address": "429 N Pennsylvania St N #804",
       "date": "Jun 12, 2025",
@@ -874,6 +892,15 @@
       "url": "https://www.redfin.com/IN/Indianapolis/12065-Watermark-Ct-46236/home/60013133"
     },
     {
+      "address": "4343 N Pennsylvania St",
+      "date": "Jun 18, 2025",
+      "price": 784225,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2878,
+      "url": "https://www.redfin.com/IN/Indianapolis/4343-N-Pennsylvania-St-46205/home/60084036"
+    },
+    {
       "address": "8901 Shetland Ln",
       "date": "Jun 12, 2025",
       "price": 747100,
@@ -883,40 +910,13 @@
       "url": "https://www.redfin.com/IN/Indianapolis/8901-Shetland-Ln-46278/home/82218038"
     },
     {
-      "address": "1537 Carrollton Ave",
-      "date": "Jun 16, 2025",
-      "price": 710000,
+      "address": "114 E 44th St",
+      "date": "Jun 18, 2025",
+      "price": 720000,
       "beds": 3,
-      "baths": 3.5,
-      "sqft": 3527,
-      "url": "https://www.redfin.com/IN/Indianapolis/1537-Carrollton-Ave-46202/home/82294213"
-    },
-    {
-      "address": "7126 Nile Ridge Ct",
-      "date": "Jun 16, 2025",
-      "price": 675000,
-      "beds": 5,
-      "baths": 5.5,
-      "sqft": 4684,
-      "url": "https://www.redfin.com/IN/Indianapolis/7126-Nile-Ridge-Ct-46236/home/82201486"
-    },
-    {
-      "address": "518 Buckingham Dr",
-      "date": "Jun 16, 2025",
-      "price": 642000,
-      "beds": 2,
       "baths": 2.5,
-      "sqft": 2990,
-      "url": "https://www.redfin.com/IN/Indianapolis/518-Buckingham-Dr-46208/home/66865647"
-    },
-    {
-      "address": "2043 Winthrop Ave",
-      "date": "Jun 17, 2025",
-      "price": 600000,
-      "beds": 4,
-      "baths": 3.5,
-      "sqft": 3110,
-      "url": "https://www.redfin.com/IN/Indianapolis/2043-Winthrop-Ave-46202/home/170056095"
+      "sqft": 2270,
+      "url": "https://www.redfin.com/IN/Indianapolis/114-E-44th-St-46205/home/82239959"
     }
   ],
   "Baltimore": [
@@ -937,6 +937,15 @@
       "baths": 3.5,
       "sqft": 3682,
       "url": "https://www.redfin.com/MD/Baltimore/6402-Cloister-Gate-Dr-21212/unit-6402/home/9680808"
+    },
+    {
+      "address": "1402 Bolton St",
+      "date": "Jun 18, 2025",
+      "price": 890000,
+      "beds": 4,
+      "baths": 5,
+      "sqft": 4120,
+      "url": "https://www.redfin.com/MD/Baltimore/1402-Bolton-St-21217/home/10880929"
     },
     {
       "address": "2074 Eric Shaefer Way",
@@ -966,6 +975,15 @@
       "url": "https://www.redfin.com/MD/Baltimore/4-Harwick-Ct-21209/home/9550285"
     },
     {
+      "address": "544 E Clement St",
+      "date": "Jun 18, 2025",
+      "price": 800000,
+      "beds": 5,
+      "baths": 3.5,
+      "sqft": 2600,
+      "url": "https://www.redfin.com/MD/Baltimore/544-E-Clement-St-21230/home/11025299"
+    },
+    {
       "address": "107 Glass Ln",
       "date": "Jun 13, 2025",
       "price": 749333,
@@ -991,24 +1009,6 @@
       "baths": 2.5,
       "sqft": 2868,
       "url": "https://www.redfin.com/MD/Baltimore/1724-Linden-Ave-21217/home/10875332"
-    },
-    {
-      "address": "328 Broxton Rd",
-      "date": "Jun 13, 2025",
-      "price": 665000,
-      "beds": 4,
-      "baths": 3.5,
-      "sqft": 2337,
-      "url": "https://www.redfin.com/MD/Baltimore/328-Broxton-Rd-21212/home/11152054"
-    },
-    {
-      "address": "1435 Steuart St",
-      "date": "Jun 16, 2025",
-      "price": 660000,
-      "beds": 4,
-      "baths": 3,
-      "sqft": 2252,
-      "url": "https://www.redfin.com/MD/Baltimore/1435-Steuart-St-21230/home/11891771"
     }
   ],
   "Charlotte": [
@@ -1038,6 +1038,24 @@
       "baths": 7.5,
       "sqft": 6763,
       "url": "https://www.redfin.com/NC/Charlotte/5917-Saint-John-Ln-28210/home/44153272"
+    },
+    {
+      "address": "2129 Halford Pl",
+      "date": "Jun 16, 2025",
+      "price": 3200000,
+      "beds": 6,
+      "baths": 6.5,
+      "sqft": 6013,
+      "url": "https://www.redfin.com/NC/Charlotte/2129-Halford-Pl-28211/home/44147997"
+    },
+    {
+      "address": "5512 Carmel Park Dr",
+      "date": "Jun 18, 2025",
+      "price": 2650000,
+      "beds": 4,
+      "baths": 4.5,
+      "sqft": 5247,
+      "url": "https://www.redfin.com/NC/Charlotte/5512-Carmel-Park-Dr-28226/home/44131212"
     },
     {
       "address": "2211 Sutton Springs Rd",
@@ -1083,24 +1101,6 @@
       "baths": 3.5,
       "sqft": 5095,
       "url": "https://www.redfin.com/NC/Charlotte/5701-Challisford-Ln-28226/home/44024074"
-    },
-    {
-      "address": "15808 Lake Ridge Rd",
-      "date": "Jun 16, 2025",
-      "price": 1900000,
-      "beds": 5,
-      "baths": 4.5,
-      "sqft": 4769,
-      "url": "https://www.redfin.com/NC/Charlotte/15808-Lake-Ridge-Rd-28278/home/44034255"
-    },
-    {
-      "address": "1200 Rutledge Ave",
-      "date": "Jun 16, 2025",
-      "price": 1800000,
-      "beds": 4,
-      "baths": 4.5,
-      "sqft": 4267,
-      "url": "https://www.redfin.com/NC/Charlotte/1200-Rutledge-Ave-28211/home/44002523"
     }
   ]
 }
