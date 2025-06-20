@@ -55,12 +55,18 @@ const getHighestSaleData = (
   // Filter out zero prices
   let validSales = sales.filter(sale => sale.price > 0);
 
-  // If competition state is provided and we're in live or complete mode, filter by competition dates
-  if (competitionState && competitionState.mode !== 'setup' && competitionState.config?.start_from_zero) {
-    validSales = validSales.filter(sale => {
-      const saleDate = new Date(sale.date);
-      return saleDate >= competitionState.startDate && saleDate <= competitionState.endDate;
-    });
+  // If competition uses clean slate mode, filter based on competition state
+  if (competitionState && competitionState.config?.start_from_zero) {
+    if (competitionState.mode === 'setup') {
+      // In setup mode with clean slate, return no data (show "—")
+      return { price: 0, delta: 0 };
+    } else {
+      // In live/complete mode, filter to competition dates only
+      validSales = validSales.filter(sale => {
+        const saleDate = new Date(sale.date);
+        return saleDate >= competitionState.startDate && saleDate <= competitionState.endDate;
+      });
+    }
   }
 
   if (validSales.length < 1) {
@@ -146,16 +152,25 @@ const Index = () => {
         // Get team name from assignments (graceful degradation)
         const teamName = teamNamesData?.assignments[cityName] || item.teamName || 'Unknown';
         
-        // Use multiplier from leaderboard data if available (preserves "-" from setup mode)
-        let scorePct = item.scorePct || 0;
-        let multiplier = item.multiplier || '×1.0';
+        // In setup mode with clean slate, always show "—" regardless of data
+        let scorePct = 0;
+        let multiplier = '—';
+        let displayPrice = 0;
         
-        // Only recalculate if we have a valid price and baseline AND the original multiplier isn't "-"
-        if (baseline > 0 && item.price > 0 && item.multiplier !== '-') {
-          scorePct = ((item.price - baseline) / baseline) * 100;
-          multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
-        } else if (!baselineData) {
-          multiplier = '--'; // Indicates missing baseline data
+        if (competitionState.mode === 'setup' && competitionState.config?.start_from_zero) {
+          // Setup mode: always show "—" and zero price
+          scorePct = 0;
+          multiplier = '—';
+          displayPrice = 0;
+        } else {
+          // Live/complete mode: calculate actual scores
+          displayPrice = item.price;
+          if (baseline > 0 && item.price > 0) {
+            scorePct = ((item.price - baseline) / baseline) * 100;
+            multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
+          } else if (!baselineData) {
+            multiplier = '--'; // Indicates missing baseline data
+          }
         }
         
         return {
@@ -164,7 +179,7 @@ const Index = () => {
           city: item.city,
           state: item.state,
           teamName: teamName,
-          topPrice: item.price,
+          topPrice: displayPrice,
           priceDelta: 0, // Will be calculated asynchronously
           baseline: baseline,
           scorePct: scorePct,

@@ -55,3 +55,7 @@ derby-price-dash-lovable/
 !src/**/*.jpeg
 !src/**/*.gif
 !src/**/*.webp
+# Data files - exclude accumulating sales data
+data/sales-by-city/*.json
+public/leaderboard.json
+public/sales-data.json
