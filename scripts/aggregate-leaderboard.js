@@ -5,6 +5,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
+import { upsertCompetitionData } from './lib/supabase-client.js';
 
 async function loadTeamAssignments() {
   try {
@@ -44,7 +45,9 @@ async function loadCompetitionState() {
 async function loadCitySales(cityKey) {
   try {
     const salesData = await fs.readFile(`data/sales-by-city/${cityKey}.json`, 'utf8');
-    return JSON.parse(salesData);
+    const parsed = JSON.parse(salesData);
+    // Handle both old format (array) and new format ({sales: array})
+    return Array.isArray(parsed) ? parsed : (parsed.sales || []);
   } catch (error) {
     // City file doesn't exist yet
     return [];
@@ -70,8 +73,10 @@ function findHighestSale(sales) {
   
   // Sort by price descending, then by date ascending (earlier wins ties)
   const sorted = sales.sort((a, b) => {
-    if (b.sale_price !== a.sale_price) {
-      return b.sale_price - a.sale_price; // Higher price wins
+    const priceA = a.sale_price || a.price;
+    const priceB = b.sale_price || b.price;
+    if (priceB !== priceA) {
+      return priceB - priceA; // Higher price wins
     }
     // Tie-breaker: earlier sale wins
     return new Date(a.sale_timestamp_utc).getTime() - new Date(b.sale_timestamp_utc).getTime();
@@ -208,13 +213,24 @@ async function generateLeaderboardAndSalesData() {
     return b.scorePct - a.scorePct;
   });
   
-  // Write output files
+  // Write output files (keep for backward compatibility during migration)
   await fs.writeFile('public/leaderboard.json', JSON.stringify(leaderboard, null, 2));
   await fs.writeFile('public/sales-data.json', JSON.stringify(salesData, null, 2));
   
   console.log('\n✅ Generated files:');
   console.log(`  - public/leaderboard.json (${leaderboard.length} cities)`);
   console.log(`  - public/sales-data.json (${Object.keys(salesData).length} cities)`);
+  
+  // Also write to Supabase
+  try {
+    console.log('\n📤 Uploading to Supabase...');
+    await upsertCompetitionData('leaderboard', leaderboard);
+    await upsertCompetitionData('sales_data', salesData);
+    console.log('✅ Successfully uploaded data to Supabase');
+  } catch (error) {
+    console.error('❌ Failed to upload to Supabase:', error.message);
+    console.warn('⚠️  Data saved to local files only');
+  }
   
   // Summary
   console.log('\n📊 Leaderboard Summary:');

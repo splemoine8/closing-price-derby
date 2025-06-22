@@ -2,8 +2,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import useSWR from 'swr';
 import { toast } from 'sonner';
-import { useCompetitionData } from '@/hooks/useCompetitionData';
+import { useCompetitionData } from '@/hooks/useCompetitionDataWithSupabase';
 import { useCompetitionState, type CompetitionState } from '@/hooks/useCompetitionState';
+import { supabase } from '@/lib/supabase';
 import { CompetitionBanner } from '@/components/CompetitionBanner';
 import { CompetitionCountdown } from '@/components/CompetitionCountdown';
 import LeaderboardHeader from '../components/LeaderboardHeader';
@@ -36,6 +37,18 @@ const fetcher = (url: string) => fetch(url).then(res => {
   }
   return res.json();
 });
+
+// Supabase fetcher for sales data
+const supabaseSalesFetcher = async () => {
+  const { data, error } = await supabase
+    .from('competition_data')
+    .select('data')
+    .eq('data_type', 'sales_data')
+    .single();
+  
+  if (error) throw error;
+  return data?.data || {};
+};
 
 // Helper function to get highest sale data for competition scoring
 const getHighestSaleData = (
@@ -119,12 +132,19 @@ const Index = () => {
   // Get competition state
   const competitionState = useCompetitionState();
 
-  // Fetch sales data for modals
+  // Fetch sales data for modals (try Supabase first, fallback to JSON)
+  const useSupabase = !!import.meta.env.VITE_SUPABASE_URL;
   const { data: salesData } = useSWR<Record<string, any[]>>(
-    '/sales-data.json',
-    fetcher,
+    useSupabase ? 'supabase-sales-data' : '/sales-data.json',
+    useSupabase ? supabaseSalesFetcher : fetcher,
     {
-      refreshInterval: 60000
+      refreshInterval: 60000,
+      onError: (error) => {
+        console.error('Failed to load sales data:', error);
+        if (useSupabase) {
+          console.warn('Falling back to JSON files for sales data');
+        }
+      }
     }
   );
 
