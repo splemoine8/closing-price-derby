@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import 'dotenv/config';
+console.log('[agg]', new Date().toISOString(), 'start');
+
 // Aggregation script that reads city-partitioned data and generates production files
 // Creates leaderboard.json and sales-data.json for frontend consumption
 
@@ -7,6 +10,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { upsertCompetitionData } from './lib/supabase-client.js';
 import { isSaleInPeriod, extractSaleTimestamp } from '../lib/dateUtils.js';
+import { fetchSalesByCity } from '../lib/fetchSales.js';
 
 async function loadTeamAssignments() {
   try {
@@ -43,14 +47,13 @@ async function loadCompetitionState() {
   }
 }
 
-async function loadCitySales(cityKey) {
+async function loadCitySales(cityName) {
   try {
-    const salesData = await fs.readFile(`data/sales-by-city/${cityKey}.json`, 'utf8');
-    const parsed = JSON.parse(salesData);
-    // Handle both old format (array) and new format ({sales: array})
-    return Array.isArray(parsed) ? parsed : (parsed.sales || []);
+    const sales = await fetchSalesByCity(cityName);
+    console.log(`  - Fetched ${sales.length} sales from Supabase`);
+    return sales;
   } catch (error) {
-    // City file doesn't exist yet
+    console.warn(`  - Failed to fetch sales for ${cityName} from Supabase:`, error.message);
     return [];
   }
 }
@@ -143,9 +146,8 @@ async function generateLeaderboardAndSalesData() {
     
     console.log(`📊 Processing ${cityName}...`);
     
-    // Load city sales
-    const allSales = await loadCitySales(cityKey);
-    console.log(`  - Loaded ${allSales.length} total sales`);
+    // Load city sales from Supabase
+    const allSales = await loadCitySales(cityName);
     
     // Filter by competition period if applicable
     const competitionSales = filterSalesByCompetitionPeriod(allSales, competitionConfig);

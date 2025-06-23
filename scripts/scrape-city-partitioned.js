@@ -7,6 +7,8 @@ import fetch from 'node-fetch';
 import fs from 'fs/promises';
 import crypto from 'crypto';
 import path from 'path';
+import { createClient } from '@supabase/supabase-js';
+import 'dotenv/config';
 import { CITY_REGIONS } from './city-regions.js';
 
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
@@ -17,7 +19,38 @@ if (!RAPIDAPI_KEY) {
   process.exit(1);
 }
 
+// Initialize Supabase client with service role key
+const supa = createClient(
+  process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY || process.env.VITE_SUPABASE_SERVICE_KEY || process.env.VITE_SUPABASE_ANON_KEY
+);
+
 // Utility functions
+function sanitize(city) {
+  return city.replace(/[^A-Za-z]/g, ''); // "New York City (Giants)" -> "NewYorkCityGiants"
+}
+
+async function pushSales(city, sales) {
+  const { error } = await supa
+    .from('competition_data')
+    .upsert(
+      {
+        data_type: 'sales_data',
+        city: sanitize(city),
+        data: sales,
+        updated_at: new Date().toISOString()
+      },
+      { onConflict: 'data_type,city' }
+    );
+
+  if (error) {
+    console.error('🔥 Supabase upsert failed:', error);
+    throw error; // fail the cron run so Render alerts you
+  }
+  
+  console.log(`✅ Successfully pushed ${sales.length} sales to Supabase for city: "${sanitize(city)}"`);
+}
+
 function convertSourceDateToUTC(sourceDate) {
   if (!sourceDate) return null;
   
@@ -187,6 +220,9 @@ async function accumulateSalesForCity(cityName, teamAssignments) {
       
       // Atomic write
       await atomicWriteJson(`data/sales-by-city/${cityKey}.json`, allSales);
+      
+      // Push to Supabase
+      await pushSales(cityKey, allSales);
       
       return { newSales: newSales.length, totalSales: allSales.length };
     } else {
