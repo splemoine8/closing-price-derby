@@ -198,9 +198,10 @@ const ZipDetailModal = ({
       return null;
     }
 
-    // Use pre-calculated values from parent
-    const actualScorePct = ((displaySale.price - baseline) / baseline) * 100;
-    const actualMultiple = highestSaleMultiplier || '--';
+    // Only calculate score if sale is above baseline
+    const isAboveBaseline = displaySale.price > baseline;
+    const actualScorePct = isAboveBaseline ? ((displaySale.price - baseline) / baseline) * 100 : null;
+    const actualMultiple = isAboveBaseline && highestSaleMultiplier && highestSaleMultiplier !== '-' ? highestSaleMultiplier : '—';
 
     return (
       <div className="mb-6">
@@ -217,14 +218,16 @@ const ZipDetailModal = ({
             </div>
             <div className="flex justify-between border-t pt-2">
               <span className="text-gray-600">Performance:</span>
-              <span className="font-medium text-green-600">+{actualScorePct.toFixed(1)}%</span>
+              <span className={`font-medium ${isAboveBaseline ? 'text-green-600' : 'text-gray-500'}`}>
+                {isAboveBaseline ? `+${actualScorePct.toFixed(1)}%` : '—'}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Multiple:</span>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="font-medium text-green-600 cursor-help underline decoration-dotted">
+                    <span className={`font-medium cursor-help underline decoration-dotted ${isAboveBaseline ? 'text-green-600' : 'text-gray-500'}`}>
                       {actualMultiple}
                     </span>
                   </TooltipTrigger>
@@ -233,6 +236,7 @@ const ZipDetailModal = ({
                       <div className="font-semibold mb-1">Calculation Method</div>
                       <div>Score = (Sale Price - Baseline) ÷ Baseline × 100</div>
                       <div>Multiple = Score ÷ 100 + 1</div>
+                      <div className="mt-1 text-xs">Only sales above baseline count for scoring</div>
                     </div>
                   </TooltipContent>
                 </Tooltip>
@@ -339,9 +343,10 @@ const ZipDetailModal = ({
                     .slice(0, 5) // Take top 5 remaining sales
                     .map((sale, index) => {
                       // Calculate multiple for this individual sale (not the highest)
-                      const saleMultiple = baseline ? 
+                      // Only show multiple if sale is above baseline
+                      const saleMultiple = baseline && sale.price > baseline ? 
                         `×${((sale.price - baseline) / baseline + 1).toFixed(1)}` : 
-                        '--';
+                        '—';
                       
                       return (
                         <div key={index} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
