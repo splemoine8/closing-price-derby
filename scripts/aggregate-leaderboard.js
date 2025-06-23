@@ -167,7 +167,7 @@ async function generateLeaderboardAndSalesData() {
         price: highestSale.sale_price,
         baseline: baseline,
         scorePct: scorePct,
-        multiplier: multiplier,
+        multiplier: multiplier || '-',  // Convert null to dash for sales below baseline
         ts: new Date().getTime(),
         lastSoldDate: new Date(highestSale.sale_timestamp_utc).toLocaleDateString('en-US', {
           month: 'short',
@@ -177,7 +177,7 @@ async function generateLeaderboardAndSalesData() {
         topSaleAddress: highestSale.address
       });
       
-      console.log(`  - Highest sale: $${highestSale.sale_price.toLocaleString()} (${multiplier})`);
+      console.log(`  - Highest sale: $${highestSale.sale_price.toLocaleString()} (${multiplier || '-'})`);
     } else {
       // No competition sales or no baseline - create placeholder entry
       // During setup mode, show baseline but score as "-"
