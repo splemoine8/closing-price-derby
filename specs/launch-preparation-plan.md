@@ -7,17 +7,21 @@
 ## Current State Assessment
 
 ### ✅ Completed
-- Supabase integration deployed and working
-- Team assignments exist for 12 cities 
-- Basic cron job infrastructure in place
-- Competition framework implemented
+- Supabase integration deployed and working ✅
+- Static site environment variables configured ✅  
+- Cron job environment variables configured ✅
+- Cron job command updated to `npm run scrape && node scripts/aggregate-leaderboard.js` ✅
+- Vite build issues resolved (import paths fixed) ✅
+- Baseline data uploaded to Supabase ✅
+- **NEW:** Baseline calculation modified to only process drafted cities ✅
+- Competition framework implemented ✅
 
-### ⚠️ Needs Attention
-- Baselines from June 18th (may need refresh for accuracy)
+### ⚠️ Needs Attention  
+- Team assignments still using test data (needs final draft results)
 - Competition config in TEST mode with wrong dates
-- Cron job runs every 4 hours (needs optimization for competition)
-- Cron job calls old script instead of city-partitioned scraper
+- Cron job schedule needs optimization for competition hours
 - Sales data needs to be cleared before launch
+- **NEW:** May need region IDs added if draft includes new cities
 
 ## Phase 1: Post-Draft Updates (After draft completion tonight)
 
@@ -28,17 +32,40 @@
 - **Timing:** Immediately after draft completion
 - **Note:** May involve more than 12 cities if draft expanded
 
-### 1.2 Recalculate Fresh Baselines
+### 1.2 Recalculate Fresh Baselines  
 **Where to run:** Local machine (has .env file with RAPIDAPI_KEY)
 
 **Steps:**
-1. `npm run calculate-baselines`
-2. Verify `public/baselines.json` has updated values
+1. `npm run calculate-baselines` (**NEW:** Now only calculates for drafted cities)
+2. Verify `public/baselines.json` has updated values for drafted cities only
 3. Run aggregation to upload to Supabase: `node scripts/aggregate-leaderboard.js`
 4. Commit and push changes
 
-**Purpose:** Get current 90-day median prices (last calculated June 18th)
-**Verification:** Check that all cities have reasonable baseline values in both JSON file and Supabase
+**Purpose:** Get current 90-day median prices for final drafted cities only  
+**Verification:** Check that only drafted cities have baseline values in both JSON file and Supabase
+
+**⚠️ Important:** If draft includes new cities not in `scripts/city-regions.js`, you'll get clear error messages. Add region IDs for new cities first.
+
+### 1.3 Add Region IDs for New Cities (If Needed)
+**When:** Only if draft includes cities beyond the current 12 in `city-regions.js`  
+**Where:** Local machine
+
+**Current cities with region IDs:**
+- Kansas City, New Orleans, Green Bay, Nashville
+- Buffalo, Pittsburgh, Cincinnati, Cleveland  
+- Jacksonville, Indianapolis, Baltimore, Charlotte
+
+**If new cities drafted:**
+1. **Manual lookup:** Use `scripts/update-region-ids.js` to find region IDs
+2. **Add to mapping:** Edit `scripts/city-regions.js` with new city entries
+3. **Format:** `'City Name, ST': 'region_id'`
+4. **Test:** Run `npm run calculate-baselines` to verify mapping works
+
+**Common NFL cities likely to need addition:**
+- Phoenix, AZ → Atlanta, GA → Boston, MA → Chicago, IL
+- Dallas, TX → Denver, CO → Detroit, MI → Houston, TX  
+- Las Vegas, NV → Los Angeles, CA → Miami, FL → Minneapolis, MN
+- Philadelphia, PA → San Francisco, CA → Seattle, WA → Tampa Bay, FL
 
 ## Phase 2: Competition Configuration (Tonight/Early Tomorrow)
 
@@ -75,18 +102,13 @@
 ### 3.1 Render Cron Job Configuration
 **Where:** Render Dashboard → Cron Job Service
 
-**Current Setup:** Render runs `npm run scrape` every 4 hours ✅
+**Current Setup:** ✅ Render command updated to `npm run scrape && node scripts/aggregate-leaderboard.js`
 
-**Issue:** `npm run scrape` only collects data but doesn't process it for the website
+**Status:** ✅ Command configuration completed
 
-**Required Fix:** Render cron job needs to run BOTH:
-1. `npm run scrape` (collects sales data)
-2. `node scripts/aggregate-leaderboard.js` (processes data and uploads to Supabase)
-
-**Render Command Update:** Change cron job command to:
-```bash
-npm run scrape && node scripts/aggregate-leaderboard.js
-```
+**Verification:** Cron job now properly:
+1. Collects sales data for drafted cities only (`npm run scrape`)
+2. Processes and uploads to Supabase (`node scripts/aggregate-leaderboard.js`)
 
 ### 3.2 Implement Smart Scheduling  
 **Where:** Render Dashboard → Cron Job Service → Schedule
@@ -102,10 +124,12 @@ npm run scrape && node scripts/aggregate-leaderboard.js
 ### 3.3 Verify Environment Variables
 **Where:** Render Dashboard → Cron Job Service → Environment
 
+**Status:** ✅ All variables configured
+
 **Required Variables:**
-- `RAPIDAPI_KEY` (for scraping)
-- `VITE_SUPABASE_URL` (for data upload)
-- `VITE_SUPABASE_ANON_KEY` (for data upload)
+- ✅ `RAPIDAPI_KEY` (for scraping)
+- ✅ `VITE_SUPABASE_URL` (for data upload)
+- ✅ `VITE_SUPABASE_ANON_KEY` (for data upload)
 
 ## Phase 4: Production Deployment & Launch
 
@@ -186,19 +210,19 @@ npm run scrape && node scripts/aggregate-leaderboard.js
 **Local Machine Tasks:**
 1. `git checkout percentage-scoring` (make sure you're on the right branch)
 2. Edit `public/team-names.json` with final draft results
-3. `npm run calculate-baselines` (uses RAPIDAPI_KEY from .env)
-4. `node scripts/aggregate-leaderboard.js` (uploads fresh baselines to Supabase)
-5. Edit `public/competition-config.json` with production dates and "setup" status
-6. `rm data/sales-by-city/*.json` (clear old sales data)
-7. `node scripts/aggregate-leaderboard.js` (clear Supabase sales data)
-8. `git add -A && git commit -m "prepare for launch"`
-9. `git push origin percentage-scoring`
+3. **If new cities:** Add region IDs to `scripts/city-regions.js` if needed
+4. `npm run calculate-baselines` (**NEW:** Only calculates for drafted cities)
+5. `node scripts/aggregate-leaderboard.js` (uploads fresh baselines to Supabase)
+6. Edit `public/competition-config.json` with production dates and "setup" status
+7. `rm data/sales-by-city/*.json` (clear old sales data)
+8. `node scripts/aggregate-leaderboard.js` (clear Supabase sales data)
+9. `git add -A && git commit -m "prepare for launch"`
+10. `git push origin percentage-scoring`
 
 **Render Dashboard Tasks:**
-1. Go to Cron Job Service → Command
-2. Change from `npm run scrape` to `npm run scrape && node scripts/aggregate-leaderboard.js`
-3. Update schedule to `*/30 6-22 * * *` (every 30 min, 6AM-10PM Pacific)
-4. Verify environment variables are set (should be ✅ from earlier)
+1. ✅ **COMPLETED:** Cron job command already updated
+2. Update schedule to `*/30 6-22 * * *` (every 30 min, 6AM-10PM Pacific)
+3. ✅ **COMPLETED:** Environment variables verified
 
 ### Launch Day (6AM Pacific)
 **Monitoring Only:**
