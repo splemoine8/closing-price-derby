@@ -9,8 +9,8 @@ console.log('[agg]', new Date().toISOString(), 'start');
 import fs from 'fs/promises';
 import path from 'path';
 import { upsertCompetitionData } from './lib/supabase-client.js';
-import { isSaleInPeriod, extractSaleTimestamp } from '../../lib/dateUtils.js';
-import { fetchSalesByCity } from '../../lib/fetchSales.js';
+import { isSaleInPeriod, extractSaleTimestamp } from '../lib/dateUtils.js';
+import { fetchSalesByCity } from '../lib/fetchSales.js';
 
 async function loadTeamAssignments() {
   try {
