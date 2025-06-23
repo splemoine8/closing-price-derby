@@ -183,14 +183,10 @@ const Index = () => {
           multiplier = '—';
           displayPrice = 0;
         } else {
-          // Live/complete mode: calculate actual scores
+          // Live/complete mode: use values from backend (Supabase)
           displayPrice = item.price;
-          if (baseline > 0 && item.price > 0) {
-            scorePct = ((item.price - baseline) / baseline) * 100;
-            multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
-          } else if (!baselineData) {
-            multiplier = '--'; // Indicates missing baseline data
-          }
+          scorePct = item.scorePct || 0;
+          multiplier = item.multiplier || '—';
         }
         
         return {

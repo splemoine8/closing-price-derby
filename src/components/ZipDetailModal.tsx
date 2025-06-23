@@ -189,8 +189,10 @@ const ZipDetailModal = ({
   // Use the highest sale (passed from parent) for display and scoring
   const displaySale = highestSale;
 
-  // Use pre-calculated multiplier from parent instead of calculating here
-  const saleMultiple = highestSaleMultiplier || null;
+  // Use pre-calculated multiplier only if sale is above baseline
+  const saleMultiple = baseline && displaySale && displaySale.price > baseline && highestSaleMultiplier && highestSaleMultiplier !== '-' 
+    ? highestSaleMultiplier 
+    : '—';
 
   // Score breakdown component
   const ScoreBreakdown = () => {
