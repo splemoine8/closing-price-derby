@@ -22,6 +22,9 @@ type ZipStat = {
   state: string;
   price: number;
   teamName?: string;
+  scorePct?: number | null;
+  multiplier?: string;
+  baseline?: number;
 };
 
 // Fetcher for JSON files (fallback)
