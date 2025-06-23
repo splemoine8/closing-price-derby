@@ -88,6 +88,11 @@ function findHighestSale(sales) {
 function calculateScoreAndMultiplier(salePrice, baseline) {
   if (!baseline || baseline <= 0) return { scorePct: null, multiplier: null };
   
+  // Only sales above baseline count for scoring
+  if (salePrice <= baseline) {
+    return { scorePct: null, multiplier: null };
+  }
+  
   const scorePct = ((salePrice - baseline) / baseline) * 100;
   const multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
   
