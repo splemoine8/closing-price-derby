@@ -102,22 +102,58 @@ function calculateMedianPrice(properties, cityName) {
 async function calculateBaselines() {
   console.log('🎯 Starting baseline calculation for competition setup...\n');
   
+  // Read team assignments to get drafted cities only
+  let teamNamesData;
+  try {
+    const teamNamesRaw = fs.readFileSync('public/team-names.json', 'utf8');
+    teamNamesData = JSON.parse(teamNamesRaw);
+  } catch (error) {
+    console.error('❌ Error reading team-names.json:', error.message);
+    console.log('📝 Make sure you have updated public/team-names.json with final draft results');
+    process.exit(1);
+  }
+
+  const draftedCities = Object.keys(teamNamesData.assignments || {});
+  if (draftedCities.length === 0) {
+    console.error('❌ No cities found in team-names.json assignments');
+    console.log('📝 Please update public/team-names.json with final draft results first');
+    process.exit(1);
+  }
+
+  console.log(`📋 Found ${draftedCities.length} drafted cities:`, draftedCities.join(', '));
+  
   const baselines = {};
   const qualityReport = {};
   const errors = [];
 
-  for (const [cityName, regionId] of Object.entries(CITY_REGIONS)) {
+  // Only process cities that were actually drafted
+  for (const shortCityName of draftedCities) {
+    // Find the full city name with state in CITY_REGIONS
+    const fullCityName = Object.keys(CITY_REGIONS).find(fullName => 
+      fullName.split(',')[0].trim() === shortCityName.trim()
+    );
+    
+    if (!fullCityName) {
+      console.error(`❌ Region ID not found for drafted city: "${shortCityName}"`);
+      console.log(`📝 Add this city to scripts/city-regions.js first`);
+      errors.push(`No region ID mapping for ${shortCityName}`);
+      continue;
+    }
+    
+    const regionId = CITY_REGIONS[fullCityName];
+    console.log(`🔗 Mapped "${shortCityName}" → "${fullCityName}" → ${regionId}`);
+
     try {
-      console.log(`\n🔍 Processing ${cityName}...`);
+      console.log(`\n🔍 Processing ${fullCityName}...`);
       
-      // Get 30-day sales data
-      const properties = await getSoldPropertiesForBaseline(regionId, cityName);
+      // Get 90-day sales data
+      const properties = await getSoldPropertiesForBaseline(regionId, fullCityName);
       
       // Calculate median
-      const medianData = calculateMedianPrice(properties, cityName);
+      const medianData = calculateMedianPrice(properties, fullCityName);
       
       if (medianData) {
-        const baseCityName = cityName.split(',')[0].trim();
+        const baseCityName = fullCityName.split(',')[0].trim();
         baselines[baseCityName] = medianData.median;
         qualityReport[baseCityName] = {
           median: medianData.median,
@@ -130,16 +166,16 @@ async function calculateBaselines() {
         };
         console.log(`✅ ${baseCityName}: $${medianData.median.toLocaleString()}`);
       } else {
-        errors.push(`Failed to calculate baseline for ${cityName}: insufficient data`);
-        console.log(`❌ ${cityName}: Insufficient data for baseline`);
+        errors.push(`Failed to calculate baseline for ${fullCityName}: insufficient data`);
+        console.log(`❌ ${fullCityName}: Insufficient data for baseline`);
       }
 
       // Rate limiting - 250ms delay between requests
       await new Promise(resolve => setTimeout(resolve, 250));
 
     } catch (error) {
-      console.error(`❌ Error processing ${cityName}:`, error.message);
-      errors.push(`${cityName}: ${error.message}`);
+      console.error(`❌ Error processing ${fullCityName}:`, error.message);
+      errors.push(`${fullCityName}: ${error.message}`);
     }
   }
 
