@@ -31,24 +31,32 @@ function sanitize(city) {
 }
 
 async function pushSales(city, sales) {
-  const { error } = await supa
+  const sanitizedCity = sanitize(city);
+  console.log(`🔄 Attempting Supabase upsert for city: "${city}" → sanitized: "${sanitizedCity}"`);
+  
+  const { data, error } = await supa
     .from('competition_data')
     .upsert(
       {
         data_type: 'sales_data',
-        city: sanitize(city),
+        city: sanitizedCity,
         data: sales,
         updated_at: new Date().toISOString()
       },
       { onConflict: 'data_type,city' }
-    );
+    )
+    .select(); // Add select() to return the upserted data
 
   if (error) {
-    console.error('🔥 Supabase upsert failed:', error);
+    console.error(`🔥 Supabase upsert failed for city "${sanitizedCity}":`, error);
     throw error; // fail the cron run so Render alerts you
   }
   
-  console.log(`✅ Successfully pushed ${sales.length} sales to Supabase for city: "${sanitize(city)}"`);
+  if (data && data.length > 0) {
+    console.log(`✅ Successfully pushed ${sales.length} sales to Supabase for city: "${sanitizedCity}" (confirmed: ${data.length} record(s) upserted)`);
+  } else {
+    console.warn(`⚠️ Upsert completed but no data returned for city: "${sanitizedCity}" - possible silent failure`);
+  }
 }
 
 function convertSourceDateToUTC(sourceDate) {
