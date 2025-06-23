@@ -47,7 +47,7 @@ function generateDeterministicId(saleData) {
 
 async function loadTeamAssignments() {
   try {
-    const teamData = await fs.readFile('public/team-names.json', 'utf8');
+    const teamData = await fs.readFile('team-names.json', 'utf8');
     const parsed = JSON.parse(teamData);
     return parsed.assignments || {};
   } catch (error) {
