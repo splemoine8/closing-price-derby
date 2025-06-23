@@ -1,40 +1,22 @@
 {
-  "generatedAt": "2025-06-18T22:21:16.892Z",
+  "generatedAt": "2025-06-23T07:05:39.966Z",
   "summary": {
-    "citiesProcessed": 12,
+    "citiesProcessed": 22,
     "successfulBaselines": 12,
     "errors": 0
   },
   "qualityMetrics": {
-    "Kansas City": {
-      "median": 329000,
-      "sampleSize": 337,
-      "originalSampleSize": 344,
-      "outliersRemoved": 7,
-      "minPrice": 79000,
-      "maxPrice": 1247921,
-      "dataQuality": "High"
-    },
-    "New Orleans": {
-      "median": 300000,
-      "sampleSize": 343,
-      "originalSampleSize": 350,
-      "outliersRemoved": 7,
-      "minPrice": 6346,
-      "maxPrice": 1605000,
-      "dataQuality": "High"
-    },
-    "Green Bay": {
-      "median": 300000,
-      "sampleSize": 343,
-      "originalSampleSize": 350,
-      "outliersRemoved": 7,
-      "minPrice": 115000,
-      "maxPrice": 750000,
+    "New York": {
+      "median": 999000,
+      "sampleSize": 159,
+      "originalSampleSize": 162,
+      "outliersRemoved": 3,
+      "minPrice": 65000,
+      "maxPrice": 16500000,
       "dataQuality": "High"
     },
     "Nashville": {
-      "median": 528995,
+      "median": 527913,
       "sampleSize": 343,
       "originalSampleSize": 350,
       "outliersRemoved": 7,
@@ -42,76 +24,94 @@
       "maxPrice": 5167715,
       "dataQuality": "High"
     },
-    "Buffalo": {
-      "median": 250000,
+    "New Orleans": {
+      "median": 289000,
       "sampleSize": 343,
       "originalSampleSize": 350,
       "outliersRemoved": 7,
-      "minPrice": 50000,
-      "maxPrice": 940150,
+      "minPrice": 6346,
+      "maxPrice": 1750000,
       "dataQuality": "High"
     },
-    "Pittsburgh": {
-      "median": 260000,
+    "Los Angeles": {
+      "median": 1150000,
+      "sampleSize": 343,
+      "originalSampleSize": 350,
+      "outliersRemoved": 7,
+      "minPrice": 250000,
+      "maxPrice": 12250000,
+      "dataQuality": "High"
+    },
+    "Las Vegas": {
+      "median": 436000,
+      "sampleSize": 343,
+      "originalSampleSize": 350,
+      "outliersRemoved": 7,
+      "minPrice": 105000,
+      "maxPrice": 3000000,
+      "dataQuality": "High"
+    },
+    "Dallas": {
+      "median": 472000,
       "sampleSize": 342,
       "originalSampleSize": 349,
       "outliersRemoved": 7,
-      "minPrice": 25000,
-      "maxPrice": 1275000,
-      "dataQuality": "High"
-    },
-    "Cincinnati": {
-      "median": 229908,
-      "sampleSize": 339,
-      "originalSampleSize": 346,
-      "outliersRemoved": 7,
-      "minPrice": 47000,
-      "maxPrice": 1390000,
-      "dataQuality": "High"
-    },
-    "Cleveland": {
-      "median": 123000,
-      "sampleSize": 311,
-      "originalSampleSize": 318,
-      "outliersRemoved": 7,
-      "minPrice": 16000,
-      "maxPrice": 475000,
-      "dataQuality": "High"
-    },
-    "Jacksonville": {
-      "median": 268995,
-      "sampleSize": 338,
-      "originalSampleSize": 345,
-      "outliersRemoved": 7,
-      "minPrice": 22000,
-      "maxPrice": 2200000,
-      "dataQuality": "High"
-    },
-    "Indianapolis": {
-      "median": 284995,
-      "sampleSize": 343,
-      "originalSampleSize": 350,
-      "outliersRemoved": 7,
       "minPrice": 50000,
-      "maxPrice": 1250000,
+      "maxPrice": 2895000,
       "dataQuality": "High"
     },
-    "Baltimore": {
-      "median": 181000,
+    "Miami": {
+      "median": 580000,
+      "sampleSize": 342,
+      "originalSampleSize": 349,
+      "outliersRemoved": 7,
+      "minPrice": 118000,
+      "maxPrice": 4300000,
+      "dataQuality": "High"
+    },
+    "Phoenix": {
+      "median": 452340,
       "sampleSize": 343,
       "originalSampleSize": 350,
       "outliersRemoved": 7,
-      "minPrice": 20000,
-      "maxPrice": 1100000,
+      "minPrice": 150000,
+      "maxPrice": 3780000,
       "dataQuality": "High"
     },
-    "Charlotte": {
-      "median": 615500,
+    "San Francisco": {
+      "median": 1680000,
       "sampleSize": 343,
       "originalSampleSize": 350,
       "outliersRemoved": 7,
-      "minPrice": 147500,
-      "maxPrice": 4302269,
+      "minPrice": 390000,
+      "maxPrice": 9500000,
+      "dataQuality": "High"
+    },
+    "Houston": {
+      "median": 376475,
+      "sampleSize": 342,
+      "originalSampleSize": 349,
+      "outliersRemoved": 7,
+      "minPrice": 60000,
+      "maxPrice": 2100000,
+      "dataQuality": "High"
+    },
+    "Tampa": {
+      "median": 397500,
+      "sampleSize": 343,
+      "originalSampleSize": 350,
+      "outliersRemoved": 7,
+      "minPrice": 75500,
+      "maxPrice": 4108958,
+      "dataQuality": "High"
+    },
+    "Denver": {
+      "median": 635000,
+      "sampleSize": 342,
+      "originalSampleSize": 349,
+      "outliersRemoved": 7,
+      "minPrice": 140000,
+      "maxPrice": 3200000,
       "dataQuality": "High"
     }
   },

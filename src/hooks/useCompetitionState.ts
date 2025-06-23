@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import { useMemo } from 'react';
 
 interface CompetitionConfig {
   competition_id: string;
@@ -46,43 +47,45 @@ export function useCompetitionState(): CompetitionState {
     { refreshInterval: 60000 }
   );
 
-  const now = new Date();
-  
-  // Default dates if config not loaded
-  const startDate = config 
-    ? new Date(config.utc_start_timestamp)
-    : new Date('2025-06-23T13:00:00.000Z');
+  return useMemo(() => {
+    const now = new Date();
     
-  const endDate = config
-    ? new Date(config.utc_end_timestamp)
-    : new Date('2025-07-07T06:59:59.999Z');
-  
-  // Determine competition mode
-  let mode: CompetitionState['mode'];
-  if (now < startDate) {
-    mode = 'setup';
-  } else if (now <= endDate) {
-    mode = 'live';
-  } else {
-    mode = 'complete';
-  }
-  
-  // Calculate time remaining
-  let timeRemaining: number | null = null;
-  if (mode === 'setup') {
-    timeRemaining = startDate.getTime() - now.getTime();
-  } else if (mode === 'live') {
-    timeRemaining = endDate.getTime() - now.getTime();
-  }
-  
-  return {
-    mode,
-    config: config || null,
-    teamAssignments: teamAssignments || null,
-    timeRemaining,
-    startDate,
-    endDate,
-    isLoading: !config || !teamAssignments,
-    error: configError || teamError
-  };
+    // Default dates if config not loaded
+    const startDate = config 
+      ? new Date(config.utc_start_timestamp)
+      : new Date('2025-06-23T13:00:00.000Z');
+      
+    const endDate = config
+      ? new Date(config.utc_end_timestamp)
+      : new Date('2025-07-07T06:59:59.999Z');
+    
+    // Determine competition mode
+    let mode: CompetitionState['mode'];
+    if (now < startDate) {
+      mode = 'setup';
+    } else if (now <= endDate) {
+      mode = 'live';
+    } else {
+      mode = 'complete';
+    }
+    
+    // Calculate time remaining
+    let timeRemaining: number | null = null;
+    if (mode === 'setup') {
+      timeRemaining = startDate.getTime() - now.getTime();
+    } else if (mode === 'live') {
+      timeRemaining = endDate.getTime() - now.getTime();
+    }
+    
+    return {
+      mode,
+      config: config || null,
+      teamAssignments: teamAssignments || null,
+      timeRemaining,
+      startDate,
+      endDate,
+      isLoading: !config || !teamAssignments,
+      error: configError || teamError
+    };
+  }, [config, teamAssignments, configError, teamError]);
 }

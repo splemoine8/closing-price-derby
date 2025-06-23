@@ -1,14 +1,14 @@
 {
-  "KansasCity": [],
-  "NewOrleans": [],
-  "GreenBay": [],
+  "NewYork": [],
   "Nashville": [],
-  "Buffalo": [],
-  "Pittsburgh": [],
-  "Cincinnati": [],
-  "Cleveland": [],
-  "Jacksonville": [],
-  "Indianapolis": [],
-  "Baltimore": [],
-  "Charlotte": []
+  "NewOrleans": [],
+  "LosAngeles": [],
+  "LasVegas": [],
+  "Dallas": [],
+  "Miami": [],
+  "Phoenix": [],
+  "SanFrancisco": [],
+  "Houston": [],
+  "Tampa": [],
+  "Denver": []
 }

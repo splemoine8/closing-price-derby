@@ -96,7 +96,9 @@ const ZipCodeCard = ({ data, maxPrice, minPrice, maxScorePct, minScorePct, onCli
           />
           {data.baseline ? (
             <div className="text-xs text-gray-400 text-right">
-              Median Price: ${(data.baseline / 1000).toFixed(0)}K
+              Median Price: ${data.baseline >= 1000000 
+                ? `${(data.baseline / 1000000).toFixed(1)}M` 
+                : `${(data.baseline / 1000).toFixed(0)}K`}
             </div>
           ) : (
             <PriceDelta delta={data.priceDelta} animate={animate} lastSoldDate={data.lastSoldDate} />

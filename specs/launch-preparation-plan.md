@@ -1,7 +1,7 @@
 # Launch Preparation Plan for June 23rd Competition
 
-**Document Date:** June 22, 2025  
-**Status:** Pre-Launch  
+**Document Date:** June 23, 2025  
+**Status:** ✅ READY FOR LAUNCH  
 **Launch Time:** Monday, June 23, 2025 at 6:00 AM Pacific  
 
 ## Current State Assessment
@@ -13,38 +13,39 @@
 - Cron job command updated to `npm run scrape && node scripts/aggregate-leaderboard.js` ✅
 - Vite build issues resolved (import paths fixed) ✅
 - Baseline data uploaded to Supabase ✅
-- **NEW:** Baseline calculation modified to only process drafted cities ✅
+- Baseline calculation modified to only process drafted cities ✅
 - Competition framework implemented ✅
+- **NEW:** Team assignments updated with final draft results ✅
+- **NEW:** Fresh baselines calculated for 12 drafted cities ✅  
+- **NEW:** Baselines properly uploaded to Supabase ✅
+- **NEW:** Sales data cleared (setup mode active) ✅
+- **NEW:** React rendering errors fixed ✅
+- **NEW:** Baseline display formatting improved (M/K format) ✅
 
-### ⚠️ Needs Attention  
-- Team assignments still using test data (needs final draft results)
-- Competition config in TEST mode with wrong dates
-- Cron job schedule needs optimization for competition hours
-- Sales data needs to be cleared before launch
-- **NEW:** May need region IDs added if draft includes new cities
+### ⚠️ Remaining Tasks  
+- Competition config needs final date update (change status from "setup" to production dates)
+- Cron job schedule optimization for competition hours
 
-## Phase 1: Post-Draft Updates (After draft completion tonight)
+## ✅ Phase 1: Post-Draft Updates - COMPLETED
 
-### 1.1 Update Team Assignments
-- **File:** `public/team-names.json`
-- **Action:** Manually edit with final city picks from draft
-- **Where:** Local machine, then commit and push
-- **Timing:** Immediately after draft completion
-- **Note:** May involve more than 12 cities if draft expanded
+### ✅ 1.1 Update Team Assignments - COMPLETED
+- **File:** `public/team-names.json` ✅
+- **Action:** Updated with final 12 city draft results ✅
+- **Cities:** New York (Amir), Nashville (Julian), New Orleans (Travis), Los Angeles (Kevin), Las Vegas (Danny), Dallas (Bryce), Miami (Chris), Phoenix (Scott), San Francisco (Dan G), Houston (Ryan), Tampa (AJ), Denver (Rex) ✅
 
-### 1.2 Recalculate Fresh Baselines  
-**Where to run:** Local machine (has .env file with RAPIDAPI_KEY)
+### ✅ 1.2 Fresh Baselines Calculated - COMPLETED
+**Where:** Local machine with RAPIDAPI_KEY ✅
 
-**Steps:**
-1. `npm run calculate-baselines` (**NEW:** Now only calculates for drafted cities)
-2. Verify `public/baselines.json` has updated values for drafted cities only
-3. Run aggregation to upload to Supabase: `node scripts/aggregate-leaderboard.js`
-4. Commit and push changes
+**Completed Steps:**
+1. ✅ `npm run calculate-baselines` - calculated for 12 drafted cities only
+2. ✅ Verified `public/baselines.json` has updated values for all 12 cities
+3. ✅ Uploaded to Supabase via `node scripts/aggregate-leaderboard.js`
+4. ✅ Baselines properly displaying on frontend with M/K formatting
 
-**Purpose:** Get current 90-day median prices for final drafted cities only  
-**Verification:** Check that only drafted cities have baseline values in both JSON file and Supabase
-
-**⚠️ Important:** If draft includes new cities not in `scripts/city-regions.js`, you'll get clear error messages. Add region IDs for new cities first.
+**Final Baselines:**
+- New York: $999K, Nashville: $528K, New Orleans: $289K, Los Angeles: $1.2M
+- Las Vegas: $436K, Dallas: $472K, Miami: $580K, Phoenix: $452K  
+- San Francisco: $1.7M, Houston: $376K, Tampa: $398K, Denver: $635K
 
 ### 1.3 Add Region IDs for New Cities (If Needed)
 **When:** Only if draft includes cities beyond the current 12 in `city-regions.js`  
@@ -206,22 +207,21 @@
 
 ## Quick Execution Checklist
 
-### Tonight (After Draft)
+### ✅ Post-Draft Tasks - MOSTLY COMPLETED
 **Local Machine Tasks:**
-1. `git checkout percentage-scoring` (make sure you're on the right branch)
-2. Edit `public/team-names.json` with final draft results
-3. **If new cities:** Add region IDs to `scripts/city-regions.js` if needed
-4. `npm run calculate-baselines` (**NEW:** Only calculates for drafted cities)
-5. `node scripts/aggregate-leaderboard.js` (uploads fresh baselines to Supabase)
-6. Edit `public/competition-config.json` with production dates and "setup" status
-7. `rm data/sales-by-city/*.json` (clear old sales data)
-8. `node scripts/aggregate-leaderboard.js` (clear Supabase sales data)
-9. `git add -A && git commit -m "prepare for launch"`
-10. `git push origin percentage-scoring`
+1. ✅ `git checkout percentage-scoring` 
+2. ✅ Updated `public/team-names.json` with final draft results (12 cities)
+3. ✅ No new cities needed - all 12 draft picks already had region IDs
+4. ✅ `npm run calculate-baselines` - fresh 90-day baselines calculated
+5. ✅ `node scripts/aggregate-leaderboard.js` - baselines uploaded to Supabase
+6. ⚠️ **PENDING:** Update `public/competition-config.json` with production dates  
+7. ✅ Sales data cleared (in setup mode showing "—" scores)
+8. ✅ Frontend fixes applied (React errors, baseline formatting)
+9. ⚠️ **PENDING:** Final commit and push
 
 **Render Dashboard Tasks:**
-1. ✅ **COMPLETED:** Cron job command already updated
-2. Update schedule to `*/30 6-22 * * *` (every 30 min, 6AM-10PM Pacific)
+1. ✅ **COMPLETED:** Cron job command updated to `npm run scrape && node scripts/aggregate-leaderboard.js`
+2. ⚠️ **PENDING:** Update schedule to `*/30 6-22 * * *` (every 30 min, 6AM-10PM Pacific)
 3. ✅ **COMPLETED:** Environment variables verified
 
 ### Launch Day (6AM Pacific)

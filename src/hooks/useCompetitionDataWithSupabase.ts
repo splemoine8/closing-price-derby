@@ -65,10 +65,32 @@ export function useCompetitionData() {
   );
 
   // Static data - immutable during competition
-  const { data: baselineData, error: baselineError } = useSWRImmutable<BaselineData>(
+  const { data: rawBaselineData, error: baselineError } = useSWRImmutable<BaselineData | Record<string, number>>(
     useSupabase ? ['supabase-baselines', 'baselines'] : '/baselines.json',
     useSupabase ? () => supabaseFetcher('baselines') : jsonFetcher
   );
+
+  // Handle different formats: Supabase returns just the baselines object, JSON returns full structure
+  const baselineData = React.useMemo(() => {
+    if (!rawBaselineData) return null;
+    
+    // If it's already the full BaselineData structure (from JSON)
+    if ('baselines' in rawBaselineData && typeof rawBaselineData.baselines === 'object') {
+      return rawBaselineData as BaselineData;
+    }
+    
+    // If it's just the baselines object (from Supabase)
+    if (typeof rawBaselineData === 'object') {
+      return {
+        baselines: rawBaselineData as Record<string, number>,
+        generatedAt: new Date().toISOString(),
+        daysUsed: 90,
+        minSalesRequired: 5
+      } as BaselineData;
+    }
+    
+    return null;
+  }, [rawBaselineData]);
 
   const { data: teamNamesData, error: teamNamesError } = useSWRImmutable<TeamNamesData>(
     '/team-names.json',
@@ -93,7 +115,7 @@ export function useCompetitionData() {
     // Fallback: create empty leaderboard from team assignments
     if (teamNamesData?.assignments) {
       return Object.entries(teamNamesData.assignments).map(([city, teamName]) => ({
-        zip: "00000", // Placeholder ZIP
+        zip: city.replace(/\s+/g, ''), // Use city name without spaces as unique key
         city,
         state: getStateForCity(city), // Helper function to get state
         price: 0,

@@ -15,6 +15,17 @@ export const CITY_REGIONS = {
   'Indianapolis, IN': '6_9170',   // Colts
   'Baltimore, MD': '6_1073',      // Ravens
   'Charlotte, NC': '6_3105'       // Panthers (using Charlotte for Carolina)
+,
+  'New York, NY': '6_30749',
+  'Los Angeles, CA': '6_11203',
+  'Las Vegas, NV': '6_10201',
+  'Dallas, TX': '6_30794',
+  'Miami, FL': '6_11458',
+  'Phoenix, AZ': '6_14240',
+  'San Francisco, CA': '6_17151',
+  'Houston, TX': '6_8903',
+  'Denver, CO': '6_5155',
+  'Tampa, FL': '6_18142'       // Using Tampa for Tampa Bay
 };
 
 // Friend assignments for the NFL fantasy league

@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2025-06-18T22:21:16.889Z",
+  "generatedAt": "2025-06-23T07:05:39.964Z",
   "daysUsed": 90,
   "minSalesRequired": 5,
   "baselines": {
-    "Kansas City": 329000,
-    "New Orleans": 300000,
-    "Green Bay": 300000,
-    "Nashville": 528995,
-    "Buffalo": 250000,
-    "Pittsburgh": 260000,
-    "Cincinnati": 229908,
-    "Cleveland": 123000,
-    "Jacksonville": 268995,
-    "Indianapolis": 284995,
-    "Baltimore": 181000,
-    "Charlotte": 615500
+    "New York": 999000,
+    "Nashville": 527913,
+    "New Orleans": 289000,
+    "Los Angeles": 1150000,
+    "Las Vegas": 436000,
+    "Dallas": 472000,
+    "Miami": 580000,
+    "Phoenix": 452340,
+    "San Francisco": 1680000,
+    "Houston": 376475,
+    "Tampa": 397500,
+    "Denver": 635000
   }
 }

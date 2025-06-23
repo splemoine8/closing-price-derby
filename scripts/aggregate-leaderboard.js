@@ -224,6 +224,7 @@ async function generateLeaderboardAndSalesData() {
   // Also write to Supabase
   try {
     console.log('\n📤 Uploading to Supabase...');
+    await upsertCompetitionData('baselines', baselines);
     await upsertCompetitionData('leaderboard', leaderboard);
     await upsertCompetitionData('sales_data', salesData);
     console.log('✅ Successfully uploaded data to Supabase');

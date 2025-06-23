@@ -29,9 +29,9 @@
     "state": "LA",
     "teamName": "Bob",
     "price": 13500000,
-    "baseline": 300000,
-    "scorePct": 4400,
-    "multiplier": "×45.0",
+    "baseline": 289000,
+    "scorePct": 4571.280276816609,
+    "multiplier": "×46.7",
     "ts": 1750196972620,
     "rank": 3
   },
@@ -89,8 +89,8 @@
     "state": "TN",
     "teamName": "Charlie",
     "price": 9400000,
-    "baseline": 528995,
-    "scorePct": 1676.9544135577842,
+    "baseline": 527913,
+    "scorePct": 1680.5964240319902,
     "multiplier": "×17.8",
     "ts": 1750196974782,
     "rank": 8

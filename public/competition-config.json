@@ -1,13 +1,12 @@
 {
-  "competition_id": "2025-summer-derby-test",
-  "name": "Summer 2025 Closing Price Derby - TEST",
-  "utc_start_timestamp": "2025-06-20T05:00:00.000Z",
+  "competition_id": "2025-summer-derby",
+  "name": "Summer 2025 Closing Price Derby",
+  "utc_start_timestamp": "2025-06-23T06:00:00.000Z",
   "utc_end_timestamp": "2025-07-07T06:59:59.999Z",
-  "pacific_start": "2025-06-19T22:00:00",
+  "pacific_start": "2025-06-23T06:00:00",
   "pacific_end": "2025-07-06T23:59:59",
   "draft_night": "2025-06-22",
-  "baseline_snapshot_date": "2025-06-22",
+  "baseline_snapshot_date": "2025-06-23",
   "start_from_zero": true,
-  "status": "live",
-  "notes": "TEST MODE: Competition started now, no sales data until scraper runs"
+  "status": "live"
 }

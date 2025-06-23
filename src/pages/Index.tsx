@@ -167,7 +167,7 @@ const Index = () => {
       .map((item): ZipCodeData => {
         // Get baseline for this city (graceful degradation)
         const cityName = item.city;
-        const baseline = baselineData?.baselines[cityName] || 0;
+        const baseline = baselineData?.baselines?.[cityName] || 0;
         
         // Get team name from assignments (graceful degradation)
         const teamName = teamNamesData?.assignments[cityName] || item.teamName || 'Unknown';
