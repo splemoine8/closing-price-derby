@@ -213,13 +213,9 @@ async function generateLeaderboardAndSalesData() {
     return b.scorePct - a.scorePct;
   });
   
-  // Write output files (keep for backward compatibility during migration)
-  await fs.writeFile('public/leaderboard.json', JSON.stringify(leaderboard, null, 2));
-  await fs.writeFile('public/sales-data.json', JSON.stringify(salesData, null, 2));
-  
-  console.log('\n✅ Generated files:');
-  console.log(`  - public/leaderboard.json (${leaderboard.length} cities)`);
-  console.log(`  - public/sales-data.json (${Object.keys(salesData).length} cities)`);
+  console.log('\n✅ Generated data:');
+  console.log(`  - Leaderboard: ${leaderboard.length} cities`);
+  console.log(`  - Sales data: ${Object.keys(salesData).length} cities`);
   
   // Also write to Supabase
   try {
