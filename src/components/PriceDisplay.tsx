@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { useCompetitionState } from '../hooks/useCompetitionState';
 
 interface PriceDisplayProps {
   price: number;
@@ -14,6 +15,7 @@ interface PriceDisplayProps {
 }
 
 const PriceDisplay = ({ price, maxPrice, minPrice, baseline, scorePct, multiplier, maxScorePct, minScorePct }: PriceDisplayProps) => {
+  const { mode } = useCompetitionState();
   const formatPrice = (price: number) => {
     if (price >= 1000000) {
       return `$${(price / 1000000).toFixed(1)}M`;
@@ -83,7 +85,7 @@ const PriceDisplay = ({ price, maxPrice, minPrice, baseline, scorePct, multiplie
   // Show enhanced multiplier display with tooltip
   if (multiplier && baseline) {
     // Special handling for setup mode (when multiplier is "-")
-    if (multiplier === '-') {
+    if (multiplier === '-' && mode === 'setup') {
       return (
         <div className="text-right">
           <div className="text-xl font-bold text-gray-400">
@@ -91,6 +93,20 @@ const PriceDisplay = ({ price, maxPrice, minPrice, baseline, scorePct, multiplie
           </div>
           <div className="text-sm text-gray-500">
             Competition starts soon
+          </div>
+        </div>
+      );
+    }
+    
+    // Live mode with no score (below baseline)
+    if (multiplier === '-' && mode === 'live') {
+      return (
+        <div className="text-right">
+          <div className="text-xl font-bold text-gray-400">
+            {multiplier}
+          </div>
+          <div className="text-sm text-gray-500">
+            Highest Sale: {formatPrice(price)}
           </div>
         </div>
       );
