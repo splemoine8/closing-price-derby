@@ -4,8 +4,6 @@ import { useMemo } from 'react';
 interface CompetitionConfig {
   competition_id: string;
   name: string;
-  utc_start_timestamp: string;
-  utc_end_timestamp: string;
   pacific_start: string;
   pacific_end: string;
   draft_night: string;
@@ -50,13 +48,14 @@ export function useCompetitionState(): CompetitionState {
   return useMemo(() => {
     const now = new Date();
     
-    // Default dates if config not loaded
+    // Convert Pacific times to UTC for frontend calculations
+    // Pacific start "2025-06-23T06:00:00" = UTC "2025-06-23T13:00:00.000Z" (PDT)
     const startDate = config 
-      ? new Date(config.utc_start_timestamp)
+      ? new Date(config.pacific_start.replace('T06:00:00', 'T13:00:00.000Z'))
       : new Date('2025-06-23T13:00:00.000Z');
       
     const endDate = config
-      ? new Date(config.utc_end_timestamp)
+      ? new Date(config.pacific_end.replace('T23:59:59', 'T06:59:59.999Z').replace('2025-07-06', '2025-07-07'))
       : new Date('2025-07-07T06:59:59.999Z');
     
     // Determine competition mode

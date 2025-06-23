@@ -65,6 +65,22 @@ Currently uses **mock data** in `src/pages/Index.tsx`. Structure ready for API i
 - **TypeScript:** Interface definitions co-located with components
 - **Animations:** Use existing Tailwind classes (`scale-98`, `animate-scale`)
 
+## Date and Timezone Logic
+
+**Simple rule: A sale counts if its Redfin closing date—shown in Pacific time—falls between 23 Jun and 6 Jul, inclusive.**
+
+**Technical Implementation:**
+- Competition filtering uses Pacific date comparison (`2025-06-23` to `2025-07-06`)
+- Redfin's `07:00:00Z` / `08:00:00Z` timestamps are standardized placeholders (midnight Pacific)
+- Date extraction handles both `lastSoldDate` and `sale_timestamp_utc` fields for backward compatibility
+- Timezone conversion uses `date-fns-tz` for robust DST handling
+- DST changes automatically handled without code updates
+
+**Key Files:**
+- `lib/dateUtils.js` - Centralized date conversion utilities
+- `isSaleInPeriod()` function performs simple Pacific date string comparison
+- Competition boundaries defined in `pacific_start`/`pacific_end` config fields
+
 ## Future API Integration
 
 The app is structured for easy API integration:

@@ -6,6 +6,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { upsertCompetitionData } from './lib/supabase-client.js';
+import { isSaleInPeriod, extractSaleTimestamp } from '../../lib/dateUtils.js';
 
 async function loadTeamAssignments() {
   try {
@@ -59,12 +60,12 @@ function filterSalesByCompetitionPeriod(sales, competitionConfig) {
     return sales; // No filtering if not in competition mode
   }
   
-  const startDate = new Date(competitionConfig.utc_start_timestamp);
-  const endDate = new Date(competitionConfig.utc_end_timestamp);
+  // Use Pacific time date boundaries instead of UTC timestamps
+  const startDatePacific = competitionConfig.pacific_start.split('T')[0]; // "2025-06-23"
+  const endDatePacific = competitionConfig.pacific_end.split('T')[0]; // "2025-07-06"
   
   return sales.filter(sale => {
-    const saleDate = new Date(sale.sale_timestamp_utc);
-    return saleDate >= startDate && saleDate <= endDate;
+    return isSaleInPeriod(sale, startDatePacific, endDatePacific);
   });
 }
 
@@ -79,7 +80,9 @@ function findHighestSale(sales) {
       return priceB - priceA; // Higher price wins
     }
     // Tie-breaker: earlier sale wins
-    return new Date(a.sale_timestamp_utc).getTime() - new Date(b.sale_timestamp_utc).getTime();
+    const aTimestamp = extractSaleTimestamp(a);
+    const bTimestamp = extractSaleTimestamp(b);
+    return new Date(aTimestamp).getTime() - new Date(bTimestamp).getTime();
   });
   
   return sorted[0];
@@ -100,9 +103,10 @@ function calculateScoreAndMultiplier(salePrice, baseline) {
 }
 
 function transformSaleForFrontend(sale) {
+  const saleTimestamp = extractSaleTimestamp(sale);
   return {
     address: sale.address,
-    date: new Date(sale.sale_timestamp_utc).toLocaleDateString('en-US', {
+    date: new Date(saleTimestamp).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
@@ -169,7 +173,7 @@ async function generateLeaderboardAndSalesData() {
         scorePct: scorePct,
         multiplier: multiplier || '-',  // Convert null to dash for sales below baseline
         ts: new Date().getTime(),
-        lastSoldDate: new Date(highestSale.sale_timestamp_utc).toLocaleDateString('en-US', {
+        lastSoldDate: new Date(extractSaleTimestamp(highestSale)).toLocaleDateString('en-US', {
           month: 'short',
           day: 'numeric',
           year: 'numeric'
