@@ -1,0 +1,31 @@
+{
+  "lastUpdated": "2025-06-18T15:30:00Z",
+  "assignments": {
+    "Kansas City": "Scott",
+    "New Orleans": "AJ",
+    "Green Bay": "Danny", 
+    "Nashville": "Bryce",
+    "Buffalo": "Kevin",
+    "Pittsburgh": "Ryan",
+    "Cincinnati": "Amir",
+    "Cleveland": "Chris",
+    "Jacksonville": "Dan G",
+    "Indianapolis": "Rex",
+    "Baltimore": "Julian",
+    "Charlotte": "Travis"
+  },
+  "cities": {
+    "Kansas City": { "state": "MO", "teamName": "Scott" },
+    "New Orleans": { "state": "LA", "teamName": "AJ" },
+    "Green Bay": { "state": "WI", "teamName": "Danny" },
+    "Nashville": { "state": "TN", "teamName": "Bryce" },
+    "Buffalo": { "state": "NY", "teamName": "Kevin" },
+    "Pittsburgh": { "state": "PA", "teamName": "Ryan" },
+    "Cincinnati": { "state": "OH", "teamName": "Amir" },
+    "Cleveland": { "state": "OH", "teamName": "Chris" },
+    "Jacksonville": { "state": "FL", "teamName": "Dan G" },
+    "Indianapolis": { "state": "IN", "teamName": "Rex" },
+    "Baltimore": { "state": "MD", "teamName": "Julian" },
+    "Charlotte": { "state": "NC", "teamName": "Travis" }
+  }
+}
