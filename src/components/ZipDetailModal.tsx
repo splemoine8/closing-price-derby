@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { X, Share2 } from 'lucide-react';
 import WeatherWidget from './WeatherWidget';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useCompetitionState } from '@/hooks/useCompetitionState';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { useCompetitionState } from '../hooks/useCompetitionState';
 
 const stateNames: Record<string, string> = {
   'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',

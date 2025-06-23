@@ -1,1 +1,2 @@
-make sure last updated in footer is pulling timestamp from last run of redfin api scraper
+make sure at the initial live state (when its live but no sales) that the leaderboard ranking calculation lists everyone tied.  
+buy domain 

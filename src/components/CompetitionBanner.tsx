@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCompetitionState } from '@/hooks/useCompetitionState';
+import { useCompetitionState } from '../hooks/useCompetitionState';
 import { Trophy } from 'lucide-react';
 
 export function CompetitionBanner() {

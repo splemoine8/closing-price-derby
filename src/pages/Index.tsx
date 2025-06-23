@@ -2,11 +2,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import useSWR from 'swr';
 import { toast } from 'sonner';
-import { useCompetitionData } from '@/hooks/useCompetitionDataWithSupabase';
-import { useCompetitionState, type CompetitionState } from '@/hooks/useCompetitionState';
-import { supabase } from '@/lib/supabase';
-import { CompetitionBanner } from '@/components/CompetitionBanner';
-import { CompetitionCountdown } from '@/components/CompetitionCountdown';
+import { useCompetitionData } from '../hooks/useCompetitionDataWithSupabase';
+import { useCompetitionState, type CompetitionState } from '../hooks/useCompetitionState';
+import { supabase } from '../lib/supabase';
+import { CompetitionBanner } from '../components/CompetitionBanner';
+import { CompetitionCountdown } from '../components/CompetitionCountdown';
 import LeaderboardHeader from '../components/LeaderboardHeader';
 import LiveEventTicker from '../components/LiveEventTicker';
 import Footer from '../components/Footer';

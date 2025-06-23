@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useCompetitionState } from '@/hooks/useCompetitionState';
+import { useCompetitionState } from '../hooks/useCompetitionState';
 
 export function CompetitionCountdown() {
   const { mode, timeRemaining: initialTime } = useCompetitionState();

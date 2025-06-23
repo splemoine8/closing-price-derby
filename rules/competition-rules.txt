@@ -1,0 +1,141 @@
+=====================================
+    CLOSING PRICE DERBY RULES
+       Summer 2025 Competition
+=====================================
+
+COMPETITION DATES
+-----------------
+Start: Monday, June 23, 2025 at 6:00 AM Pacific
+End: Sunday, July 6, 2025 at 11:59 PM Pacific
+Duration: 14 days
+
+
+DRAFT & TEAM ASSIGNMENTS
+------------------------
+• Draft: Sunday, June 22, 2025
+• Each player drafts one NFL city market
+• Available cities (all 32 NFL cities):
+  
+  AFC EAST: Buffalo, Miami, Boston (Patriots), New Jersey (Jets)
+  AFC NORTH: Baltimore, Cincinnati, Cleveland, Pittsburgh
+  AFC SOUTH: Houston, Indianapolis, Jacksonville, Nashville
+  AFC WEST: Denver, Kansas City, Las Vegas, Los Angeles (Chargers)
+  
+  NFC EAST: Dallas, New York (Giants), Philadelphia, Washington DC
+  NFC NORTH: Chicago, Detroit, Green Bay, Minneapolis
+  NFC SOUTH: Atlanta, Charlotte (Panthers), New Orleans, Tampa Bay
+  NFC WEST: Phoenix, Los Angeles (Rams), San Francisco, Seattle
+
+
+HOW TO WIN
+----------
+The city with the HIGHEST PERCENTAGE GAIN above their baseline wins.
+
+Baseline = 90-day median sale price, frozen 72 h before start.
+
+Formula: ((Highest Sale Price - Baseline) / Baseline) × 100
+
+Example: If your city's median sale price is $300K and you get a $600K sale,
+your score is +100% (shown as ×2.0 multiplier)
+
+$300 K baseline → $600 K sale = 200 % of baseline (a +100 % gain, shown in-app as “×2.0”)
+
+
+SCORING RULES
+-------------
+1. ONLY SALES DURING THE 14-DAY COMPETITION COUNT
+   - Sales before June 23 6AM don't count
+   - Sales after July 6 midnight don't count
+
+2. HIGHEST SALE ONLY
+   - Only your city's highest sale price matters
+   - Lower sales are ignored
+   - Your score can only go UP, never down
+
+3. TIE-BREAKER
+   - If two cities have the same percentage gain
+   - The EARLIER sale wins (by closing date)
+
+4. BASELINE CALCULATION
+   - Each city gets a baseline (90-day median price)
+   - Baselines are locked before competition starts
+   - All cities judged fairly against their own market
+
+
+WHAT COUNTS AS A SALE
+---------------------
+• Must be a closed residential property sale
+• Must have a recorded sale price
+• Must close within competition dates
+• Data sourced from public records via Redfin
+
+
+APP FEATURES
+----------------------
+LIVE LEADERBOARD
+• Real-time rankings with multiplier scores (×2.5 = 150% above baseline)
+• Updates hourly during the day
+• Color-coded performance indicators
+• Mobile-first responsive design
+
+COMPETITION COUNTDOWN
+• Live countdown timer showing time until start
+• Time remaining display during competition
+• Auto-updates every second
+
+DETAILED CITY VIEWS
+• Click any city card to see full details
+• Recent sales history with property addresses
+• Price trend charts and baseline comparison
+• Sales activity timeline
+
+LIVE EVENT TICKER
+• "Cincinnati leads with ×13.0!" notifications
+• Recent high sales announcements
+• Real-time activity feed during competition
+
+DATA TRANSPARENCY
+• "Last updated" timestamp on every page
+• All sales include property addresses for verification
+• Historical record of all competition sales
+
+
+COMPETITION MODES
+------------------
+SETUP MODE (Before June 23)
+• Countdown timer shows time until start
+• All cities show "—" (no data yet)
+
+LIVE MODE (June 23 - July 6)
+• Active scoring with live updates
+• Event ticker with latest high sales
+• Time remaining countdown
+
+COMPLETE MODE (After July 6)
+• Final results locked and displayed
+• "The results are in!" banner
+• Draft order determined by final rankings
+
+
+DRAFT ORDER PRIZE
+-----------------
+Final leaderboard position determines fantasy football draft order:
+• 1st place = 1st draft pick
+• 2nd place = 2nd draft pick
+• And so on...
+
+
+FAIR PLAY
+---------
+• All data comes from public records
+• No manual score adjustments
+• System runs automatically
+• Same rules apply to everyone
+
+
+QUESTIONS?
+----------
+Check the live site for current standings and countdown timer.
+May the best city win!
+
+=====================================

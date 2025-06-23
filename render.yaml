@@ -1,0 +1,23 @@
+services:
+  # Static Site Service
+  - type: web
+    name: closing-price-derby-site
+    env: static
+    buildCommand: npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_OPENWEATHER_API_KEY
+        sync: false  # Set manually in Render dashboard
+    
+  # Scraper Background Job  
+  - type: cron
+    name: closing-price-derby-scraper
+    env: node
+    buildCommand: npm install
+    startCommand: npm run scrape
+    schedule: "0 */4 * * *"  # Every 4 hours
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RAPIDAPI_KEY
+        sync: false  # Set manually in Render dashboard

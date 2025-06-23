@@ -1,7 +1,7 @@
 import React from 'react'
 import useSWR from 'swr'
 import useSWRImmutable from 'swr/immutable'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '../lib/supabase'
 
 // Types for data sources
 type BaselineData = {
