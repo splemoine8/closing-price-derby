@@ -99,6 +99,14 @@ function calculateScoreAndMultiplier(salePrice, baseline) {
     return { scorePct: null, multiplier: null };
   }
   
+  // Filter out relative outliers (data errors)
+  const RELATIVE_MAX_MULTIPLIER = 75; // 75x the baseline
+  const rawMultiplier = salePrice / baseline;
+  if (rawMultiplier > RELATIVE_MAX_MULTIPLIER) {
+    console.log(`⚠️  Skipping outlier in scoring: $${salePrice.toLocaleString()} is ${rawMultiplier.toFixed(1)}x baseline ($${baseline.toLocaleString()}) - exceeds 75x cap`);
+    return { scorePct: null, multiplier: null };
+  }
+  
   const scorePct = ((salePrice - baseline) / baseline) * 100;
   const multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
   
@@ -165,25 +173,43 @@ async function generateLeaderboardAndSalesData() {
     if (highestSale && baseline) {
       const { scorePct, multiplier } = calculateScoreAndMultiplier(highestSale.sale_price, baseline);
       
-      leaderboard.push({
-        zip: cityKey, // Use cityKey as pseudo-zip for frontend compatibility
-        city: cityName,
-        state: stateAbbrev,
-        teamName: teamName,
-        price: highestSale.sale_price,
-        baseline: baseline,
-        scorePct: scorePct,
-        multiplier: multiplier || '-',  // Convert null to dash for sales below baseline
-        ts: new Date().getTime(),
-        lastSoldDate: new Date(extractSaleTimestamp(highestSale)).toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric'
-        }),
-        topSaleAddress: highestSale.address
-      });
-      
-      console.log(`  - Highest sale: $${highestSale.sale_price.toLocaleString()} (${multiplier || '-'})`);
+      // If sale was rejected as outlier, treat it as no valid sale
+      if (scorePct === null && highestSale.sale_price > baseline) {
+        console.log(`  - Highest sale rejected as outlier: $${highestSale.sale_price.toLocaleString()}`);
+        leaderboard.push({
+          zip: cityKey,
+          city: cityName,
+          state: stateAbbrev,
+          teamName: teamName,
+          price: 0,
+          baseline: baseline,
+          scorePct: null,
+          multiplier: '-',
+          ts: new Date().getTime(),
+          lastSoldDate: null,
+          topSaleAddress: null
+        });
+      } else {
+        leaderboard.push({
+          zip: cityKey, // Use cityKey as pseudo-zip for frontend compatibility
+          city: cityName,
+          state: stateAbbrev,
+          teamName: teamName,
+          price: highestSale.sale_price,
+          baseline: baseline,
+          scorePct: scorePct,
+          multiplier: multiplier || '-',  // Convert null to dash for sales below baseline
+          ts: new Date().getTime(),
+          lastSoldDate: new Date(extractSaleTimestamp(highestSale)).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+          }),
+          topSaleAddress: highestSale.address
+        });
+        
+        console.log(`  - Highest sale: $${highestSale.sale_price.toLocaleString()} (${multiplier || '-'})`);
+      }
     } else {
       // No competition sales or no baseline - create placeholder entry
       // During setup mode, show baseline but score as "-"

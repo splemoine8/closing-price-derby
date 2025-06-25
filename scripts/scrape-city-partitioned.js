@@ -149,6 +149,13 @@ function transformPropertyToSaleRecord(property, cityName) {
   
   if (!utcDate || price <= 0) return null;
   
+  // Filter out absolute outliers (data errors)
+  const ABSOLUTE_MAX_SALE_PRICE = 100000000; // $100M
+  if (price > ABSOLUTE_MAX_SALE_PRICE) {
+    console.log(`⚠️  Skipping outlier: $${price.toLocaleString()} at ${address} - exceeds $100M cap`);
+    return null;
+  }
+  
   const saleRecord = {
     address,
     city: cityName.split(',')[0].trim(),

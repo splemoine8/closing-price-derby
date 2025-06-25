@@ -99,6 +99,14 @@ function calculateScoreAndMultiplier(salePrice, baseline) {
     return { scorePct: null, multiplier: null };
   }
   
+  // Filter out relative outliers (data errors)
+  const RELATIVE_MAX_MULTIPLIER = 75; // 75x the baseline
+  const rawMultiplier = salePrice / baseline;
+  if (rawMultiplier > RELATIVE_MAX_MULTIPLIER) {
+    console.log(`⚠️  Skipping outlier in scoring: $${salePrice.toLocaleString()} is ${rawMultiplier.toFixed(1)}x baseline ($${baseline.toLocaleString()}) - exceeds 75x cap`);
+    return { scorePct: null, multiplier: null };
+  }
+  
   const scorePct = ((salePrice - baseline) / baseline) * 100;
   const multiplier = `×${(scorePct / 100 + 1).toFixed(1)}`;
   
