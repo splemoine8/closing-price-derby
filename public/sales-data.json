@@ -1,14 +1,745 @@
 {
   "NewYork": [],
-  "Nashville": [],
-  "NewOrleans": [],
-  "LosAngeles": [],
-  "LasVegas": [],
-  "Dallas": [],
-  "Miami": [],
-  "Phoenix": [],
-  "SanFrancisco": [],
-  "Houston": [],
-  "Tampa": [],
-  "Denver": []
+  "Nashville": [
+    {
+      "address": "6124 Montcrest Dr",
+      "date": "Jun 23, 2025",
+      "price": 3450000,
+      "beds": 5,
+      "baths": 6,
+      "sqft": 5330,
+      "url": "https://www.redfin.com/TN/Nashville/6124-Montcrest-Dr-37215/home/108101741"
+    },
+    {
+      "address": "6004 Jocelyn Hollow Rd",
+      "date": "Jun 23, 2025",
+      "price": 3400000,
+      "beds": 6,
+      "baths": 7,
+      "sqft": 7244,
+      "url": "https://www.redfin.com/TN/Nashville/6004-Jocelyn-Hollow-Rd-37205/home/68864209"
+    },
+    {
+      "address": "525 Clematis Dr",
+      "date": "Jun 23, 2025",
+      "price": 2750000,
+      "beds": 5,
+      "baths": 6,
+      "sqft": 4757,
+      "url": "https://www.redfin.com/TN/Nashville/525-Clematis-Dr-37205/home/101685317"
+    },
+    {
+      "address": "5017 High Valley Dr",
+      "date": "Jun 23, 2025",
+      "price": 2480000,
+      "beds": 4,
+      "baths": 5.5,
+      "sqft": 8060,
+      "url": "https://www.redfin.com/TN/Brentwood/5017-High-Valley-Dr-37027/home/60697101"
+    },
+    {
+      "address": "9246 Wardley Park Ln",
+      "date": "Jun 23, 2025",
+      "price": 2200000,
+      "beds": 4,
+      "baths": 5,
+      "sqft": 4914,
+      "url": "https://www.redfin.com/TN/Brentwood/9246-Wardley-Ln-37027/home/60836513"
+    },
+    {
+      "address": "119 46th Ave N",
+      "date": "Jun 23, 2025",
+      "price": 955000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 2350,
+      "url": "https://www.redfin.com/TN/Nashville/119-46th-Ave-N-37209/home/108052167"
+    },
+    {
+      "address": "476 Summit Oaks Dr",
+      "date": "Jun 23, 2025",
+      "price": 849000,
+      "beds": 5,
+      "baths": 4.5,
+      "sqft": 4750,
+      "url": "https://www.redfin.com/TN/Nashville/476-Summit-Oaks-Dr-37221/home/88013446"
+    },
+    {
+      "address": "6008B Louisiana Ave",
+      "date": "Jun 23, 2025",
+      "price": 615000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2012,
+      "url": "https://www.redfin.com/TN/Nashville/6008B-Louisiana-Ave-37209/home/147973234"
+    },
+    {
+      "address": "217 Cheswick Ct",
+      "date": "Jun 23, 2025",
+      "price": 595000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 1953,
+      "url": "https://www.redfin.com/TN/Nashville/217-Cheswick-Ct-37215/home/108027135"
+    },
+    {
+      "address": "1821A Tammany Dr",
+      "date": "Jun 23, 2025",
+      "price": 575000,
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1203,
+      "url": "https://www.redfin.com/TN/Nashville/1821-Tammany-Dr-37216/home/178257532"
+    }
+  ],
+  "NewOrleans": [
+    {
+      "address": "1227 Chartres St",
+      "date": "Jun 23, 2025",
+      "price": 925000,
+      "beds": 8,
+      "baths": 6,
+      "sqft": 3788,
+      "url": "https://www.redfin.com/LA/New-Orleans/1227-Chartres-St-70116/home/85418646"
+    },
+    {
+      "address": "707 Jena St",
+      "date": "Jun 23, 2025",
+      "price": 915000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2236,
+      "url": "https://www.redfin.com/LA/New-Orleans/707-Jena-St-70115/home/85485858"
+    },
+    {
+      "address": "3518 Annunciation St",
+      "date": "Jun 23, 2025",
+      "price": 790000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2107,
+      "url": "https://www.redfin.com/LA/New-Orleans/3518-Annunciation-St-70115/home/85484850"
+    }
+  ],
+  "LosAngeles": [
+    {
+      "address": "1936 Redcliff St",
+      "date": "Jun 23, 2025",
+      "price": 6300000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 0,
+      "url": "https://www.redfin.com/CA/Los-Angeles/1936-Redcliff-St-90039/home/7062008"
+    },
+    {
+      "address": "5819 Cazaux Dr",
+      "date": "Jun 23, 2025",
+      "price": 3395000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 2791,
+      "url": "https://www.redfin.com/CA/Los-Angeles/5819-Cazaux-Dr-90068/home/194537166"
+    },
+    {
+      "address": "325 N Oakhurst Dr #300",
+      "date": "Jun 23, 2025",
+      "price": 2950000,
+      "beds": 3,
+      "baths": 3.5,
+      "sqft": 3693,
+      "url": "https://www.redfin.com/CA/Beverly-Hills/325-N-Oakhurst-Dr-90210/unit-300/home/6820345"
+    },
+    {
+      "address": "13046 Woodbridge St",
+      "date": "Jun 23, 2025",
+      "price": 2300000,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 2402,
+      "url": "https://www.redfin.com/CA/Studio-City/13046-Woodbridge-St-91604/home/5247988"
+    },
+    {
+      "address": "3835 Clayton Ave",
+      "date": "Jun 23, 2025",
+      "price": 1945000,
+      "beds": 3,
+      "baths": 2.75,
+      "sqft": 2072,
+      "url": "https://www.redfin.com/CA/Los-Angeles/3835-Clayton-Ave-90027/home/7061161"
+    },
+    {
+      "address": "1116 Galloway St",
+      "date": "Jun 23, 2025",
+      "price": 1687000,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 0,
+      "url": "https://www.redfin.com/CA/Pacific-Palisades/1116-Galloway-St-90272/home/6846026"
+    },
+    {
+      "address": "7952 Belton Dr",
+      "date": "Jun 23, 2025",
+      "price": 1650000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 1850,
+      "url": "https://www.redfin.com/CA/Los-Angeles/7952-Belton-Dr-90045/home/6620734"
+    },
+    {
+      "address": "17840 Plummer St",
+      "date": "Jun 23, 2025",
+      "price": 1620000,
+      "beds": 7,
+      "baths": 4.5,
+      "sqft": 4115,
+      "url": "https://www.redfin.com/CA/Northridge/17840-Plummer-St-91325/home/5860668"
+    },
+    {
+      "address": "1838 Westholme Ave Ph 5",
+      "date": "Jun 23, 2025",
+      "price": 1407000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 1728,
+      "url": "https://www.redfin.com/CA/Los-Angeles/1838-Westholme-Ave-90025/unit-5/home/8148490"
+    },
+    {
+      "address": "22548 Victory Blvd",
+      "date": "Jun 23, 2025",
+      "price": 1260000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2136,
+      "url": "https://www.redfin.com/CA/Woodland-Hills/22548-Victory-Blvd-91367/home/3218868"
+    }
+  ],
+  "LasVegas": [
+    {
+      "address": "56 Sawgrass Ct",
+      "date": "Jun 23, 2025",
+      "price": 1250000,
+      "beds": 4,
+      "baths": 3.75,
+      "sqft": 3768,
+      "url": "https://www.redfin.com/NV/Las-Vegas/56-Sawgrass-Ct-89113/home/29581923"
+    },
+    {
+      "address": "11280 Granite Ridge Dr #1009",
+      "date": "Jun 23, 2025",
+      "price": 1050000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2037,
+      "url": "https://www.redfin.com/NV/Las-Vegas/11280-Granite-Ridge-Dr-89135/unit-1009/home/163844174"
+    },
+    {
+      "address": "5516 Coyote Falls Ct",
+      "date": "Jun 23, 2025",
+      "price": 589000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2791,
+      "url": "https://www.redfin.com/NV/Las-Vegas/5516-Coyote-Falls-Ct-89131/home/29021577"
+    },
+    {
+      "address": "10368 Pima Crossing Ave",
+      "date": "Jun 23, 2025",
+      "price": 560000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2174,
+      "url": "https://www.redfin.com/NV/Las-Vegas/10368-Pima-Crossing-Ave-89166/home/52625518"
+    },
+    {
+      "address": "7611 Phoenix Peak St",
+      "date": "Jun 23, 2025",
+      "price": 495000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2269,
+      "url": "https://www.redfin.com/NV/Las-Vegas/7611-Phoenix-Peak-St-89166/home/109861031"
+    },
+    {
+      "address": "6624 Brandywine Way",
+      "date": "Jun 23, 2025",
+      "price": 450000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1649,
+      "url": "https://www.redfin.com/NV/Las-Vegas/6624-Brandywine-Way-89107/home/29228215"
+    },
+    {
+      "address": "3561 Cherbourg Ave",
+      "date": "Jun 23, 2025",
+      "price": 425000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1467,
+      "url": "https://www.redfin.com/NV/Las-Vegas/3561-Cherbourg-Ave-89141/home/29902536"
+    },
+    {
+      "address": "7361 Ringquist St",
+      "date": "Jun 23, 2025",
+      "price": 381000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 1421,
+      "url": "https://www.redfin.com/NV/Las-Vegas/7361-Ringquist-St-89148/home/28990011"
+    },
+    {
+      "address": "421 Carlin Ave",
+      "date": "Jun 23, 2025",
+      "price": 321000,
+      "beds": 2,
+      "baths": 1.75,
+      "sqft": 968,
+      "url": "https://www.redfin.com/NV/Las-Vegas/421-Carlin-Ave-89110/home/29390685"
+    },
+    {
+      "address": "6885 Tamarus St #201",
+      "date": "Jun 23, 2025",
+      "price": 220000,
+      "beds": 2,
+      "baths": 2,
+      "sqft": 1127,
+      "url": "https://www.redfin.com/NV/Las-Vegas/6885-Tamarus-St-89119/unit-201/home/29592230"
+    }
+  ],
+  "Dallas": [
+    {
+      "address": "4719 Wateka Dr",
+      "date": "Jun 23, 2025",
+      "price": 799995,
+      "beds": 3,
+      "baths": 3,
+      "sqft": 1885,
+      "url": "https://www.redfin.com/TX/Dallas/4719-Wateka-Dr-75209/home/30850577"
+    },
+    {
+      "address": "4123 Douglas Ave",
+      "date": "Jun 23, 2025",
+      "price": 750000,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 2041,
+      "url": "https://www.redfin.com/TX/Dallas/4123-Douglas-Ave-75219/home/31124194"
+    },
+    {
+      "address": "3927 Walden Way",
+      "date": "Jun 23, 2025",
+      "price": 559000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2262,
+      "url": "https://www.redfin.com/TX/Dallas/3927-Walden-Way-75287/home/32833201"
+    },
+    {
+      "address": "1717 Lake Bluff Dr",
+      "date": "Jun 23, 2025",
+      "price": 388000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2649,
+      "url": "https://www.redfin.com/TX/Garland/1717-Lake-Bluff-Dr-75043/home/31475201"
+    },
+    {
+      "address": "2859 Peary Ave",
+      "date": "Jun 23, 2025",
+      "price": 35000,
+      "beds": 0,
+      "baths": 0,
+      "sqft": 0,
+      "url": "https://www.redfin.com/TX/Dallas/2859-Peary-Ave-75215/home/30845768"
+    }
+  ],
+  "Miami": [
+    {
+      "address": "14442 SW 18th St",
+      "date": "Jun 23, 2025",
+      "price": 1140000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 3181,
+      "url": "https://www.redfin.com/FL/Miami/14442-SW-18th-St-33175/home/183127065"
+    },
+    {
+      "address": "10443 SW 129th Pl",
+      "date": "Jun 23, 2025",
+      "price": 747500,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2176,
+      "url": "https://www.redfin.com/FL/Miami/10443-SW-129th-Pl-33186/home/43193578"
+    },
+    {
+      "address": "17830 SW 359 Ter",
+      "date": "Jun 23, 2025",
+      "price": 401640,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 1423,
+      "url": "https://www.redfin.com/FL/Miami/17830-SW-359-TER-Unknown/home/195538712"
+    },
+    {
+      "address": "14442 SW 18th St",
+      "date": "Jun 23, 2025",
+      "price": 114000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 3181,
+      "url": "https://www.redfin.com/FL/Miami/14442-SW-18th-St-33175/home/183127065"
+    }
+  ],
+  "Phoenix": [
+    {
+      "address": "1111 E Missouri Ave #9",
+      "date": "Jun 23, 2025",
+      "price": 670000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2088,
+      "url": "https://www.redfin.com/AZ/Phoenix/1111-E-Missouri-Ave-85014/unit-9/home/147700662"
+    },
+    {
+      "address": "1617 W Lamar Rd",
+      "date": "Jun 23, 2025",
+      "price": 640000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1363,
+      "url": "https://www.redfin.com/AZ/Phoenix/1617-W-Lamar-Rd-85015/home/27879437"
+    },
+    {
+      "address": "114 W Adams St #808",
+      "date": "Jun 23, 2025",
+      "price": 575000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2301,
+      "url": "https://www.redfin.com/AZ/Phoenix/114-W-Adams-St-85003/unit-808/home/28416458"
+    },
+    {
+      "address": "4830 E Abraham Ln",
+      "date": "Jun 23, 2025",
+      "price": 550000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 1610,
+      "url": "https://www.redfin.com/AZ/Phoenix/4830-E-Abraham-Ln-85054/home/28005247"
+    },
+    {
+      "address": "5512 W Cavedale Dr",
+      "date": "Jun 23, 2025",
+      "price": 495000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1813,
+      "url": "https://www.redfin.com/AZ/Phoenix/5512-W-Cavedale-Dr-85083/home/27342481"
+    },
+    {
+      "address": "40728 N Hudson Trl",
+      "date": "Jun 23, 2025",
+      "price": 452000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1827,
+      "url": "https://www.redfin.com/AZ/Anthem/40728-N-Hudson-Trl-85086/home/28108399"
+    },
+    {
+      "address": "7508 W Osborn Rd",
+      "date": "Jun 23, 2025",
+      "price": 320000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1264,
+      "url": "https://www.redfin.com/AZ/Phoenix/7508-W-Osborn-Rd-85033/home/27957001"
+    },
+    {
+      "address": "3511 E Baseline Rd #1206",
+      "date": "Jun 23, 2025",
+      "price": 256500,
+      "beds": 2,
+      "baths": 1.5,
+      "sqft": 881,
+      "url": "https://www.redfin.com/AZ/Phoenix/3511-E-Baseline-Rd-85042/unit-1206/home/27418115"
+    }
+  ],
+  "SanFrancisco": [
+    {
+      "address": "300 Berry St #611",
+      "date": "Jun 23, 2025",
+      "price": 950101,
+      "beds": 2,
+      "baths": 1,
+      "sqft": 925,
+      "url": "https://www.redfin.com/CA/San-Francisco/300-Berry-St-94158/unit-611/home/18274633"
+    },
+    {
+      "address": "279 Graystone Ter #3",
+      "date": "Jun 23, 2025",
+      "price": 780000,
+      "beds": 1,
+      "baths": 1,
+      "sqft": 736,
+      "url": "https://www.redfin.com/CA/San-Francisco/279-Graystone-Ter-94114/unit-3/home/194774843"
+    }
+  ],
+  "Houston": [
+    {
+      "address": "6340 Mercer St",
+      "date": "Jun 23, 2025",
+      "price": 4699000,
+      "beds": 5,
+      "baths": 4.5,
+      "sqft": 5456,
+      "url": "https://www.redfin.com/TX/Houston/6340-Mercer-St-77005/home/29772898"
+    },
+    {
+      "address": "11071 Chatterton Dr",
+      "date": "Jun 23, 2025",
+      "price": 649900,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 2753,
+      "url": "https://www.redfin.com/TX/Houston/11071-Chatterton-Dr-77043/home/188351939"
+    },
+    {
+      "address": "12203 Clearfork Dr",
+      "date": "Jun 23, 2025",
+      "price": 649900,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 3374,
+      "url": "https://www.redfin.com/TX/Houston/12203-Clearfork-Dr-77077/home/30438750"
+    },
+    {
+      "address": "912 W 24th St",
+      "date": "Jun 23, 2025",
+      "price": 614900,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2439,
+      "url": "https://www.redfin.com/TX/Houston/912-W-24th-St-77008/home/195340174"
+    },
+    {
+      "address": "5435 Jackwood St",
+      "date": "Jun 23, 2025",
+      "price": 519000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 2154,
+      "url": "https://www.redfin.com/TX/Houston/5435-Jackwood-St-77096/home/30155643"
+    },
+    {
+      "address": "18322 Running Vine Ln",
+      "date": "Jun 23, 2025",
+      "price": 505000,
+      "beds": 4,
+      "baths": 3.5,
+      "sqft": 3730,
+      "url": "https://www.redfin.com/TX/Spring/18322-Running-Vine-Ln-77379/home/30414491"
+    },
+    {
+      "address": "1343 Prince St Unit B",
+      "date": "Jun 23, 2025",
+      "price": 450000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2180,
+      "url": "https://www.redfin.com/TX/Houston/1343-Prince-St-77008/unit-B/home/29771419"
+    },
+    {
+      "address": "8113 Alpine Bearberry Dr",
+      "date": "Jun 23, 2025",
+      "price": 289990,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 1947,
+      "url": "https://www.redfin.com/TX/Houston/8113-Alpine-Bearberry-Dr-77016/home/192105490"
+    },
+    {
+      "address": "14668 Perthshire Rd Unit B",
+      "date": "Jun 23, 2025",
+      "price": 250000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 1978,
+      "url": "https://www.redfin.com/TX/Houston/14668-Perthshire-Rd-77079/unit-B/home/30320359"
+    },
+    {
+      "address": "17343 Edgehaven Dr",
+      "date": "Jun 23, 2025",
+      "price": 230000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1472,
+      "url": "https://www.redfin.com/TX/Missouri-City/17343-Edgehaven-Dr-77489/home/32985760"
+    }
+  ],
+  "Tampa": [
+    {
+      "address": "3212 W Fountain Blvd",
+      "date": "Jun 23, 2025",
+      "price": 2030000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 3599,
+      "url": "https://www.redfin.com/FL/Tampa/3212-W-Fountain-Blvd-33609/home/47386604"
+    },
+    {
+      "address": "4612 W Lowell Ave",
+      "date": "Jun 23, 2025",
+      "price": 1700000,
+      "beds": 5,
+      "baths": 4,
+      "sqft": 3749,
+      "url": "https://www.redfin.com/FL/Tampa/4612-W-Lowell-Ave-33629/home/47281662"
+    },
+    {
+      "address": "7108 Pelican Island Dr",
+      "date": "Jun 23, 2025",
+      "price": 1225000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2609,
+      "url": "https://www.redfin.com/FL/Tampa/7108-Pelican-Island-Dr-33634/home/47097983"
+    },
+    {
+      "address": "4021 Ohio Ave",
+      "date": "Jun 23, 2025",
+      "price": 837500,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2100,
+      "url": "https://www.redfin.com/FL/Tampa/4021-Ohio-Ave-33616/home/47294651"
+    },
+    {
+      "address": "7205 S DE Soto St",
+      "date": "Jun 23, 2025",
+      "price": 749515,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2409,
+      "url": "https://www.redfin.com/FL/Tampa/7205-S-De-Soto-St-33616/home/190636044"
+    },
+    {
+      "address": "12215 Snead Pl",
+      "date": "Jun 23, 2025",
+      "price": 670000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 2261,
+      "url": "https://www.redfin.com/FL/Tampa/12215-Snead-Pl-33624/home/47122562"
+    },
+    {
+      "address": "10322 Riverburn Dr",
+      "date": "Jun 23, 2025",
+      "price": 570000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 3293,
+      "url": "https://www.redfin.com/FL/Tampa/10322-Riverburn-Dr-33647/home/47363408"
+    },
+    {
+      "address": "14678 Village Glen Cir",
+      "date": "Jun 23, 2025",
+      "price": 520000,
+      "beds": 3,
+      "baths": 2.5,
+      "sqft": 2038,
+      "url": "https://www.redfin.com/FL/Tampa/14678-Village-Glen-Cir-33618/home/47117509"
+    },
+    {
+      "address": "5103 Town N Country Blvd",
+      "date": "Jun 23, 2025",
+      "price": 400000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 1272,
+      "url": "https://www.redfin.com/FL/Tampa/5103-Town-N-Country-Blvd-33615/home/47097084"
+    },
+    {
+      "address": "5328 Ridgewell Ct",
+      "date": "Jun 23, 2025",
+      "price": 212500,
+      "beds": 2,
+      "baths": 2.5,
+      "sqft": 1280,
+      "url": "https://www.redfin.com/FL/Tampa/5328-Ridgewell-Ct-33624/home/47119006"
+    }
+  ],
+  "Denver": [
+    {
+      "address": "1983 S Logan St",
+      "date": "Jun 23, 2025",
+      "price": 2315000,
+      "beds": 5,
+      "baths": 4.75,
+      "sqft": 6104,
+      "url": "https://www.redfin.com/CO/Denver/1983-S-Logan-St-80210/home/34156985"
+    },
+    {
+      "address": "4545 King St",
+      "date": "Jun 23, 2025",
+      "price": 1375000,
+      "beds": 4,
+      "baths": 3.25,
+      "sqft": 2946,
+      "url": "https://www.redfin.com/CO/Denver/4545-King-St-80211/home/34061822"
+    },
+    {
+      "address": "2520 S Cherokee St",
+      "date": "Jun 23, 2025",
+      "price": 1130000,
+      "beds": 4,
+      "baths": 3.75,
+      "sqft": 3470,
+      "url": "https://www.redfin.com/CO/Denver/2520-S-Cherokee-St-80223/home/194808043"
+    },
+    {
+      "address": "4215 W Byron Pl",
+      "date": "Jun 23, 2025",
+      "price": 977500,
+      "beds": 3,
+      "baths": 3.25,
+      "sqft": 2905,
+      "url": "https://www.redfin.com/CO/Denver/4215-W-Byron-Pl-80212/home/34081319"
+    },
+    {
+      "address": "1622 Monroe St",
+      "date": "Jun 23, 2025",
+      "price": 869800,
+      "beds": 4,
+      "baths": 1.75,
+      "sqft": 2073,
+      "url": "https://www.redfin.com/CO/Denver/1622-Monroe-St-80206/home/34091087"
+    },
+    {
+      "address": "3931 King St",
+      "date": "Jun 23, 2025",
+      "price": 786000,
+      "beds": 2,
+      "baths": 1.75,
+      "sqft": 1737,
+      "url": "https://www.redfin.com/CO/Denver/3931-King-St-80211/home/34063211"
+    },
+    {
+      "address": "1666 S Bryant St",
+      "date": "Jun 23, 2025",
+      "price": 445000,
+      "beds": 3,
+      "baths": 1.75,
+      "sqft": 1656,
+      "url": "https://www.redfin.com/CO/Denver/1666-S-Bryant-St-80219/home/34141750"
+    },
+    {
+      "address": "1085 N Lafayette St #702",
+      "date": "Jun 23, 2025",
+      "price": 385000,
+      "beds": 1,
+      "baths": 1,
+      "sqft": 800,
+      "url": "https://www.redfin.com/CO/Denver/1085-N-Lafayette-St-80218/unit-702/home/34100785"
+    }
+  ]
 }

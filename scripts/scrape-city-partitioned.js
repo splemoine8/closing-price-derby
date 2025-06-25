@@ -212,10 +212,11 @@ async function accumulateSalesForCity(cityName, teamAssignments) {
     const properties = await getSoldProperties(regionId, cityName);
     
     // Transform and filter new sales
-    const newSales = properties
+    let newSales = properties
       .map(property => transformPropertyToSaleRecord(property, cityName))
       .filter(sale => sale !== null)
       .filter(sale => !existingIds.has(sale.sale_id));
+    
     
     console.log(`🆕 Found ${newSales.length} new sales (${properties.length - newSales.length} duplicates filtered)`);
     

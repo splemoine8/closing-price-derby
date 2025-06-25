@@ -226,46 +226,26 @@ const Index = () => {
     }
     
     const updatedData = zipData.map((zip) => {
-      const { price, delta, highestSaleDate, mostRecentDate } = getHighestSaleData(zip.zipCode, salesData, competitionState);
+      const { delta, mostRecentDate } = getHighestSaleData(zip.zipCode, salesData, competitionState);
       
-      // Use real highest sale price if available, otherwise fallback to dummy data
-      const actualPrice = price > 0 ? price : zip.topPrice;
-      
-      // Recalculate score and multiplier with highest sale price vs baseline
-      // Preserve "-" multiplier from setup mode
-      let actualScorePct = zip.scorePct;
-      let actualMultiplier = zip.multiplier;
-      
-      if (price > 0 && zip.baseline && zip.multiplier !== '-') {
-        actualScorePct = ((actualPrice - zip.baseline) / zip.baseline) * 100;
-        actualMultiplier = `×${(actualScorePct / 100 + 1).toFixed(1)}`;
-      }
+      // IMPORTANT: Trust the backend's calculations for scoring and ranking
+      // The backend has access to ALL sales data and has already calculated the correct values
+      // We only use getHighestSaleData for supplementary display fields
       
       return { 
         ...zip, 
-        topPrice: actualPrice,           // Highest sale price for scoring
-        scorePct: actualScorePct,        // Score based on highest sale
-        multiplier: actualMultiplier,    // Multiplier based on highest sale
-        priceDelta: delta,               // Delta between highest and 2nd highest
+        // Keep backend-calculated values unchanged
+        topPrice: zip.topPrice,          // Trust backend's highest sale calculation
+        scorePct: zip.scorePct,          // Trust backend's score calculation
+        multiplier: zip.multiplier,      // Trust backend's multiplier calculation
+        // Only update supplementary display fields
+        priceDelta: delta,               // Delta between highest and 2nd highest (from limited sales data)
         lastSoldDate: mostRecentDate     // Most recent activity for ticker
       };
     });
     
-    // Sort by score percentage (highest first), fallback to price
-    const sortedData = updatedData.sort((a, b) => {
-      if (a.scorePct !== b.scorePct) {
-        return (b.scorePct || 0) - (a.scorePct || 0);
-      }
-      return (b.topPrice || 0) - (a.topPrice || 0);
-    });
-    
-    // Add ranks
-    const rankedData = sortedData.map((item, index) => ({
-      ...item,
-      rank: index + 1
-    }));
-    
-    setZipDataWithDeltas(rankedData);
+    // Don't re-sort or re-rank - trust the backend's authoritative ranking
+    setZipDataWithDeltas(updatedData);
   }, [zipData, salesData, competitionState]);
 
   // Use zipDataWithDeltas for calculations and rendering
