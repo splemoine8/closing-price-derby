@@ -141,6 +141,30 @@ async function getSoldProperties(regionId, cityName) {
   return properties;
 }
 
+// Configuration for special city handling
+const CITY_FILTER_CONFIG = {
+  'New York': {
+    type: 'include_boroughs',
+    allowedCities: ['New York', 'New York City', 'Manhattan', 'Bronx', 'Queens', 'Staten Island', 'Brooklyn']
+  }
+};
+
+// Check if property belongs to the target city
+function isPropertyValidForCity(property, targetCityName) {
+  const propertyCity = property.addressInfo?.city;
+  if (!propertyCity) return false;
+  
+  const targetCity = targetCityName.split(',')[0].trim(); // "Phoenix, AZ" → "Phoenix"
+  
+  // NYC special case - include all boroughs
+  if (CITY_FILTER_CONFIG[targetCity]) {
+    return CITY_FILTER_CONFIG[targetCity].allowedCities.includes(propertyCity);
+  }
+  
+  // Default: exact city match
+  return propertyCity === targetCity;
+}
+
 function transformPropertyToSaleRecord(property, cityName) {
   const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
   const price = parseInt(property.priceInfo?.amount || property.priceInfo?.homePrice?.int64Value || 0);
@@ -148,6 +172,14 @@ function transformPropertyToSaleRecord(property, cityName) {
   const utcDate = convertSourceDateToUTC(rawDate);
   
   if (!utcDate || price <= 0) return null;
+  
+  // Filter out properties from wrong cities
+  if (!isPropertyValidForCity(property, cityName)) {
+    const propertyCity = property.addressInfo?.city || 'Unknown';
+    const targetCity = cityName.split(',')[0].trim();
+    console.log(`⚠️  Skipping property in ${propertyCity} (looking for ${targetCity})`);
+    return null;
+  }
   
   // Filter out absolute outliers (data errors)
   const ABSOLUTE_MAX_SALE_PRICE = 100000000; // $100M
