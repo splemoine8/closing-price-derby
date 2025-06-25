@@ -10,7 +10,6 @@ import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
 import { CITY_REGIONS } from './city-regions.js';
-import { filterManhattanListings, getBoroughStats } from '../../lib/manhattanUtils.js';
 
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 const BASE_URL = 'https://redfin-com-data.p.rapidapi.com';
@@ -218,29 +217,12 @@ async function accumulateSalesForCity(cityName, teamAssignments) {
       .filter(sale => sale !== null)
       .filter(sale => !existingIds.has(sale.sale_id));
     
-    // Apply Manhattan-only filtering for New York
-    if (cityName === 'New York, NY') {
-      const beforeFiltering = newSales.length;
-      newSales = filterManhattanListings(newSales);
-      console.log(`🗽 Manhattan filtering: ${beforeFiltering} → ${newSales.length} sales (${beforeFiltering - newSales.length} outer borough sales removed)`);
-      
-      if (newSales.length > 0) {
-        const stats = getBoroughStats(newSales);
-        console.log(`   ✅ ${stats.manhattan} Manhattan sales (${stats.manhattanPercentage}% purity)`);
-      }
-    }
+    // Manhattan filtering removed - now using all boroughs for New York
     
     console.log(`🆕 Found ${newSales.length} new sales (${properties.length - newSales.length} duplicates filtered)`);
     
-    // Apply Manhattan filtering to existing sales for cleanup (one-time)
-    let filteredExistingSales = existingSales;
-    if (cityName === 'New York, NY') {
-      const beforeExisting = existingSales.length;
-      filteredExistingSales = filterManhattanListings(existingSales);
-      if (beforeExisting !== filteredExistingSales.length) {
-        console.log(`🧹 Cleaned existing data: ${beforeExisting} → ${filteredExistingSales.length} sales (removed ${beforeExisting - filteredExistingSales.length} non-Manhattan)`);
-      }
-    }
+    // No filtering needed - using all boroughs for New York
+    const filteredExistingSales = existingSales;
     
     // Only write if we have new data OR existing data was cleaned
     const needsUpdate = newSales.length > 0 || (filteredExistingSales.length !== existingSales.length);

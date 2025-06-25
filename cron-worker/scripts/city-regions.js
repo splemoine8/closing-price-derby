@@ -16,7 +16,7 @@ export const CITY_REGIONS = {
   'Baltimore, MD': '6_1073',      // Ravens
   'Charlotte, NC': '6_3105'       // Panthers (using Charlotte for Carolina)
 ,
-  'New York, NY': '6_35948',
+  'New York, NY': '6_30749',
   'Los Angeles, CA': '6_11203',
   'Las Vegas, NV': '6_10201',
   'Dallas, TX': '6_30794',
