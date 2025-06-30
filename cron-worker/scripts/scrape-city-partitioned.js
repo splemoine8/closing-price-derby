@@ -6,7 +6,6 @@
 import fetch from 'node-fetch';
 import fs from 'fs/promises';
 import crypto from 'crypto';
-import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
 import { CITY_REGIONS } from './city-regions.js';
@@ -98,12 +97,22 @@ async function loadTeamAssignments() {
 }
 
 async function loadExistingSalesForCity(cityKey) {
-  const filePath = `data/sales-by-city/${cityKey}.json`;
   try {
-    const data = await fs.readFile(filePath, 'utf8');
-    return JSON.parse(data);
+    const { data, error } = await supa
+      .from('competition_data')
+      .select('data')
+      .eq('data_type', 'sales_data')
+      .eq('city', cityKey)
+      .single();
+
+    if (error || !data) {
+      console.log(`📂 No existing data found for ${cityKey} in Supabase`);
+      return [];
+    }
+
+    return data.data || [];
   } catch (error) {
-    // File doesn't exist yet - return empty array
+    console.log(`📂 Failed to load existing sales for ${cityKey} from Supabase:`, error.message);
     return [];
   }
 }
@@ -219,25 +228,6 @@ function transformPropertyToSaleRecord(property, cityName) {
   return saleRecord;
 }
 
-async function atomicWriteJson(filePath, data) {
-  const tempPath = `${filePath}.tmp`;
-  
-  try {
-    // Write to temporary file
-    await fs.writeFile(tempPath, JSON.stringify(data, null, 2));
-    
-    // Atomic rename
-    await fs.rename(tempPath, filePath);
-    
-    console.log(`💾 Atomically saved ${data.length} records to ${filePath}`);
-  } catch (error) {
-    // Clean up temp file if it exists
-    try {
-      await fs.unlink(tempPath);
-    } catch {}
-    throw error;
-  }
-}
 
 async function accumulateSalesForCity(cityName, teamAssignments) {
   const cityKey = cityName.split(',')[0].replace(/\s+/g, ''); // e.g., "KansasCity"
@@ -274,18 +264,12 @@ async function accumulateSalesForCity(cityName, teamAssignments) {
     // No filtering needed - using all boroughs for New York
     const filteredExistingSales = existingSales;
     
-    // Only write if we have new data OR existing data was cleaned
+    // Only push to Supabase if we have new data OR existing data was cleaned
     const needsUpdate = newSales.length > 0 || (filteredExistingSales.length !== existingSales.length);
     if (needsUpdate) {
       const allSales = [...filteredExistingSales, ...newSales];
       
-      // Ensure directory exists
-      await fs.mkdir('data/sales-by-city', { recursive: true });
-      
-      // Atomic write
-      await atomicWriteJson(`data/sales-by-city/${cityKey}.json`, allSales);
-      
-      // Push to Supabase
+      // Push to Supabase only (no local files)
       await pushSales(cityKey, allSales);
       
       return { newSales: newSales.length, totalSales: allSales.length };

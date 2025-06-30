@@ -50,11 +50,12 @@ async function loadCompetitionState() {
 async function loadCitySales(cityName) {
   try {
     const sales = await fetchSalesByCity(cityName);
-    console.log(`  - Fetched ${sales.length} sales from Supabase`);
+    console.log(`  - Fetched ${sales.length} sales from Supabase for ${cityName}`);
     return sales;
   } catch (error) {
-    console.warn(`  - Failed to fetch sales for ${cityName} from Supabase:`, error.message);
-    return [];
+    console.error(`CRITICAL: Failed to fetch sales for ${cityName} from Supabase. Aborting aggregation.`, error);
+    // Re-throw the error to halt the script - better to fail completely than generate incorrect leaderboard
+    throw error;
   }
 }
 
