@@ -156,13 +156,22 @@ function isPropertyValidForCity(property, targetCityName) {
   
   const targetCity = targetCityName.split(',')[0].trim(); // "Phoenix, AZ" → "Phoenix"
   
-  // NYC special case - include all boroughs
-  if (CITY_FILTER_CONFIG[targetCity]) {
-    return CITY_FILTER_CONFIG[targetCity].allowedCities.includes(propertyCity);
+  
+  // Only apply city filtering for cities with explicit configuration
+  // Use hasOwnProperty to avoid prototype chain pollution issues
+  if (Object.prototype.hasOwnProperty.call(CITY_FILTER_CONFIG, targetCity)) {
+    // Handle "New York (Manhattan)" format by extracting just the city name
+    const cleanPropertyCity = propertyCity.split('(')[0].trim();
+    
+    // Case-insensitive check against allowed cities
+    return CITY_FILTER_CONFIG[targetCity].allowedCities.some(
+      allowedCity => allowedCity.toLowerCase() === cleanPropertyCity.toLowerCase()
+    );
   }
   
-  // Default: exact city match
-  return propertyCity === targetCity;
+  // Default: accept all properties for cities without explicit filtering
+  // This preserves the original behavior before city filtering was added
+  return true;
 }
 
 function transformPropertyToSaleRecord(property, cityName) {
