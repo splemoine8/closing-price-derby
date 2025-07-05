@@ -6,7 +6,12 @@
 
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { CITY_REGIONS, FRIEND_ASSIGNMENTS } from './city-regions.js';
+
+// ES Module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // RapidAPI configuration
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
@@ -105,7 +110,7 @@ async function calculateBaselines() {
   // Read team assignments to get drafted cities only
   let teamNamesData;
   try {
-    const teamNamesRaw = fs.readFileSync('public/team-names.json', 'utf8');
+    const teamNamesRaw = fs.readFileSync(path.join(__dirname, '..', 'public', 'team-names.json'), 'utf8');
     teamNamesData = JSON.parse(teamNamesRaw);
   } catch (error) {
     console.error('❌ Error reading team-names.json:', error.message);
@@ -183,7 +188,7 @@ async function calculateBaselines() {
 }
 
 async function saveBaselines(baselines, qualityReport, errors) {
-  const publicPath = path.join(process.cwd(), 'public');
+  const publicPath = path.join(__dirname, '..', 'public');
   
   // Create baselines.json for production use
   const baselineData = {

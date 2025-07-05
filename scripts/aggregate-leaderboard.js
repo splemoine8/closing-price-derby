@@ -8,13 +8,18 @@ console.log('[agg]', new Date().toISOString(), 'start');
 
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { upsertCompetitionData } from './lib/supabase-client.js';
 import { isSaleInPeriod, extractSaleTimestamp } from '../lib/dateUtils.js';
 import { fetchSalesByCity } from '../lib/fetchSales.js';
 
+// ES Module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function loadTeamAssignments() {
   try {
-    const teamData = await fs.readFile('public/team-names.json', 'utf8');
+    const teamData = await fs.readFile(path.join(__dirname, '..', 'public', 'team-names.json'), 'utf8');
     const parsed = JSON.parse(teamData);
     return {
       assignments: parsed.assignments || {},
@@ -28,7 +33,7 @@ async function loadTeamAssignments() {
 
 async function loadBaselines() {
   try {
-    const baselineData = await fs.readFile('public/baselines.json', 'utf8');
+    const baselineData = await fs.readFile(path.join(__dirname, '..', 'public', 'baselines.json'), 'utf8');
     const parsed = JSON.parse(baselineData);
     return parsed.baselines || {};
   } catch (error) {
@@ -39,7 +44,7 @@ async function loadBaselines() {
 
 async function loadCompetitionState() {
   try {
-    const configData = await fs.readFile('public/competition-config.json', 'utf8');
+    const configData = await fs.readFile(path.join(__dirname, '..', 'public', 'competition-config.json'), 'utf8');
     return JSON.parse(configData);
   } catch (error) {
     console.error('❌ Failed to load competition config:', error.message);
@@ -233,8 +238,8 @@ async function generateLeaderboardAndSalesData() {
   });
   
   // Write output files (keep for backward compatibility during migration)
-  await fs.writeFile('public/leaderboard.json', JSON.stringify(leaderboard, null, 2));
-  await fs.writeFile('public/sales-data.json', JSON.stringify(salesData, null, 2));
+  await fs.writeFile(path.join(__dirname, '..', 'public', 'leaderboard.json'), JSON.stringify(leaderboard, null, 2));
+  await fs.writeFile(path.join(__dirname, '..', 'public', 'sales-data.json'), JSON.stringify(salesData, null, 2));
   
   console.log('\n✅ Generated files:');
   console.log(`  - public/leaderboard.json (${leaderboard.length} cities)`);
