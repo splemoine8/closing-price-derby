@@ -153,21 +153,32 @@ const CITY_FILTER_CONFIG = {
 function isPropertyValidForCity(property, targetCityName) {
   const propertyCity = property.addressInfo?.city;
   if (!propertyCity) return false;
+
+  const targetCity = targetCityName.split(',')[0].trim();
   
-  const targetCity = targetCityName.split(',')[0].trim(); // "Phoenix, AZ" → "Phoenix"
-  const cleanPropertyCity = propertyCity.split('(')[0].trim(); // Handle "New York (Manhattan)" format
-  
-  // Special handling for cities with explicit configuration (e.g., NYC boroughs)
-  if (Object.prototype.hasOwnProperty.call(CITY_FILTER_CONFIG, targetCity)) {
-    // Case-insensitive check against allowed cities
-    return CITY_FILTER_CONFIG[targetCity].allowedCities.some(
+  // Normalize the city name from the property data to handle extra spaces
+  const cleanPropertyCity = propertyCity.split('(')[0].trim().replace(/\s+/g, ' ');
+
+  // FIRST, check for the special NYC case
+  if (targetCity === 'New York') {
+    // If the target is NYC, check if the property's city is in our allowed list
+    const isAllowedBorough = CITY_FILTER_CONFIG['New York'].allowedCities.some(
       allowedCity => allowedCity.toLowerCase() === cleanPropertyCity.toLowerCase()
     );
+    // If it's an allowed borough, it's valid.
+    if (isAllowedBorough) {
+      return true;
+    }
   }
-  
-  // DEFAULT: Require exact match for all other cities
-  // This prevents Phoenix from including Scottsdale, etc.
-  return targetCity.toLowerCase() === cleanPropertyCity.toLowerCase();
+
+  // For ALL cities (including NYC if it wasn't a borough),
+  // check for an exact match. This allows "New York" to match "New York".
+  if (targetCity.toLowerCase() === cleanPropertyCity.toLowerCase()) {
+    return true;
+  }
+
+  // If neither of the above conditions are met, the property is invalid.
+  return false;
 }
 
 function transformPropertyToSaleRecord(property, cityName) {
