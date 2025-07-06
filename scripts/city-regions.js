@@ -16,6 +16,18 @@ export const CITY_REGIONS = {
   'Baltimore, MD': '6_1073',      // Ravens
   'Charlotte, NC': '6_3105'       // Panthers (using Charlotte for Carolina)
 ,
+  // --- NYC Boroughs & Sub-Regions ---
+  'Manhattan, NY': '6_35948',
+  'Brooklyn, NY': '1_219258',
+  'Queens, NY': '1_43309',
+  'Staten Island, NY': '1_34009',
+  
+  // Bronx Sub-Regions
+  'East Bronx, NY': '1_207888',
+  'West Bronx, NY': '1_208294',
+  'South Bronx, NY': '1_207580',
+
+  // Keep the main 'New York, NY' entry for any other logic that might use it
   'New York, NY': '6_30749',
   'Los Angeles, CA': '6_11203',
   'Las Vegas, NV': '6_10201',
@@ -26,6 +38,22 @@ export const CITY_REGIONS = {
   'Houston, TX': '6_8903',
   'Denver, CO': '6_5155',
   'Tampa, FL': '6_18142'       // Using Tampa for Tampa Bay
+};
+
+// Update the list of cities to be processed for the "New York" team
+export const CITY_FILTER_CONFIG = {
+  'New York': {
+    type: 'include_boroughs',
+    allowedCities: [
+      'Manhattan, NY', 
+      'Brooklyn, NY', 
+      'Queens, NY', 
+      'Staten Island, NY',
+      'East Bronx, NY',
+      'West Bronx, NY',
+      'South Bronx, NY'
+    ]
+  }
 };
 
 // Friend assignments for the NFL fantasy league

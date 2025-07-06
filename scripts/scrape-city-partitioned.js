@@ -9,7 +9,7 @@ import crypto from 'crypto';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import 'dotenv/config';
-import { CITY_REGIONS } from './city-regions.js';
+import { CITY_REGIONS, CITY_FILTER_CONFIG } from './city-regions.js';
 
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 const BASE_URL = 'https://redfin-com-data.p.rapidapi.com';
@@ -141,50 +141,7 @@ async function getSoldProperties(regionId, cityName) {
   return properties;
 }
 
-// Configuration for special city handling
-const CITY_FILTER_CONFIG = {
-  'New York': {
-    type: 'include_boroughs',
-    allowedCities: ['New York', 'New York City', 'Manhattan', 'Bronx', 'Queens', 'Staten Island', 'Brooklyn']
-  }
-};
 
-// Check if property belongs to the target city
-function isPropertyValidForCity(property, targetCityName) {
-  const propertyCity = property.addressInfo?.city;
-  if (!propertyCity) return false;
-
-  const targetCity = targetCityName.split(',')[0].trim();
-
-  // --- Special Handling for New York City ---
-  if (targetCity === 'New York') {
-    const allowedBoroughs = CITY_FILTER_CONFIG['New York'].allowedCities.map(b => b.toLowerCase());
-    
-    // Normalize the city name from the API to handle formats like "Brooklyn, NY" or "Hillcrest (Queens)"
-    const normalizedApiCity = propertyCity.toLowerCase().split(',')[0].split('(')[0].trim();
-
-    // Check if the normalized name is one of the main boroughs or aliases
-    if (allowedBoroughs.includes(normalizedApiCity)) {
-      return true; // This will correctly match "Staten Island", "Brooklyn", "New York City", etc.
-    }
-
-    // Check for the "Neighborhood (Borough)" format, e.g., "Hillcrest (Queens)"
-    const boroughMatch = propertyCity.match(/\(([^)]+)\)/);
-    if (boroughMatch) {
-      const boroughInParens = boroughMatch[1].trim().toLowerCase();
-      if (allowedBoroughs.includes(boroughInParens)) {
-        return true; // This will correctly match "(queens)" or "(brooklyn)"
-      }
-    }
-    
-    // If it's an NYC search but doesn't match any of the above rules, it's invalid.
-    return false;
-  }
-
-  // --- Default Handling for all other cities ---
-  const normalizedApiCity = propertyCity.split(',')[0].split('(')[0].trim();
-  return targetCity.toLowerCase() === normalizedApiCity.toLowerCase();
-}
 
 function transformPropertyToSaleRecord(property, cityName) {
   const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
@@ -194,14 +151,7 @@ function transformPropertyToSaleRecord(property, cityName) {
   
   if (!utcDate || price <= 0) return null;
   
-  // Filter out properties from wrong cities
-  if (!isPropertyValidForCity(property, cityName)) {
-    const propertyCity = property.addressInfo?.city || 'Unknown';
-    const targetCity = cityName.split(',')[0].trim();
-    console.log(`⚠️  Skipping property in ${propertyCity} (looking for ${targetCity})`);
-    return null;
-  }
-  
+  // No need to filter by city anymore - we're querying specific regions
   // Filter out absolute outliers (data errors)
   const ABSOLUTE_MAX_SALE_PRICE = 100000000; // $100M
   if (price > ABSOLUTE_MAX_SALE_PRICE) {
@@ -293,15 +243,15 @@ async function accumulateSalesForCity(cityName, teamAssignments) {
       // Push to Supabase
       await pushSales(cityKey, allSales);
       
-      return { newSales: newSales.length, totalSales: allSales.length };
+      return { newSales: newSales.length, totalSales: allSales.length, sales: allSales };
     } else {
       console.log(`✅ No new sales to add for ${cityName}`);
-      return { newSales: 0, totalSales: existingSales.length };
+      return { newSales: 0, totalSales: existingSales.length, sales: existingSales };
     }
     
   } catch (error) {
     console.error(`❌ Error processing ${cityName}:`, error.message);
-    return { newSales: 0, totalSales: 0, error: error.message };
+    return { newSales: 0, totalSales: 0, error: error.message, sales: [] };
   }
 }
 
@@ -323,22 +273,54 @@ async function main() {
   const errors = [];
   
   for (const cityName of cities) {
-    // Find full city name with state from CITY_REGIONS
-    const fullCityName = Object.keys(CITY_REGIONS).find(fullName => 
-      fullName.split(',')[0].trim() === cityName
-    );
-    
-    if (!fullCityName) {
-      console.log(`⚠️ Could not find region mapping for ${cityName}`);
-      errors.push(`No region mapping for ${cityName}`);
-      continue;
+    // --- SPECIAL HANDLING FOR NYC ---
+    if (cityName === 'New York') {
+      console.log(`\n🗽 Processing New York City regions...`);
+      const nycConfig = CITY_FILTER_CONFIG['New York'];
+      let allNycSales = [];
+      
+      // Loop through each configured borough/sub-region and fetch its data
+      for (const regionName of nycConfig.allowedCities) {
+        // The 'accumulateSalesForCity' function will now be called for 'Manhattan, NY', 'East Bronx, NY', etc.
+        const regionResult = await accumulateSalesForCity(regionName, { [regionName]: teamAssignments[cityName] });
+        
+        // Collect all sales from this region
+        if (regionResult && regionResult.sales) {
+          allNycSales.push(...regionResult.sales);
+        }
+        await new Promise(resolve => setTimeout(resolve, 250)); // Rate limiting
+      }
+
+      // Deduplicate all collected NYC sales to handle any potential overlap between regions
+      const uniqueNycSales = Array.from(new Map(allNycSales.map(sale => [sale.sale_id, sale])).values());
+      
+      console.log(`\n🗽 Found ${uniqueNycSales.length} unique sales across all NYC regions.`);
+      
+      // Save the combined, deduplicated data under the main "NewYork" key
+      const cityKey = 'NewYork';
+      await fs.mkdir('data/sales-by-city', { recursive: true });
+      await atomicWriteJson(`data/sales-by-city/${cityKey}.json`, uniqueNycSales);
+      await pushSales(cityKey, uniqueNycSales);
+      
+      results[cityName] = { 
+        newSales: uniqueNycSales.length, 
+        totalSales: uniqueNycSales.length,
+        sales: uniqueNycSales 
+      };
+
+    } else {
+      // --- DEFAULT HANDLING FOR ALL OTHER CITIES ---
+      const fullCityName = Object.keys(CITY_REGIONS).find(fullName => fullName.startsWith(cityName));
+      if (fullCityName) {
+        const result = await accumulateSalesForCity(fullCityName, teamAssignments);
+        results[cityName] = result;
+      } else {
+        console.log(`⚠️ Could not find region mapping for ${cityName}`);
+        errors.push(`No region mapping for ${cityName}`);
+      }
     }
     
-    const result = await accumulateSalesForCity(fullCityName, teamAssignments);
-    results[cityName] = result;
-    
-    // Rate limiting - 250ms between requests
-    await new Promise(resolve => setTimeout(resolve, 250));
+    await new Promise(resolve => setTimeout(resolve, 250)); // Rate limiting
   }
   
   // Summary
