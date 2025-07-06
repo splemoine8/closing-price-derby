@@ -17,6 +17,22 @@ if (!RAPIDAPI_KEY) {
   process.exit(1);
 }
 
+// Canonical city name mapping to match database exactly
+const CANONICAL_CITY = {
+  'san francisco': 'San Francisco',
+  'houston': 'Houston',
+  'denver': 'Denver',
+  'tampa': 'Tampa',
+  'new york': 'New York',
+  'los angeles': 'Los Angeles',
+  'las vegas': 'Las Vegas',
+  'miami': 'Miami',
+  'dallas': 'Dallas',
+  'phoenix': 'Phoenix',
+  'nashville': 'Nashville',
+  'new orleans': 'New Orleans'
+};
+
 // Initialize Supabase client
 const supa = createClient(
   process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL,
@@ -118,14 +134,13 @@ function transformProperty(property, cityName) {
   // No date filtering here - let the VIEW handle competition period filtering
   
   // Use the property's actual city (already validated by propertyMatchesCity)
-  // Normalize case - use proper case from our city name
-  const propertyCity = property.addressInfo?.city || cityName.split(',')[0].trim();
+  // Normalize to canonical name for database consistency
+  const rawCity = (property.addressInfo?.city || cityName.split(',')[0]).trim();
+  const key = rawCity.toLowerCase();
   const expectedCity = cityName.split(',')[0].trim();
   
-  // If the property city matches our expected city (case-insensitive), use our properly cased version
-  const trueCity = propertyCity.toLowerCase() === expectedCity.toLowerCase() 
-    ? expectedCity 
-    : propertyCity;
+  // Use canonical name if available, otherwise use expected city name
+  const trueCity = CANONICAL_CITY[key] || expectedCity;
   
   return {
     address,
@@ -243,7 +258,15 @@ async function main() {
           });
           
         if (upsertError) {
-          console.error(`  ❌ Error upserting NYC sales:`, upsertError);
+          console.error(`  ❌ Error upserting NYC sales:`, upsertError.message);
+          console.error(`     Detail: ${upsertError.details || 'No details'}`);
+          if (uniqueSales.length > 0) {
+            console.error(`     First sale attempted:`, {
+              city_name: uniqueSales[0].city_name,
+              address: uniqueSales[0].address
+            });
+          }
+          process.exitCode = 1;
         } else {
           console.log(`  ✅ Successfully upserted ${uniqueSales.length} NYC sales`);
           totalNewSales += uniqueSales.length;
@@ -280,7 +303,15 @@ async function main() {
           });
           
         if (upsertError) {
-          console.error(`  ❌ Error upserting sales for ${city.name}:`, upsertError);
+          console.error(`  ❌ Error upserting sales for ${city.name}:`, upsertError.message);
+          console.error(`     Detail: ${upsertError.details || 'No details'}`);
+          if (salesWithIds.length > 0) {
+            console.error(`     First sale attempted:`, {
+              city_name: salesWithIds[0].city_name,
+              address: salesWithIds[0].address
+            });
+          }
+          process.exitCode = 1;
         } else {
           console.log(`  ✅ Successfully upserted ${salesWithIds.length} sales`);
           totalNewSales += salesWithIds.length;
