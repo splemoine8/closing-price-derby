@@ -155,30 +155,35 @@ function isPropertyValidForCity(property, targetCityName) {
   if (!propertyCity) return false;
 
   const targetCity = targetCityName.split(',')[0].trim();
-  
-  // Normalize the city name from the property data to handle extra spaces
-  const cleanPropertyCity = propertyCity.split('(')[0].trim().replace(/\s+/g, ' ');
 
-  // FIRST, check for the special NYC case
+  // --- Special Handling for New York City ---
   if (targetCity === 'New York') {
-    // If the target is NYC, check if the property's city is in our allowed list
-    const isAllowedBorough = CITY_FILTER_CONFIG['New York'].allowedCities.some(
-      allowedCity => allowedCity.toLowerCase() === cleanPropertyCity.toLowerCase()
-    );
-    // If it's an allowed borough, it's valid.
-    if (isAllowedBorough) {
-      return true;
+    const allowedBoroughs = CITY_FILTER_CONFIG['New York'].allowedCities.map(b => b.toLowerCase());
+    
+    // Normalize the city name from the API to handle formats like "Brooklyn, NY" or "Hillcrest (Queens)"
+    const normalizedApiCity = propertyCity.toLowerCase().split(',')[0].split('(')[0].trim();
+
+    // Check if the normalized name is one of the main boroughs or aliases
+    if (allowedBoroughs.includes(normalizedApiCity)) {
+      return true; // This will correctly match "Staten Island", "Brooklyn", "New York City", etc.
     }
+
+    // Check for the "Neighborhood (Borough)" format, e.g., "Hillcrest (Queens)"
+    const boroughMatch = propertyCity.match(/\(([^)]+)\)/);
+    if (boroughMatch) {
+      const boroughInParens = boroughMatch[1].trim().toLowerCase();
+      if (allowedBoroughs.includes(boroughInParens)) {
+        return true; // This will correctly match "(queens)" or "(brooklyn)"
+      }
+    }
+    
+    // If it's an NYC search but doesn't match any of the above rules, it's invalid.
+    return false;
   }
 
-  // For ALL cities (including NYC if it wasn't a borough),
-  // check for an exact match. This allows "New York" to match "New York".
-  if (targetCity.toLowerCase() === cleanPropertyCity.toLowerCase()) {
-    return true;
-  }
-
-  // If neither of the above conditions are met, the property is invalid.
-  return false;
+  // --- Default Handling for all other cities ---
+  const normalizedApiCity = propertyCity.split(',')[0].split('(')[0].trim();
+  return targetCity.toLowerCase() === normalizedApiCity.toLowerCase();
 }
 
 function transformPropertyToSaleRecord(property, cityName) {
