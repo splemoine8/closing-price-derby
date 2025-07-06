@@ -1,0 +1,12 @@
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('New York', 'Amir', 985000, '6_30749', 'NY');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Nashville', 'Julian', 527913, '6_13415', 'TN');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('New Orleans', 'Travis', 289000, '6_14233', 'LA');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Los Angeles', 'Kevin', 1150000, '6_11203', 'CA');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Las Vegas', 'Danny', 436000, '6_10201', 'NV');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Dallas', 'Bryce', 472000, '6_30794', 'TX');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Miami', 'Chris', 580000, '6_11458', 'FL');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Phoenix', 'Scott', 452340, '6_14240', 'AZ');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('San Francisco', 'Dan G', 1680000, '6_17151', 'CA');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Houston', 'Ryan', 376475, '6_8903', 'TX');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Tampa', 'AJ', 397500, '6_18142', 'FL');
+INSERT INTO cities (name, team_name, baseline_price, region_id, state) VALUES ('Denver', 'Rex', 635000, '6_5155', 'CO');
