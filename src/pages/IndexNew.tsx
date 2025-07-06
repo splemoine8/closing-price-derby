@@ -54,6 +54,7 @@ const IndexNew = () => {
         ...entry,
         rank: index + 1,
         topPrice: 0,
+        baseline: entry.baseline_price,
         priceDelta: 0,
         scorePct: 0,
         multiplier: '—',
@@ -66,6 +67,8 @@ const IndexNew = () => {
       ...entry,
       rank: index + 1,
       topPrice: entry.price,
+      // Map database column 'baseline_price' to component prop 'baseline'
+      baseline: entry.baseline_price,
       priceDelta: entry.price_delta,
       scorePct: entry.score_pct || 0,
       multiplier: entry.multiplier || '—',
