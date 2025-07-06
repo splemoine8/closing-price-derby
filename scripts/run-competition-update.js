@@ -50,6 +50,21 @@ function convertSourceDateToUTC(sourceDate) {
   return null;
 }
 
+// Ensure the property belongs to the target city
+function propertyMatchesCity(property, targetCity) {
+  // Normalize target (strip state if "Dallas, TX")
+  const target = targetCity.split(',')[0].trim().toLowerCase();
+
+  // 1) Try the explicit city field Redfin usually returns
+  const apiCity = (property.addressInfo?.city || '').toLowerCase();
+  if (apiCity) return apiCity === target;
+
+  // 2) Fallback: parse the formatted street line
+  const formatted = (property.addressInfo?.formattedStreetLine || '').toLowerCase();
+  // Match "…, dallas, tx" or "…, dallas tx" (case-insensitive)
+  return new RegExp(`,\\s*${target}\\b`).test(formatted);
+}
+
 // Fetch properties from Redfin API
 async function fetchFromRedfin(regionId, cityName) {
   console.log(`  🏠 Fetching properties for ${cityName} (region ${regionId})...`);
@@ -102,9 +117,19 @@ function transformProperty(property, cityName) {
   
   // No date filtering here - let the VIEW handle competition period filtering
   
+  // Use the property's actual city (already validated by propertyMatchesCity)
+  // Normalize case - use proper case from our city name
+  const propertyCity = property.addressInfo?.city || cityName.split(',')[0].trim();
+  const expectedCity = cityName.split(',')[0].trim();
+  
+  // If the property city matches our expected city (case-insensitive), use our properly cased version
+  const trueCity = propertyCity.toLowerCase() === expectedCity.toLowerCase() 
+    ? expectedCity 
+    : propertyCity;
+  
   return {
     address,
-    city_name: cityName.split(',')[0].trim(),
+    city_name: trueCity,
     sale_price: price,
     sale_timestamp_utc: utcDate,
     bedrooms: property.beds || null,
@@ -142,12 +167,14 @@ async function processCityRegion(cityName, regionId) {
     // Fetch properties from API
     const properties = await fetchFromRedfin(regionId, cityName);
     
+    
     // Transform and filter properties
     const newSales = properties
+      .filter(p => propertyMatchesCity(p, cityName))  // City filtering FIRST
       .map(p => transformProperty(p, cityName))
-      .filter(sale => sale !== null);
+      .filter(Boolean);
     
-    console.log(`  ✅ Found ${newSales.length} valid sales (all recent sales collected)`);
+    console.log(`  ✅ Found ${newSales.length} valid ${cityName.split(',')[0]} sales`);
     
     return newSales;
   } catch (error) {
