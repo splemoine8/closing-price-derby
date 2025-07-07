@@ -11,7 +11,10 @@
     "scrape": "node ./scripts/scrape-city-partitioned.js",
     "update-regions": "node ./scripts/update-region-ids.js",
     "calculate-baselines": "node ./scripts/calculate-baselines.js",
-    "cron": "node ./scripts/cron.js"
+    "cron": "node ./scripts/cron.js",
+    "audit": "node scripts/run-full-verification.js",
+    "audit:quick": "QUICK_VERIFY=1 node scripts/run-full-verification.js",
+    "audit:full": "node scripts/run-full-verification.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.0",
