@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import { toast } from 'sonner';
-import { useCompetitionDataNew } from '../hooks/useCompetitionDataNew';
+import { useCompetitionData } from '../hooks/useCompetitionData';
 import { useCompetitionState } from '../hooks/useCompetitionState';
 import { supabase } from '../lib/supabase';
 import { CompetitionBanner } from '../components/CompetitionBanner';
@@ -11,7 +11,7 @@ import LiveEventTicker from '../components/LiveEventTicker';
 import Footer from '../components/Footer';
 import ZipCodeCard from '../components/ZipCodeCard';
 import FloatingRefreshButton from '../components/FloatingRefreshButton';
-import ZipDetailModalNew from '../components/ZipDetailModalNew';
+import ZipDetailModal from '../components/ZipDetailModal';
 
 // Simplified types - all data comes from the view
 type LeaderboardEntry = {
@@ -32,7 +32,7 @@ const IndexNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Single data source - the leaderboard view
-  const { leaderboard, isLoading, error, mutate } = useCompetitionDataNew();
+  const { leaderboard, isLoading, error, mutate } = useCompetitionData();
   
   // Get competition state
   const competitionState = useCompetitionState();
@@ -280,7 +280,7 @@ const IndexNew = () => {
       />
 
       {selectedCity && (
-        <ZipDetailModalNew
+        <ZipDetailModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           city={selectedCity.city}

@@ -6,10 +6,22 @@ This directory contains scripts for managing the Closing Price Derby competition
 
 ### Core Scripts
 - **`run-competition-update.js`** - Main scraper that fetches property data from Redfin API and updates the database
-  - Runs on schedule to keep competition data current
+  - Performs incremental updates based on max price per city
+  - Filters out non-residential sales (Land/Other property types)
+  - Supports pagination for large datasets
   - No date filtering (lets SQL views handle competition period)
 
 - **`city-regions.js`** - Configuration file containing city names and their Redfin region IDs
+
+### Baseline Calculation
+- **`calculate-new-baselines.js`** - Calculates market median baselines using proper city filtering
+  - Uses recursive API fetching to ensure complete data sets
+  - Applies strict city boundary filtering to prevent cross-city contamination
+  - Calculates median from 90 days of sales data before competition start
+  - Filters for residential properties only (excludes Land/Other types)
+  - Removes top/bottom 1% outliers for statistical robustness
+  
+- **`update-final-baselines.js`** - One-time script to update baseline prices in database
 
 ### Utility Tools (`tools/`)
 - **`export-all-sales.js`** - Exports sales data for analysis and verification
@@ -53,3 +65,5 @@ node scripts/tools/verify-highest-sales-fixed.js
 - Competition dates are now managed in the `competition_config` table in Supabase
 - The main scraper fetches all sales; SQL views filter by competition period
 - All times are handled in UTC with automatic timezone conversion
+- Baselines use 90-day median prices with strict city filtering to ensure fair competition
+- NYC is treated specially, combining all boroughs into a single market

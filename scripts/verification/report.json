@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-07-07T00:23:27.911Z",
+  "duration": "107.1",
+  "results": [
+    {
+      "script": "test-city-filtering.js",
+      "success": true,
+      "code": 0,
+      "testName": "City Filtering Tests"
+    },
+    {
+      "script": "export-all-sales.js",
+      "success": true,
+      "code": 0,
+      "testName": "Export All Sales Data"
+    },
+    {
+      "script": "verify-highest-sales-fixed.js",
+      "success": true,
+      "code": 0,
+      "testName": "Verify Highest Sales"
+    }
+  ],
+  "summary": {
+    "totalTests": 3,
+    "successfulTests": 3,
+    "failedTests": 0,
+    "criticalFailures": 0,
+    "overallStatus": "PASSED"
+  }
+}

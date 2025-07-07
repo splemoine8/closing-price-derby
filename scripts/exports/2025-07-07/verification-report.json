@@ -1,0 +1,108 @@
+{
+  "report": [
+    {
+      "city": "Dallas",
+      "status": "📊 PARTIAL DATA",
+      "api": "$1,200,000 - 6633 Greenwich Ln",
+      "db": "$3,299,000 - 8115 Santa Clara Dr",
+      "leaderboard": "$3.3M (×7.0)",
+      "details": "Quick mode: API shows page 1 only ($1,200,000) vs full DB ($3,299,000)"
+    },
+    {
+      "city": "Denver",
+      "status": "📊 PARTIAL DATA",
+      "api": "$1,025,000 - 785 Jasmine St",
+      "db": "$4,475,000 - 1195 S York St",
+      "leaderboard": "$4.5M (×7.0)",
+      "details": "Quick mode: API shows page 1 only ($1,025,000) vs full DB ($4,475,000)"
+    },
+    {
+      "city": "Houston",
+      "status": "📊 PARTIAL DATA",
+      "api": "$1,850,000 - 7524 Ciano Ln",
+      "db": "$2,250,000 - 609 E 9th St",
+      "leaderboard": "$2.3M (×6.0)",
+      "details": "Quick mode: API shows page 1 only ($1,850,000) vs full DB ($2,250,000)"
+    },
+    {
+      "city": "Las Vegas",
+      "status": "✅ MATCH",
+      "api": "$10,750,000 - 39 Crested Cloud Way",
+      "db": "$10,750,000 - 39 Crested Cloud Way",
+      "leaderboard": "$10.8M (×24.7)",
+      "details": ""
+    },
+    {
+      "city": "Los Angeles",
+      "status": "📊 PARTIAL DATA",
+      "api": "$4,550,000 - 442 Kelton Ave",
+      "db": "$5,274,000 - 856 Malcolm Ave",
+      "leaderboard": "$5.3M (×4.6)",
+      "details": "Quick mode: API shows page 1 only ($4,550,000) vs full DB ($5,274,000)"
+    },
+    {
+      "city": "Miami",
+      "status": "📊 PARTIAL DATA",
+      "api": "$770,000 - 10430 SW 133rd Ct",
+      "db": "$5,250,000 - 7635 SW 72nd Ave",
+      "leaderboard": "$5.3M (×9.1)",
+      "details": "Quick mode: API shows page 1 only ($770,000) vs full DB ($5,250,000)"
+    },
+    {
+      "city": "Nashville",
+      "status": "📊 PARTIAL DATA",
+      "api": "$3,010,000 - 1209 Nichol Ln",
+      "db": "$6,700,000 - 404 W Brookfield Ave",
+      "leaderboard": "$6.7M (×12.7)",
+      "details": "Quick mode: API shows page 1 only ($3,010,000) vs full DB ($6,700,000)"
+    },
+    {
+      "city": "New Orleans",
+      "status": "📊 PARTIAL DATA",
+      "api": "$875,000 - 1140 Decatur St #4",
+      "db": "$2,087,034 - 2 Cromwell Pl",
+      "leaderboard": "$2.1M (×7.2)",
+      "details": "Quick mode: API shows page 1 only ($875,000) vs full DB ($2,087,034)"
+    },
+    {
+      "city": "New York",
+      "status": "📊 PARTIAL DATA",
+      "api": "$4,150,000 - 134 Pierrepont St Unit 5I",
+      "db": "$8,400,000 - 1349 E 84th St",
+      "leaderboard": "$8.4M (×8.5)",
+      "details": "Quick mode: API shows page 1 only ($4,150,000) vs full DB ($8,400,000)"
+    },
+    {
+      "city": "Phoenix",
+      "status": "📊 PARTIAL DATA",
+      "api": "$1,150,000 - 36923 N 31st Ave",
+      "db": "$3,375,000 - 325 W Solano Dr",
+      "leaderboard": "$3.4M (×7.5)",
+      "details": "Quick mode: API shows page 1 only ($1,150,000) vs full DB ($3,375,000)"
+    },
+    {
+      "city": "San Francisco",
+      "status": "📊 PARTIAL DATA",
+      "api": "$4,300,000 - 168 25th Ave",
+      "db": "$14,300,000 - 1425 Taylor St",
+      "leaderboard": "$14.3M (×8.5)",
+      "details": "Quick mode: API shows page 1 only ($4,300,000) vs full DB ($14,300,000)"
+    },
+    {
+      "city": "Tampa",
+      "status": "📊 PARTIAL DATA",
+      "api": "$2,250,000 - 2803 W Morrison Ave",
+      "db": "$2,817,500 - 2523 W Sunset Dr",
+      "leaderboard": "$2.8M (×7.1)",
+      "details": "Quick mode: API shows page 1 only ($2,250,000) vs full DB ($2,817,500)"
+    }
+  ],
+  "summary": {
+    "totalCities": 12,
+    "matchingCities": 12,
+    "mismatchCount": 0,
+    "successRate": "100.0"
+  },
+  "issues": [],
+  "mode": "quick"
+}

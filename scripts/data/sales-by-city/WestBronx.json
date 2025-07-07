@@ -1,0 +1,72 @@
+[
+  {
+    "address": "629 Kappock St Unit 6J",
+    "city": "West Bronx",
+    "state": "NY",
+    "sale_price": 235000,
+    "sale_timestamp_utc": "2025-06-30T07:00:00.000Z",
+    "scraped_at_utc": "2025-07-06T04:19:54.161Z",
+    "source": "rapidapi",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "square_feet": 800,
+    "url": "https://www.redfin.com/NY/Bronx/629-Kappock-St-10463/unit-6J/home/190072672",
+    "sale_id": "b113453aca30a48844c531e88794a91bfda8723052c4e00ac5686635beea9855"
+  },
+  {
+    "address": "2287 Johnson Ave Unit 14d",
+    "city": "West Bronx",
+    "state": "NY",
+    "sale_price": 350000,
+    "sale_timestamp_utc": "2025-07-03T07:00:00.000Z",
+    "scraped_at_utc": "2025-07-06T04:19:54.161Z",
+    "source": "rapidapi",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "square_feet": 780,
+    "url": "https://www.redfin.com/NY/Bronx/2287-Johnson-Ave-10463/unit-14D/home/44801044",
+    "sale_id": "0394deb35a5f64c45d0b2a3eaa429063b407760a1cf8fedfaf826283fa467f1e"
+  },
+  {
+    "address": "2630 Kingsbridge Ter Unit 7D",
+    "city": "West Bronx",
+    "state": "NY",
+    "sale_price": 400000,
+    "sale_timestamp_utc": "2025-06-30T07:00:00.000Z",
+    "scraped_at_utc": "2025-07-06T04:19:54.161Z",
+    "source": "rapidapi",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "square_feet": 1379,
+    "url": "https://www.redfin.com/NY/Bronx/2630-Kingsbridge-Ter-10463/unit-7D/home/44807640",
+    "sale_id": "1b391ce7ec0a07ec697832a1578a1153694979b8530307c1775c3507637bd091"
+  },
+  {
+    "address": "4555 Henry Hudson Pkwy #901",
+    "city": "West Bronx",
+    "state": "NY",
+    "sale_price": 530000,
+    "sale_timestamp_utc": "2025-07-01T07:00:00.000Z",
+    "scraped_at_utc": "2025-07-06T04:19:54.161Z",
+    "source": "rapidapi",
+    "bedrooms": 2,
+    "bathrooms": 1.5,
+    "square_feet": 1200,
+    "url": "https://www.redfin.com/NY/Bronx/4555-Henry-Hudson-Pkwy-10471/unit-901/home/191619313",
+    "sale_id": "b5172ef6894420a41698fa76b5f58fac407c617ae22fe9ad6285eaee88c3282a"
+  },
+  {
+    "address": "3530 Henry Hudson Pkwy Unit 9F",
+    "city": "West Bronx",
+    "state": "NY",
+    "sale_price": 400000,
+    "sale_timestamp_utc": "2025-06-30T07:00:00.000Z",
+    "scraped_at_utc": "2025-07-06T04:19:54.161Z",
+    "source": "rapidapi",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "square_feet": 1100,
+    "url": "https://www.redfin.com/NY/Bronx/3530-Henry-Hudson-Pkwy-10463/unit-9F/home/44768435",
+    "sale_id": "776ce68aa0a3aacef43806660602b3a9d3ccb6f396b8860665c3d15c90106157"
+  }
+]

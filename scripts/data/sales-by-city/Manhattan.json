@@ -1,0 +1,30 @@
+[
+  {
+    "address": "207 W 21st #1",
+    "city": "Manhattan",
+    "state": "NY",
+    "sale_price": 1025000,
+    "sale_timestamp_utc": "2025-07-02T07:00:00.000Z",
+    "scraped_at_utc": "2025-07-06T04:19:45.493Z",
+    "source": "rapidapi",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "square_feet": 1161,
+    "url": "https://www.redfin.com/NY/New-York/207-W-21st-St-10011/unit-1/home/45174393",
+    "sale_id": "b62c43deff79bf1c3523657f8878418322094be71387102718c11165b940350b"
+  },
+  {
+    "address": "65 E 96th St Unit 16B",
+    "city": "Manhattan",
+    "state": "NY",
+    "sale_price": 1950000,
+    "sale_timestamp_utc": "2025-06-30T07:00:00.000Z",
+    "scraped_at_utc": "2025-07-06T04:19:45.493Z",
+    "source": "rapidapi",
+    "bedrooms": 3,
+    "bathrooms": 2.5,
+    "square_feet": 1800,
+    "url": "https://www.redfin.com/NY/New-York/65-E-96th-St-10128/unit-16B/home/45315212",
+    "sale_id": "95ca1d5bdb99366f6f177dd92c617224d53820ecc0f4d219fbafe98bcca2fbf4"
+  }
+]

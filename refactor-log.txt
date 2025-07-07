@@ -1,0 +1,6 @@
+=== PRE-REFACTOR STATE ===
+     134
+      40
+ 57M	cron-worker/
+1.1M	derby-price-dash-lovable/
+Removed derby-price-dash-lovable/ (1.1MB duplicate application)

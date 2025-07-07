@@ -1,0 +1,117 @@
+{
+  "report": [
+    {
+      "city": "Dallas",
+      "status": "📊 PARTIAL DATA",
+      "api": "$1,200,000 - 6633 Greenwich Ln",
+      "db": "$10,900,000 - 4231 W Lawther Dr",
+      "leaderboard": "$10.9M (×23.1)",
+      "details": "Quick mode: API shows page 1 only ($1,200,000) vs full DB ($10,900,000)"
+    },
+    {
+      "city": "Denver",
+      "status": "✅ MATCH",
+      "api": "$4,475,000 - 1195 S York St",
+      "db": "$4,475,000 - 1195 S York St",
+      "leaderboard": "$4.5M (×7.0)",
+      "details": ""
+    },
+    {
+      "city": "Houston",
+      "status": "📊 PARTIAL DATA",
+      "api": "$1,060,000 - 14430 Kingston Cove Ln",
+      "db": "$2,749,900 - 1900 W 14th St",
+      "leaderboard": "$2.7M (×7.3)",
+      "details": "Quick mode: API shows page 1 only ($1,060,000) vs full DB ($2,749,900)"
+    },
+    {
+      "city": "Las Vegas",
+      "status": "✅ MATCH",
+      "api": "$10,750,000 - 39 Crested Cloud Way",
+      "db": "$10,750,000 - 39 Crested Cloud Way",
+      "leaderboard": "$10.8M (×24.7)",
+      "details": ""
+    },
+    {
+      "city": "Los Angeles",
+      "status": "📊 PARTIAL DATA",
+      "api": "$2,850,000 - 10316 Lorenzo Dr",
+      "db": "$12,000,000 - 351 S Cliffwood Ave",
+      "leaderboard": "$12.0M (×10.4)",
+      "details": "Quick mode: API shows page 1 only ($2,850,000) vs full DB ($12,000,000)"
+    },
+    {
+      "city": "Miami",
+      "status": "📊 PARTIAL DATA",
+      "api": "$770,000 - 10430 SW 133rd Ct",
+      "db": "$11,000,000 - 7930 SW 96th St",
+      "leaderboard": "$11.0M (×19.0)",
+      "details": "Quick mode: API shows page 1 only ($770,000) vs full DB ($11,000,000)"
+    },
+    {
+      "city": "Nashville",
+      "status": "⚠️ PRICE MISMATCH",
+      "api": "$6,700,000 - 404 W Brookfield Ave",
+      "db": "$5,350,000 - 2430 Bear Rd",
+      "leaderboard": "$5.3M (×10.1)",
+      "details": "API: $6,700,000 vs DB: $5,350,000"
+    },
+    {
+      "city": "New Orleans",
+      "status": "📊 PARTIAL DATA",
+      "api": "$875,000 - 1140 Decatur St #4",
+      "db": "$3,553,000 - 5800 St Charles Ave",
+      "leaderboard": "$3.6M (×12.3)",
+      "details": "Quick mode: API shows page 1 only ($875,000) vs full DB ($3,553,000)"
+    },
+    {
+      "city": "New York",
+      "status": "📊 PARTIAL DATA",
+      "api": "$4,150,000 - 134 Pierrepont St Unit 5I",
+      "db": "$8,400,000 - 1349 E 84th St",
+      "leaderboard": "$8.4M (×8.5)",
+      "details": "Quick mode: API shows page 1 only ($4,150,000) vs full DB ($8,400,000)"
+    },
+    {
+      "city": "Phoenix",
+      "status": "📊 PARTIAL DATA",
+      "api": "$1,150,000 - 36923 N 31st Ave",
+      "db": "$5,065,000 - 2300 W Dobbins Rd Unit -",
+      "leaderboard": "$5.1M (×11.2)",
+      "details": "Quick mode: API shows page 1 only ($1,150,000) vs full DB ($5,065,000)"
+    },
+    {
+      "city": "San Francisco",
+      "status": "📊 PARTIAL DATA",
+      "api": "$4,300,000 - 168 25th Ave",
+      "db": "$4,400,000 - 290 Jersey St",
+      "leaderboard": "$4.4M (×2.6)",
+      "details": "Quick mode: API shows page 1 only ($4,300,000) vs full DB ($4,400,000)"
+    },
+    {
+      "city": "Tampa",
+      "status": "📊 PARTIAL DATA",
+      "api": "$2,250,000 - 2803 W Morrison Ave",
+      "db": "$3,925,000 - 4816 W San Jose St",
+      "leaderboard": "$3.9M (×9.9)",
+      "details": "Quick mode: API shows page 1 only ($2,250,000) vs full DB ($3,925,000)"
+    }
+  ],
+  "summary": {
+    "totalCities": 12,
+    "matchingCities": 11,
+    "mismatchCount": 1,
+    "successRate": "91.7"
+  },
+  "issues": [
+    {
+      "city": "Nashville",
+      "status": "⚠️ PRICE MISMATCH",
+      "api": "$6,700,000 - 404 W Brookfield Ave",
+      "db": "$5,350,000 - 2430 Bear Rd",
+      "leaderboard": "$5.3M (×10.1)",
+      "details": "API: $6,700,000 vs DB: $5,350,000"
+    }
+  ],
+  "mode": "quick"
+}
