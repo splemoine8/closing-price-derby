@@ -2,7 +2,7 @@
   "competition_id": "2025-summer-derby",
   "name": "Summer 2025 Closing Price Derby",
   "pacific_start": "2025-06-23T06:00:00",
-  "pacific_end": "2025-07-06T23:59:59",
+  "pacific_end": "2025-07-13T23:59:59",
   "draft_night": "2025-06-22",
   "baseline_snapshot_date": "2025-06-23",
   "start_from_zero": true,

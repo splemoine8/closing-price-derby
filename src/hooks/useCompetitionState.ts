@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../lib/supabase';
 
 interface CompetitionConfig {
   id: string;
@@ -50,15 +50,24 @@ export function useCompetitionState(): CompetitionState {
         console.warn('Failed to fetch from Supabase, falling back to JSON:', error);
         const response = await fetch('/competition-config.json');
         const jsonConfig = await response.json();
-        // Transform JSON format to match database format
+        
+        // Transform JSON format to match database format with proper timezone handling
+        // Convert Pacific times to UTC (Pacific is UTC-8 in winter, UTC-7 in summer)
+        // For 2025-06-23 and 2025-07-13, we're in PDT (UTC-7)
+        const convertPacificToUtc = (pacificTimeStr: string) => {
+          // Add explicit timezone to parse correctly
+          const pacificDate = new Date(pacificTimeStr.replace('T', ' ') + ' PDT');
+          return pacificDate.toISOString();
+        };
+        
         return {
           id: jsonConfig.competition_id,
           name: jsonConfig.name,
           pacific_start: jsonConfig.pacific_start,
           pacific_end: jsonConfig.pacific_end,
-          // Generate UTC times for fallback
-          utc_start: jsonConfig.pacific_start.replace('T06:00:00', 'T13:00:00.000Z'),
-          utc_end: jsonConfig.pacific_end.replace('T23:59:59', 'T06:59:59.999Z').replace('2025-07-06', '2025-07-07'),
+          // Properly convert Pacific times to UTC
+          utc_start: convertPacificToUtc(jsonConfig.pacific_start),
+          utc_end: convertPacificToUtc(jsonConfig.pacific_end),
           draft_night: jsonConfig.draft_night,
           baseline_snapshot_date: jsonConfig.baseline_snapshot_date,
           start_from_zero: jsonConfig.start_from_zero,
@@ -89,7 +98,7 @@ export function useCompetitionState(): CompetitionState {
       
     const endDate = config
       ? new Date(config.utc_end)
-      : new Date('2025-07-14T06:59:59.999Z'); // Updated fallback to July 13
+      : new Date('2025-07-14T06:59:59.999Z'); // Fallback: July 13 23:59:59 Pacific = July 14 06:59:59 UTC
     
     // Determine competition mode
     let mode: CompetitionState['mode'];
