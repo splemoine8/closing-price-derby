@@ -2,7 +2,7 @@ import useSWR from 'swr';
 import { supabase } from '../lib/supabase';
 
 // New simplified hook that uses the database views
-export function useCompetitionDataNew() {
+export function useCompetitionData() {
   // Single source of truth - the leaderboard view
   const { data, error, mutate } = useSWR(
     'competition-leaderboard-new',
