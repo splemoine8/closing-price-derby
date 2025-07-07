@@ -1,37 +1,24 @@
 #!/usr/bin/env node
 
 // Unified scraper that populates the new database structure
-// Phase 3 of the refactoring plan
+// This version performs incremental updates and filters out non-residential
+// sales like 'Land' to ensure data quality.
 
+import 'dotenv/config';
 import fetch from 'node-fetch';
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
-import 'dotenv/config';
 import { CITY_REGIONS, CITY_FILTER_CONFIG } from './city-regions.js';
+import { CANONICAL_CITY } from './utils/canonical-city.js';
 
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 const BASE_URL = 'https://redfin-com-data.p.rapidapi.com';
+const API_PAGE_LIMIT = 1000; // Use max limit to reduce API calls
 
 if (!RAPIDAPI_KEY) {
   console.error('❌ RAPIDAPI_KEY environment variable is required');
   process.exit(1);
 }
-
-// Canonical city name mapping to match database exactly
-const CANONICAL_CITY = {
-  'san francisco': 'San Francisco',
-  'houston': 'Houston',
-  'denver': 'Denver',
-  'tampa': 'Tampa',
-  'new york': 'New York',
-  'los angeles': 'Los Angeles',
-  'las vegas': 'Las Vegas',
-  'miami': 'Miami',
-  'dallas': 'Dallas',
-  'phoenix': 'Phoenix',
-  'nashville': 'Nashville',
-  'new orleans': 'New Orleans'
-};
 
 // Initialize Supabase client
 const supa = createClient(
@@ -48,11 +35,7 @@ function generateSaleId(sale) {
 // Convert API date to UTC
 function convertSourceDateToUTC(sourceDate) {
   if (!sourceDate) return null;
-  
-  if (typeof sourceDate === 'number') {
-    return new Date(sourceDate).toISOString();
-  }
-  
+  if (typeof sourceDate === 'number') return new Date(sourceDate).toISOString();
   if (typeof sourceDate === 'string') {
     const parsed = new Date(sourceDate);
     if (isNaN(parsed.getTime())) {
@@ -61,62 +44,101 @@ function convertSourceDateToUTC(sourceDate) {
     }
     return parsed.toISOString();
   }
-  
   console.warn(`⚠️ Unknown date format: "${sourceDate}" (type: ${typeof sourceDate})`);
   return null;
 }
 
 // Ensure the property belongs to the target city
 function propertyMatchesCity(property, targetCity) {
-  // Normalize target (strip state if "Dallas, TX")
   const target = targetCity.split(',')[0].trim().toLowerCase();
-
-  // 1) Try the explicit city field Redfin usually returns
-  const apiCity = (property.addressInfo?.city || '').toLowerCase();
+  const apiCity = (property.addressInfo?.city || '').trim().toLowerCase();
   if (apiCity) return apiCity === target;
-
-  // 2) Fallback: parse the formatted street line
-  const formatted = (property.addressInfo?.formattedStreetLine || '').toLowerCase();
-  // Match "…, dallas, tx" or "…, dallas tx" (case-insensitive)
+  const formatted = (property.addressInfo?.formattedStreetLine || '').trim().toLowerCase();
   return new RegExp(`,\\s*${target}\\b`).test(formatted);
 }
 
-// Fetch properties from Redfin API
-async function fetchFromRedfin(regionId, cityName) {
-  console.log(`  🏠 Fetching properties for ${cityName} (region ${regionId})...`);
+/**
+ * Fetches new sold properties from the Redfin API for a given region,
+ * above a specified minimum price, handling pagination automatically.
+ * @param {string} regionId - The region ID to search for.
+ * @param {string} cityName - The name of the city for logging.
+ * @param {number} minPrice - The minimum sale price to fetch.
+ * @returns {Promise<Array<Object>>} - A promise that resolves to an array of property objects.
+ */
+async function fetchNewSales(regionId, cityName, minPrice) {
+  console.log(`  🏠 Fetching new sales for ${cityName} (region ${regionId}) with price > $${minPrice.toLocaleString()}`);
   
-  const response = await fetch(
-    `${BASE_URL}/properties/search-sold?regionId=${regionId}&soldWithin=7`,
-    {
+  let allProperties = [];
+  let currentPage = 1;
+  let hasMoreData = true;
+
+  while (hasMoreData) {
+    const priceParam = `&prices=${minPrice + 1},`;
+    const url = `${BASE_URL}/properties/search-sold?regionId=${regionId}&soldWithin=30&limit=${API_PAGE_LIMIT}&page=${currentPage}${priceParam}`;
+    
+    const options = {
+      method: 'GET',
       headers: {
         'x-rapidapi-host': 'redfin-com-data.p.rapidapi.com',
-        'x-rapidapi-key': RAPIDAPI_KEY
+        'x-rapidapi-key': RAPIDAPI_KEY,
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`API request failed on page ${currentPage} with status ${response.status}: ${await response.text()}`);
       }
+      const pageData = await response.json();
+      const propertiesOnPage = pageData.data?.map(item => item.homeData) || [];
+      
+      if (propertiesOnPage.length > 0) {
+        allProperties.push(...propertiesOnPage);
+      }
+      
+      hasMoreData = pageData.moreData === true && propertiesOnPage.length > 0;
+
+      if (hasMoreData) {
+        currentPage++;
+        await new Promise(resolve => setTimeout(resolve, 250));
+      }
+    } catch (error) {
+      console.error(`❌ Error fetching data for ${cityName} on page ${currentPage}:`, error.message);
+      hasMoreData = false;
     }
-  );
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${cityName}: ${response.status}`);
-  }
-
-  const data = await response.json();
-  
-  // Extract properties from nested structure
-  const properties = [];
-  if (data.data && Array.isArray(data.data)) {
-    data.data.forEach(item => {
-      if (item.homeData) {
-        properties.push(item.homeData);
-      }
-    });
   }
   
-  console.log(`  📊 Found ${properties.length} properties`);
-  return properties;
+  console.log(`  📊 Found ${allProperties.length} new properties for ${cityName}.`);
+  return allProperties;
 }
 
-// Transform property to our sales table format
+/**
+ * Transforms raw property data into the format for our database,
+ * applying critical data quality filters.
+ * @param {Object} property - The raw property data from the API.
+ * @param {string} cityName - The target city name.
+ * @returns {Object|null} - A formatted sale object or null if it should be filtered out.
+ */
 function transformProperty(property, cityName) {
+  // *** FILTER: Ignore properties that are 'Land' (type 5) or 'Other' (type 6) ***
+  const propertyType = property.propertyType;
+  if (propertyType === 5 || propertyType === 6) {
+    const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
+    console.log(`  🚫 Filtering out property type ${propertyType} (Land/Other) at ${address}`);
+    return null;
+  }
+  
+  // *** ADDITIONAL FILTER: Ignore properties with no beds, baths, or sqft (likely vacant lots) ***
+  const beds = property.beds;
+  const baths = property.baths;
+  const sqft = property.sqftInfo?.amount;
+  
+  if (!beds && !baths && !sqft) {
+    const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
+    console.log(`  🚫 Filtering out property with no beds/baths/sqft (likely vacant lot) at ${address}`);
+    return null;
+  }
+
   const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
   const price = parseInt(property.priceInfo?.amount || property.priceInfo?.homePrice?.int64Value || 0);
   const rawDate = property.lastSaleData?.lastSoldDate;
@@ -124,31 +146,20 @@ function transformProperty(property, cityName) {
   
   if (!utcDate || price <= 0) return null;
   
-  // Filter out absolute outliers
-  const ABSOLUTE_MAX_SALE_PRICE = 100000000; // $100M
+  const ABSOLUTE_MAX_SALE_PRICE = 100000000;
   if (price > ABSOLUTE_MAX_SALE_PRICE) {
     console.log(`  ⚠️ Skipping outlier: $${price.toLocaleString()} at ${address}`);
     return null;
   }
   
-  // No date filtering here - let the VIEW handle competition period filtering
-  
-  // Use the property's actual city (already validated by propertyMatchesCity)
-  // Normalize to canonical name for database consistency
   const rawCity = (property.addressInfo?.city || cityName.split(',')[0]).trim();
   const key = rawCity.toLowerCase();
   const expectedCity = cityName.split(',')[0].trim();
-  
-  // Use canonical name if available, otherwise use expected city name
   const trueCity = CANONICAL_CITY[key] || expectedCity;
   
   return {
-    address,
-    city_name: trueCity,
-    sale_price: price,
-    sale_timestamp_utc: utcDate,
-    bedrooms: property.beds || null,
-    bathrooms: property.baths || null,
+    address, city_name: trueCity, sale_price: price, sale_timestamp_utc: utcDate,
+    bedrooms: property.beds || null, bathrooms: property.baths || null,
     square_feet: parseInt(property.sqftInfo?.amount || 0) || null,
     url: property.url ? `https://www.redfin.com${property.url}` : null
   };
@@ -160,37 +171,63 @@ async function updateLegacyTable(cityKey, salesData) {
   const { error } = await supa
     .from('competition_data')
     .upsert(
-      {
-        data_type: 'sales_data',
-        city: cityKey,
-        data: salesData,
-        updated_at: new Date().toISOString()
-      },
+      { data_type: 'sales_data', city: cityKey, data: salesData, updated_at: new Date().toISOString() },
       { onConflict: 'data_type,city' }
     );
 
-  if (error) {
-    console.error(`  ❌ Legacy update failed for ${cityKey}:`, error);
-  } else {
-    console.log(`  ✅ Legacy update successful for ${cityKey}.`);
-  }
+  if (error) console.error(`  ❌ Legacy update failed for ${cityKey}:`, error);
+  else console.log(`  ✅ Legacy update successful for ${cityKey}.`);
 }
 
+/**
+ * Gets the highest sale price for a given city from the database within the competition period.
+ * @param {string} cityName - The name of the city.
+ * @returns {Promise<number>} - The maximum sale price, or 0 if none found.
+ */
+async function getMaxPriceForCity(cityName) {
+    // First get the active competition dates
+    const { data: config, error: configError } = await supa
+        .from('competition_config')
+        .select('utc_start, utc_end')
+        .eq('is_active', true)
+        .single();
+    
+    if (configError) {
+        console.error(`  ❌ Error fetching competition config:`, configError.message);
+        return 0;
+    }
+
+    // Get the highest sale within the competition period
+    const { data, error } = await supa
+        .from('sales')
+        .select('sale_price')
+        .eq('city_name', cityName)
+        .gte('sale_timestamp_utc', config.utc_start)
+        .lte('sale_timestamp_utc', config.utc_end)
+        .order('sale_price', { ascending: false })
+        .limit(1);
+
+    if (error) {
+        console.error(`  ❌ Error fetching max price for ${cityName}:`, error.message);
+        return 0;
+    }
+
+    const maxPrice = data?.[0]?.sale_price || 0;
+    console.log(`  📈 Current competition max price for ${cityName} is $${maxPrice.toLocaleString()}`);
+    return maxPrice;
+}
+
+
 // Process a single city/region
-async function processCityRegion(cityName, regionId) {
+async function processCityRegion(cityName, regionId, minPrice) {
   try {
-    // Fetch properties from API
-    const properties = await fetchFromRedfin(regionId, cityName);
-    
-    
-    // Transform and filter properties
+    const properties = await fetchNewSales(regionId, cityName, minPrice);
     const newSales = properties
-      .filter(p => propertyMatchesCity(p, cityName))  // City filtering FIRST
+      .filter(p => propertyMatchesCity(p, cityName))
       .map(p => transformProperty(p, cityName))
       .filter(Boolean);
     
-    console.log(`  ✅ Found ${newSales.length} valid ${cityName.split(',')[0]} sales`);
-    
+    console.log(`  ✅ Found ${newSales.length} valid new sales for ${cityName.split(',')[0]}`);
     return newSales;
   } catch (error) {
     console.error(`  ❌ Error processing ${cityName}:`, error.message);
@@ -200,14 +237,9 @@ async function processCityRegion(cityName, regionId) {
 
 // Main function
 async function main() {
-  console.log('🏁 Starting competition data update...');
-  console.log('📅 Collecting all recent sales (competition filtering done in VIEW)\n');
+  console.log('🏁 Starting incremental competition data update...');
   
-  // 1. Fetch city configurations from database
-  const { data: cities, error: citiesError } = await supa
-    .from('cities')
-    .select('*');
-    
+  const { data: cities, error: citiesError } = await supa.from('cities').select('*');
   if (citiesError) {
     console.error('❌ Failed to fetch cities:', citiesError);
     process.exit(1);
@@ -216,63 +248,44 @@ async function main() {
   console.log(`🎯 Processing ${cities.length} cities from database\n`);
   
   let totalNewSales = 0;
-  let totalCities = 0;
   
   for (const city of cities) {
     console.log(`\n📍 Processing ${city.name}...`);
     
-    // Special handling for New York - process all boroughs
     if (city.name === 'New York') {
       console.log('  🗽 Special NYC processing - fetching all boroughs...');
       const nycConfig = CITY_FILTER_CONFIG['New York'];
       let allNycSales = [];
       
+      const minPrice = await getMaxPriceForCity('New York');
+
       for (const regionName of nycConfig.allowedCities) {
         const regionId = CITY_REGIONS[regionName];
         if (regionId) {
           console.log(`\n  🌆 Fetching ${regionName}...`);
-          const sales = await processCityRegion(regionName, regionId);
+          const sales = await processCityRegion(regionName, regionId, minPrice);
           allNycSales.push(...sales);
-          await new Promise(resolve => setTimeout(resolve, 250)); // Rate limiting
+          await new Promise(resolve => setTimeout(resolve, 250));
         }
       }
       
-      // Deduplicate NYC sales
       const salesMap = new Map();
       allNycSales.forEach(sale => {
-        sale.city_name = 'New York'; // Normalize city name
+        sale.city_name = 'New York';
         const id = generateSaleId(sale);
         salesMap.set(id, { ...sale, sale_id: id });
       });
       
       const uniqueSales = Array.from(salesMap.values());
-      console.log(`  🗽 Total unique NYC sales: ${uniqueSales.length}`);
+      console.log(`  🗽 Total unique new NYC sales: ${uniqueSales.length}`);
       
       if (uniqueSales.length > 0) {
-        // Upsert to database
-        const { error: upsertError } = await supa
-          .from('sales')
-          .upsert(uniqueSales, { 
-            onConflict: 'sale_id',
-            ignoreDuplicates: true 
-          });
-          
+        const { error: upsertError } = await supa.from('sales').upsert(uniqueSales, { onConflict: 'sale_id', ignoreDuplicates: true });
         if (upsertError) {
           console.error(`  ❌ Error upserting NYC sales:`, upsertError.message);
-          console.error(`     Detail: ${upsertError.details || 'No details'}`);
-          if (uniqueSales.length > 0) {
-            console.error(`     First sale attempted:`, {
-              city_name: uniqueSales[0].city_name,
-              address: uniqueSales[0].address
-            });
-          }
-          process.exitCode = 1;
         } else {
-          console.log(`  ✅ Successfully upserted ${uniqueSales.length} NYC sales`);
+          console.log(`  ✅ Successfully upserted ${uniqueSales.length} new NYC sales`);
           totalNewSales += uniqueSales.length;
-          totalCities++;
-          
-          // Update legacy table for backward compatibility
           await updateLegacyTable('NewYork', uniqueSales);
         }
       }
@@ -285,71 +298,33 @@ async function main() {
         continue;
       }
       
-      const sales = await processCityRegion(`${city.name}, ${city.state}`, regionId);
+      const minPrice = await getMaxPriceForCity(city.name);
+      const sales = await processCityRegion(`${city.name}, ${city.state}`, regionId, minPrice);
       
       if (sales.length > 0) {
-        // Add sale IDs
-        const salesWithIds = sales.map(sale => ({
-          ...sale,
-          sale_id: generateSaleId(sale)
-        }));
+        const salesWithIds = sales.map(sale => ({ ...sale, sale_id: generateSaleId(sale) }));
         
-        // Upsert to database
-        const { error: upsertError } = await supa
-          .from('sales')
-          .upsert(salesWithIds, { 
-            onConflict: 'sale_id',
-            ignoreDuplicates: true 
-          });
-          
+        const { error: upsertError } = await supa.from('sales').upsert(salesWithIds, { onConflict: 'sale_id', ignoreDuplicates: true });
         if (upsertError) {
           console.error(`  ❌ Error upserting sales for ${city.name}:`, upsertError.message);
-          console.error(`     Detail: ${upsertError.details || 'No details'}`);
-          if (salesWithIds.length > 0) {
-            console.error(`     First sale attempted:`, {
-              city_name: salesWithIds[0].city_name,
-              address: salesWithIds[0].address
-            });
-          }
-          process.exitCode = 1;
         } else {
-          console.log(`  ✅ Successfully upserted ${salesWithIds.length} sales`);
+          console.log(`  ✅ Successfully upserted ${salesWithIds.length} new sales`);
           totalNewSales += salesWithIds.length;
-          totalCities++;
-          
-          // Update legacy table for backward compatibility
           const cityKey = city.name.replace(/\s+/g, '');
           await updateLegacyTable(cityKey, salesWithIds);
         }
       }
     }
     
-    // Rate limiting between cities
     await new Promise(resolve => setTimeout(resolve, 250));
   }
   
   console.log('\n' + '='.repeat(60));
-  console.log('✅ Competition update complete!');
-  console.log(`📊 Processed ${totalCities} cities with ${totalNewSales} total sales`);
+  console.log('✅ Incremental competition update complete!');
+  console.log(`📊 Found and processed ${totalNewSales} total new sales across all cities.`);
   console.log('='.repeat(60));
-  
-  // Show sample of leaderboard data
-  console.log('\n🏆 Current Leaderboard Preview:');
-  const { data: leaderboard, error: leaderboardError } = await supa
-    .from('leaderboard')
-    .select('*')
-    .limit(5);
-    
-  if (leaderboardError) {
-    console.error('❌ Failed to fetch leaderboard:', leaderboardError);
-  } else if (leaderboard && leaderboard.length > 0) {
-    leaderboard.forEach((entry, i) => {
-      console.log(`${i + 1}. ${entry.city}: $${entry.price.toLocaleString()} (${entry.multiplier || '-'})`);
-    });
-  }
 }
 
-// Run the scraper
 main().catch(error => {
   console.error('❌ Scraper failed:', error);
   process.exit(1);
