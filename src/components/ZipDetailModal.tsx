@@ -32,7 +32,7 @@ interface PriceHistoryData {
   date: string;
 }
 
-interface ZipDetailModalNewProps {
+interface ZipDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   city: string;
@@ -149,7 +149,7 @@ const PriceTrendChart = ({ data, width = 300, height = 75 }: { data: PriceHistor
   );
 };
 
-const ZipDetailModalNew = ({ 
+const ZipDetailModal = ({ 
   isOpen, 
   onClose, 
   city, 
@@ -160,7 +160,7 @@ const ZipDetailModalNew = ({
   highestSale,
   highestSaleMultiplier,
   scorePct
-}: ZipDetailModalNewProps) => {
+}: ZipDetailModalProps) => {
   if (!isOpen) return null;
 
   const { mode } = useCompetitionState();
@@ -367,4 +367,4 @@ const ZipDetailModalNew = ({
   );
 };
 
-export default ZipDetailModalNew;
+export default ZipDetailModal;

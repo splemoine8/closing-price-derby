@@ -27,7 +27,7 @@ type LeaderboardEntry = {
   price_delta: number;
 };
 
-const IndexNew = () => {
+const Index = () => {
   const [selectedCity, setSelectedCity] = useState<LeaderboardEntry | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -299,4 +299,4 @@ const IndexNew = () => {
   );
 };
 
-export default IndexNew;
+export default Index;
