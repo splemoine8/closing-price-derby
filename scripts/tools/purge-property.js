@@ -104,7 +104,7 @@ async function main() {
     try {
       console.log('📝 Adding property to blacklist...');
       const { error: blacklistError } = await supa
-        .from('blacklisted_properties')
+        .from('private.blacklisted_properties')
         .upsert({
           city_name: city,
           address: address,

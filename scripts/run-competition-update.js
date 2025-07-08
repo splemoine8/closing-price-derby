@@ -39,7 +39,7 @@ let blacklistedPropertiesCache = new Set();
 async function loadBlacklistCache() {
   try {
     const { data, error } = await supa
-      .from('blacklisted_properties')
+      .from('private.blacklisted_properties')
       .select('city_name, address');
 
     if (error) {
