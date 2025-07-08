@@ -21,3 +21,12 @@ Removed derby-price-dash-lovable/ (1.1MB duplicate application)
 ✅ Build successful after infrastructure cleanup
 ✅ Cleaned package.json scripts (removed 7 obsolete script references)
 ✅ Removed node-cron dependency (unused after cron-worker archival)
+=== STORAGE IMPACT ===
+✅ Legacy components archived: 1601 TS/TSX files
+✅ Expected reductions achieved:
+  - derby-price-dash-lovable/: 1.1MB removed
+  - cron-worker/: 57MB archived
+  - Index.tsx: 485 → 299 lines (38% reduction)
+  - useCompetitionData hook: 147 → 26 lines (82% reduction)
+✅ ESLint configuration added for v9 compatibility
+✅ All legacy references cleaned from codebase
