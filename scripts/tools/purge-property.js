@@ -23,13 +23,14 @@ args.forEach(arg => {
 });
 
 // Validate required arguments
-if (!parsedArgs.city || !parsedArgs.address) {
+if (!parsedArgs.city || !parsedArgs.address || !parsedArgs.reason) {
   console.error('❌ Missing required arguments');
   console.log('\nUsage:');
-  console.log('  node scripts/tools/purge-property.js --city="Miami" --address="1141 N Venetian Dr"');
+  console.log('  node scripts/tools/purge-property.js --city="Miami" --address="1141 N Venetian Dr" --reason="duplicate_listing"');
   console.log('\nRequired arguments:');
   console.log('  --city    : The city name');
   console.log('  --address : The full address');
+  console.log('  --reason  : The reason for blacklisting');
   process.exit(1);
 }
 
@@ -42,11 +43,13 @@ const supa = createClient(
 async function main() {
   const city = parsedArgs.city;
   const address = parsedArgs.address;
+  const reason = parsedArgs.reason;
 
   console.log('🔥 Starting purge script...');
   console.log(`   Looking for property:`);
   console.log(`   - City: ${city}`);
   console.log(`   - Address: ${address}`);
+  console.log(`   - Blacklist reason: ${reason}`);
 
   // First, let's find all matching properties
   const { data: checkData, error: checkError } = await supa
@@ -96,6 +99,31 @@ async function main() {
     }
 
     console.log('✅ Successfully purged the property from the database.');
+
+    // Add property to blacklist
+    try {
+      console.log('📝 Adding property to blacklist...');
+      const { error: blacklistError } = await supa
+        .from('blacklisted_properties')
+        .upsert({
+          city_name: city,
+          address: address,
+          reason: reason,
+          blacklisted_by: 'manual_purge_script'
+        }, {
+          onConflict: 'city_name,address'
+        });
+
+      if (blacklistError) {
+        console.error('⚠️  Failed to add property to blacklist:', blacklistError.message);
+        console.log('   Property was still purged successfully.');
+      } else {
+        console.log('✅ Successfully added property to blacklist.');
+      }
+    } catch (blacklistError) {
+      console.error('⚠️  Failed to add property to blacklist:', blacklistError.message);
+      console.log('   Property was still purged successfully.');
+    }
 
   } catch (error) {
     console.error('❌ An error occurred while trying to purge the property:');

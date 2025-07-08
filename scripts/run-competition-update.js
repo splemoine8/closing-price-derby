@@ -32,6 +32,37 @@ function generateSaleId(sale) {
   return crypto.createHash('sha256').update(key).digest('hex');
 }
 
+// Cache for blacklisted properties
+let blacklistedPropertiesCache = new Set();
+
+// Load blacklisted properties into cache at startup
+async function loadBlacklistCache() {
+  try {
+    const { data, error } = await supa
+      .from('blacklisted_properties')
+      .select('city_name, address');
+
+    if (error) {
+      console.warn('⚠️ Error loading blacklist cache:', error.message);
+      return;
+    }
+
+    blacklistedPropertiesCache.clear();
+    data.forEach(row => {
+      blacklistedPropertiesCache.add(`${row.city_name}:::${row.address}`);
+    });
+
+    console.log(`📋 Loaded ${blacklistedPropertiesCache.size} blacklisted properties into cache.`);
+  } catch (error) {
+    console.warn('⚠️ Error loading blacklist cache:', error.message);
+  }
+}
+
+// Check if property is blacklisted (now using cache)
+function isPropertyBlacklisted(cityName, address) {
+  return blacklistedPropertiesCache.has(`${cityName}:::${address}`);
+}
+
 // Convert API date to UTC
 function convertSourceDateToUTC(sourceDate) {
   if (!sourceDate) return null;
@@ -120,10 +151,22 @@ async function fetchNewSales(regionId, cityName, minPrice) {
  * @returns {Object|null} - A formatted sale object or null if it should be filtered out.
  */
 function transformProperty(property, cityName) {
+  const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
+  const rawCity = (property.addressInfo?.city || cityName.split(',')[0]).trim();
+  const key = rawCity.toLowerCase();
+  const expectedCity = cityName.split(',')[0].trim();
+  const trueCity = CANONICAL_CITY[key] || expectedCity;
+  
+  // *** FILTER: Check if property is blacklisted ***
+  const isBlacklisted = isPropertyBlacklisted(trueCity, address);
+  if (isBlacklisted) {
+    console.log(`  🚫 Filtering out blacklisted property at ${address}`);
+    return null;
+  }
+  
   // *** FILTER: Ignore properties that are 'Land' (type 5) or 'Other' (type 6) ***
   const propertyType = property.propertyType;
   if (propertyType === 5 || propertyType === 6) {
-    const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
     console.log(`  🚫 Filtering out property type ${propertyType} (Land/Other) at ${address}`);
     return null;
   }
@@ -134,12 +177,9 @@ function transformProperty(property, cityName) {
   const sqft = property.sqftInfo?.amount;
   
   if (!beds && !baths && !sqft) {
-    const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
     console.log(`  🚫 Filtering out property with no beds/baths/sqft (likely vacant lot) at ${address}`);
     return null;
   }
-
-  const address = property.addressInfo?.formattedStreetLine || 'Unknown Address';
   const price = parseInt(property.priceInfo?.amount || property.priceInfo?.homePrice?.int64Value || 0);
   const rawDate = property.lastSaleData?.lastSoldDate;
   const utcDate = convertSourceDateToUTC(rawDate);
@@ -151,11 +191,6 @@ function transformProperty(property, cityName) {
     console.log(`  ⚠️ Skipping outlier: $${price.toLocaleString()} at ${address}`);
     return null;
   }
-  
-  const rawCity = (property.addressInfo?.city || cityName.split(',')[0]).trim();
-  const key = rawCity.toLowerCase();
-  const expectedCity = cityName.split(',')[0].trim();
-  const trueCity = CANONICAL_CITY[key] || expectedCity;
   
   return {
     address, city_name: trueCity, sale_price: price, sale_timestamp_utc: utcDate,
@@ -238,6 +273,9 @@ async function processCityRegion(cityName, regionId, minPrice) {
 // Main function
 async function main() {
   console.log('🏁 Starting incremental competition data update...');
+  
+  // Load blacklist cache before processing
+  await loadBlacklistCache();
   
   const { data: cities, error: citiesError } = await supa.from('cities').select('*');
   if (citiesError) {
